@@ -47,10 +47,12 @@ public class Config {
 	static Button start;
 	static TextView directionTextView;
 	static TextView asuTextView;
+	static TextView signalParameterTextView;
 	static TextView speedTextView;
 	static TextView basestationTextView;
 	static TextView cellidTextView;
 	static TextView gpsTextView;
+	static TextView satelliteTextView;
 	static TextView locationTextView;
 	static TextView typeTextView;
 	static TextView reportTextView;
@@ -58,6 +60,7 @@ public class Config {
 	static TextView wifiTextView;
 	static TextView netTextView;
 	static TextView pingTextView;
+	static TextView timeTextView;
 	static EditText serverConentEditText;
 
 	static String providerName = null;
@@ -118,6 +121,7 @@ public class Config {
 	static boolean prepare3GFlag = false;
 	static SimpleDateFormat dirDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
 	static SimpleDateFormat contentDateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss.SSS");
+	static SimpleDateFormat sysDateFormat = new SimpleDateFormat("HH:mm:ss.SSS");
 	static String mobilePath = null;
 	static int pingFlag = 0;
 	
@@ -128,6 +132,8 @@ public class Config {
 	static int measurementID = 0;
 	static String addressSina = "3g.sina.com.cn";
 	static String addressBaidu = "m.baidu.com";
+	static long startTime = 0;
+	static String totalTime = "";
 	
 	// variable for signalStrength
 	static int gsmSignalStrength = 99; // Valid values are (0-31, 99) as defined in TS 27.007 8.5

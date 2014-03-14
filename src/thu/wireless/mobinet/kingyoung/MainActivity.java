@@ -100,11 +100,13 @@ public class MainActivity extends Activity implements OnClickListener {
 		Config.serverConentEditText = (EditText) findViewById(R.id.editText_serverIP);
 		Config.serverConentEditText.clearFocus();
 		Config.asuTextView = (TextView) findViewById(R.id.signalText);
+		Config.signalParameterTextView = (TextView) findViewById(R.id.signalParameterText);
 		Config.basestationTextView = (TextView) findViewById(R.id.basestationText);
 		Config.cellidTextView = (TextView) findViewById(R.id.cellidText);
 		Config.directionTextView = (TextView) findViewById(R.id.directionText);
 		Config.speedTextView = (TextView) findViewById(R.id.speedText);
 		Config.gpsTextView = (TextView) findViewById(R.id.gpsText);
+		Config.satelliteTextView = (TextView) findViewById(R.id.satelliteText);
 		Config.locationTextView = (TextView) findViewById(R.id.locationText);
 		Config.typeTextView = (TextView) findViewById(R.id.typeText);
 		Config.reportTextView = (TextView) findViewById(R.id.serverText);
@@ -112,6 +114,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		Config.wifiTextView = (TextView) findViewById(R.id.wifiText);
 		Config.netTextView = (TextView) findViewById(R.id.netText);
 		Config.pingTextView = (TextView) findViewById(R.id.pingText);
+		Config.timeTextView = (TextView) findViewById(R.id.timeText);
 		Spinner spinner = (Spinner) findViewById(R.id.measurementTypeSpinner);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, Config.measurementNames);
@@ -136,19 +139,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		});
 
 		// 创建日志目录				
-		try {
-//			File file = getDir("MobiNet", Context.MODE_PRIVATE);
-//			mobilePath = file.getAbsolutePath();
-//			fosMobile = new FileOutputStream(mobilePath + "/Mobile.txt", true);
-//			fosSignal = new FileOutputStream(mobilePath + "/Signal.txt", true);
-//			fosSpeed = new FileOutputStream(mobilePath + "/Speed.txt", true);
-//			fosCell = new FileOutputStream(mobilePath + "/Cell.txt", true);
-//			fosUplink = new FileOutputStream(mobilePath + "/Uplink.txt", true);
-//			fosDownlink = new FileOutputStream(mobilePath + "/Downlink.txt", true);
-//			fosPing = new FileOutputStream(mobilePath + "/Ping.txt", true);
-			
-			//MobiNet/XXX/Mobile.txt
-			Config.mobilePath = android.os.Environment.getExternalStorageDirectory() + "/MobiNet";
+		try {	
+			// MobiNetPlus/XXX/Mobile.txt
+			Config.mobilePath = android.os.Environment.getExternalStorageDirectory() + "/MobiNetPlus";
 			String pathDate = Config.dirDateFormat.format(new Date(System.currentTimeMillis()));
 			File mobileFile = new File(Config.mobilePath);
 			mobileFile.mkdirs();
@@ -165,7 +158,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			Config.fosAddition = new FileOutputStream(Config.mobilePath + "/Addition.txt", true);
 			Config.fosDNS = new FileOutputStream(Config.mobilePath + "/DNS.txt", true);
 					
-			//data/data/xxx/files/Mobile.txt
+			// data/data/xxx/files/Mobile.txt
 //			fosMobile = this.openFileOutput("Mobile.txt", Context.MODE_APPEND);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -400,16 +393,27 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
-		switch (keyCode) {
-		case KeyEvent.KEYCODE_BACK:
-			Toast.makeText(getApplicationContext(), "如需退出，请点击菜单中的退出选项", Toast.LENGTH_SHORT).show();
-			return false;
-		case KeyEvent.KEYCODE_HOME:
-			return false;
-
-		default:
-			return super.onKeyDown(keyCode, event);
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+			builder.setIcon(R.drawable.ic_launcher);
+			builder.setTitle("Exit");
+			builder.setMessage("退出MobiNet?");
+			builder.setPositiveButton("返回",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+							return;
+						}
+					});
+			builder.setNegativeButton("确定",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+							android.os.Process.killProcess(android.os.Process.myPid());
+						}
+					});
+			builder.show();
 		}
+
+		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override
@@ -588,6 +592,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			String content = Config.networkTypeString + " ";
 			Config.typeTextView.setText(Config.providerName + "-" + Config.networkTypeString);
 			
+			String parameter = "";
 			switch (Config.dianxinFlag) {
 			case 1:
 			case 3:
@@ -595,20 +600,26 @@ public class MainActivity extends Activity implements OnClickListener {
 						+ String.valueOf(evdodbm);
 				Config.asuShowString = "1x:" + String.valueOf(cdmadbm) + " 3G:"
 						+ String.valueOf(evdodbm);
+				parameter = "Ecio:" + Config.cdmaEcio + "/"
+						+ Config.evdoEcio + " SNR:" + Config.evdoSnr;
 				break;
 			case 4:
 				content = content + String.valueOf(asu) + " "
 						+ String.valueOf(Config.lteSignalStrength);
 				Config.asuShowString = "2G:" + String.valueOf(asu) + " 4G:"
 						+ String.valueOf(Config.lteSignalStrength);
+				parameter = "RSRP:" + Config.lteRsrp + " RSRQ:"
+						+ Config.lteRsrq + " SNR:" + Config.lteRssnr;
 				break;
 			default:
 				content = content + String.valueOf(asu);
 				Config.asuShowString = String.valueOf(asu);
+				parameter = "BER:" + Config.gsmBitErrorRate;
 				break;
 			}
 			Config.asuShowString += " Level:" + level;
 			Config.asuTextView.setText(Config.asuShowString);
+			Config.signalParameterTextView.setText(parameter);
 
 			if (content.equals(Config.laststateString)) {
 
@@ -744,22 +755,16 @@ public class MainActivity extends Activity implements OnClickListener {
 			switch (status) {
 			case LocationProvider.AVAILABLE:
 				Config.gpsStateString = "Available";
-				Config.gpsTextView.setText(Config.gpsStateString + " 卫星数:"
-						+ String.valueOf(Config.gpsFixNumber) + "/"
-						+ String.valueOf(Config.gpsAvailableNumber));
+				Config.gpsTextView.setText(Config.gpsStateString);
 				break;
 			case LocationProvider.OUT_OF_SERVICE:
 				Config.gpsStateString = "OutOfService";
-				Config.gpsTextView.setText(Config.gpsStateString + " 卫星数:"
-						+ String.valueOf(Config.gpsFixNumber) + "/"
-						+ String.valueOf(Config.gpsAvailableNumber));
+				Config.gpsTextView.setText(Config.gpsStateString);
 				Config.mobilitySpeed = "Unknown";
 				break;
 			case LocationProvider.TEMPORARILY_UNAVAILABLE:
 				Config.gpsStateString = "Unavailable";
-				Config.gpsTextView.setText(Config.gpsStateString + " 卫星数:"
-						+ String.valueOf(Config.gpsFixNumber) + "/"
-						+ String.valueOf(Config.gpsAvailableNumber));
+				Config.gpsTextView.setText(Config.gpsStateString);
 				Config.mobilitySpeed = "Unknown";
 				break;
 			}
@@ -853,27 +858,20 @@ public class MainActivity extends Activity implements OnClickListener {
 						Config.gpsFixNumber++;
 					}
 				}
-				Config.gpsTextView.setText(Config.gpsStateString + " 卫星数:"
-						+ String.valueOf(Config.gpsFixNumber) + "/"
-						+ String.valueOf(Config.gpsAvailableNumber));
+				Config.satelliteTextView.setText(Config.gpsFixNumber + "/"
+						+ Config.gpsAvailableNumber);
 				break;
 			case GpsStatus.GPS_EVENT_STARTED:
 				Config.gpsStateString = "Start";
-				Config.gpsTextView.setText(Config.gpsStateString + " 卫星数:"
-						+ String.valueOf(Config.gpsFixNumber) + "/"
-						+ String.valueOf(Config.gpsAvailableNumber));
+				Config.gpsTextView.setText(Config.gpsStateString);
 				break;
 			case GpsStatus.GPS_EVENT_STOPPED:
 				Config.gpsStateString = "Stop";
-				Config.gpsTextView.setText(Config.gpsStateString + " 卫星数:"
-						+ String.valueOf(Config.gpsFixNumber) + "/"
-						+ String.valueOf(Config.gpsAvailableNumber));
+				Config.gpsTextView.setText(Config.gpsStateString);
 				break;
 			case GpsStatus.GPS_EVENT_FIRST_FIX:
 				Config.gpsStateString = "FirstFix";
-				Config.gpsTextView.setText(Config.gpsStateString + " 卫星数:"
-						+ String.valueOf(Config.gpsFixNumber) + "/"
-						+ String.valueOf(Config.gpsAvailableNumber));
+				Config.gpsTextView.setText(Config.gpsStateString);
 			default:
 				break;
 			}
@@ -995,25 +993,26 @@ public class MainActivity extends Activity implements OnClickListener {
 				}
 
 				// show neighboring cell
-				if (infos.size() == 0) {
-					// NoNeighboringCell
-					Config.cellidTextView.setText("No");
-				} else {
-					NeighboringCellInfo[] info = infos.toArray(new NeighboringCellInfo[0]);
-					String nbcString = String.valueOf(info[0].getRssi())
-							+ "\t" + String.valueOf(info[0].getCid()) + "/"
-							+ String.valueOf(info[0].getLac()) + " \t"
-							+ String.valueOf(info[0].getNetworkType());
-
-					for (int i = 1; i < infos.size(); i++) {
-						nbcString = nbcString + "\n"
-								+ String.valueOf(info[i].getRssi()) + "\t"
-								+ String.valueOf(info[i].getCid()) + "/"
-								+ String.valueOf(info[i].getLac()) + " \t"
-								+ String.valueOf(info[i].getNetworkType());
-					}
-					Config.cellidTextView.setText(nbcString);
-				}
+				Config.cellidTextView.setText(String.valueOf(infos.size()));
+//				if (infos.size() == 0) {
+//					// NoNeighboringCell
+//					Config.cellidTextView.setText("No");
+//				} else {
+//					NeighboringCellInfo[] info = infos.toArray(new NeighboringCellInfo[0]);
+//					String nbcString = String.valueOf(info[0].getRssi())
+//							+ "\t" + String.valueOf(info[0].getCid()) + "/"
+//							+ String.valueOf(info[0].getLac()) + " \t"
+//							+ String.valueOf(info[0].getNetworkType());
+//
+//					for (int i = 1; i < infos.size(); i++) {
+//						nbcString = nbcString + "\n"
+//								+ String.valueOf(info[i].getRssi()) + "\t"
+//								+ String.valueOf(info[i].getCid()) + "/"
+//								+ String.valueOf(info[i].getLac()) + " \t"
+//								+ String.valueOf(info[i].getNetworkType());
+//					}
+//					Config.cellidTextView.setText(nbcString);
+//				}
 				
 				// write log
 				if (Config.cellInfoContent.equals(Config.lastCellInfoString)) {
@@ -1297,11 +1296,14 @@ public class MainActivity extends Activity implements OnClickListener {
 				+ "4.WiFi质量:\r\n RSSI数值越大所连WiFi信号越强\r\n"
 				+ "5.运动速度:\r\n 不妨测测高铁时速吧(需开启GPS)";
 		builder.setMessage(msg);
+		Config.startTime = System.currentTimeMillis();
 		builder.setPositiveButton("知道了", new DialogInterface.OnClickListener() {  
             public void onClick(DialogInterface dialog, int whichButton) {  
             	try {
         			// 启动线程
         			handler4Cell.post(runnable4Cell);		
+        			Thread.sleep(500);
+        			handler4Time.post(runnable4Time);
         			Thread.sleep(500);
         			handler4Wifi.post(runnable4Wifi);
         			Thread.sleep(500);
@@ -1318,4 +1320,20 @@ public class MainActivity extends Activity implements OnClickListener {
         });
 		builder.show();
 	}
+	
+	private Handler handler4Time = new Handler();
+
+	private Runnable runnable4Time = new Runnable() {
+
+		@Override
+		public void run() {			
+			// TODO Auto-generated method stub
+			handler4Time.postDelayed(runnable4Time, 1000);
+			long time = System.currentTimeMillis();
+			long show = (time - Config.startTime) / 1000;
+			Config.totalTime = show / 60 + "'" + show % 60;
+			Config.timeTextView.setText(Config.sysDateFormat.format(
+					new Date(time)) + " 总时长:" + Config.totalTime);		
+		}
+	};
 }
