@@ -29,10 +29,22 @@ public class Config {
 	 * TanweiT: 59.66.123.40
 	 */
 
-	static String testServerip = "59.66.122.85";
-	static String testMeasuretime = "50"; //1
+	/**
+	 * 202.112.3.74 移动 3G:15001 4G:16001
+	 * 202.112.3.78 联通
+	 * 202.112.3.82 电信
+	 * 115.28.12.102 云
+	 */
+	static String testServerip = "202.112.3.74"; // "166.111.68.231";
+	static String testMeasuretime = "60"; //1
 	static String testInterval = "5";
+	static String testTraffic = "1024";
 	static String appVersion = "1.3.1";
+	static int tcpUploadPort = 15001;
+	static int tcpDownloadPort = 15002;
+	static int udpUploadPort = 15003;
+	static int udpDownloadPort = 15004;
+	static int tcpFlowPort = 15005;
 
 	static FileOutputStream fosMobile = null;
 	static FileOutputStream fosSignal = null;
@@ -62,6 +74,8 @@ public class Config {
 	static TextView pingTextView;
 	static TextView timeTextView;
 	static EditText serverConentEditText;
+	static EditText serverTimeEditText;
+	static EditText serverTrafficEditText;
 
 	static String providerName = null;
 	static String phoneModel = null;
@@ -113,7 +127,8 @@ public class Config {
 	static String bestProvider = null;
 
 	static Sender mySender = null;
-	static SingleSender mySingleSender = null;
+	static TCPTest myTcpTest = null;
+	static UDPTest myUdpTest = null;
 	static String lastWifiState = null;
 	static String lastAddition = null;
 	static boolean initialGPSFlag = false;
@@ -125,10 +140,12 @@ public class Config {
 	static String mobilePath = null;
 	static int pingFlag = 0;
 	
-	static String[] measurementNames = { "Downlink Throughput", "Uplink Throughput", "Ping Test",
-			"DNS Lookup Test", "HTTP Test" };
-	static String[] defaultTarget = { testServerip, testServerip, "3g.sina.com.cn",
-		"3g.sina.com.cn", "3g.sina.com.cn" };
+	static String[] measurementNames = { "TCP Downlink Test",
+			"TCP Uplink Test", "UDP Downlink Test", "UDP Uplink Test",
+			"TCP Flow Test", "DNS Lookup Test", "Ping Test", "HTTP Test" };
+	static String[] defaultTarget = { testServerip, testServerip, testServerip,
+			testServerip, testServerip, testServerip, testServerip,
+			"3g.sina.com.cn" };
 	static int measurementID = 0;
 	static String addressSina = "3g.sina.com.cn";
 	static String addressBaidu = "m.baidu.com";
@@ -149,6 +166,90 @@ public class Config {
 	static int lteRssnr = -1;
 	static int lteCqi = -1;
 	static int currentLevel = -1;
+	
+	public static void setRemoteParameter() {
+		if (Config.phoneModel.equals("GT-I9508")) {
+			Config.testServerip = "202.112.3.74";
+			Config.testMeasuretime = "60"; //1
+			Config.testInterval = "5";
+			Config.testTraffic = "1024";
+			Config.tcpUploadPort = 15001;
+			Config.tcpDownloadPort = 15002;
+			Config.udpUploadPort = 15003;
+			Config.udpDownloadPort = 15004;
+			Config.tcpFlowPort = 15005;
+		} else if (Config.phoneModel.equals("HTC 608t")) {
+			Config.testServerip = "202.112.3.74";
+			Config.testMeasuretime = "60"; //1
+			Config.testInterval = "5";
+			Config.testTraffic = "1024";
+			Config.tcpUploadPort = 15101;
+			Config.tcpDownloadPort = 15102;
+			Config.udpUploadPort = 15103;
+			Config.udpDownloadPort = 15104;
+			Config.tcpFlowPort = 15105;
+		} else if (Config.phoneModel.equals("SCH-I959")) {
+			Config.testServerip = "202.112.3.82";
+			Config.testMeasuretime = "60"; //1
+			Config.testInterval = "5";
+			Config.testTraffic = "1024";
+			Config.tcpUploadPort = 15201;
+			Config.tcpDownloadPort = 15202;
+			Config.udpUploadPort = 15203;
+			Config.udpDownloadPort = 15204;
+			Config.tcpFlowPort = 15205;
+		} else if (Config.phoneModel.equals("HTC 609d")) {
+			Config.testServerip = "202.112.3.82";
+			Config.testMeasuretime = "60"; //1
+			Config.testInterval = "5";
+			Config.testTraffic = "1024";
+			Config.tcpUploadPort = 15301;
+			Config.tcpDownloadPort = 15302;
+			Config.udpUploadPort = 15303;
+			Config.udpDownloadPort = 15304;
+			Config.tcpFlowPort = 15305;
+		} else if (Config.phoneModel.equals("GT-I9500")) {
+			Config.testServerip = "202.112.3.78";
+			Config.testMeasuretime = "60"; //1
+			Config.testInterval = "5";
+			Config.testTraffic = "1024";
+			Config.tcpUploadPort = 15401;
+			Config.tcpDownloadPort = 15402;
+			Config.udpUploadPort = 15403;
+			Config.udpDownloadPort = 15404;
+			Config.tcpFlowPort = 15405;
+		} else if (Config.phoneModel.equals("HTC 606w")) {
+			Config.testServerip = "202.112.3.78";
+			Config.testMeasuretime = "60"; //1
+			Config.testInterval = "5";
+			Config.testTraffic = "1024";
+			Config.tcpUploadPort = 15501;
+			Config.tcpDownloadPort = 15502;
+			Config.udpUploadPort = 15503;
+			Config.udpDownloadPort = 15504;
+			Config.tcpFlowPort = 15505;
+		} else if (Config.phoneModel.equals("SM-N9008V")) {
+			Config.testServerip = "202.112.3.74";
+			Config.testMeasuretime = "60"; //1
+			Config.testInterval = "5";
+			Config.testTraffic = "1024";
+			Config.tcpUploadPort = 15601;
+			Config.tcpDownloadPort = 15602;
+			Config.udpUploadPort = 15603;
+			Config.udpDownloadPort = 15604;
+			Config.tcpFlowPort = 15605;
+		} else {
+			Config.testServerip = "115.28.12.102";
+			Config.testMeasuretime = "60"; //1
+			Config.testInterval = "5";
+			Config.testTraffic = "1024";
+			Config.tcpUploadPort = 16001;
+			Config.tcpDownloadPort = 16002;
+			Config.udpUploadPort = 16003;
+			Config.udpDownloadPort = 16004;
+			Config.tcpFlowPort = 16005;
+		}
+	}
 	
 	public void getAllInfo() {
 		String phone = "+8615210516820";

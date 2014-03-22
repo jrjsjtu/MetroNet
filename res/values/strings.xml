@@ -8,8 +8,8 @@
     <string name="contentDescription">Splash Screen Picture</string>    
     <string name="button_start">开始</string>
     <string name="editText_serverIPString">目的地址:</string>
-    <string name="editText_measureTimeString">测试时长(min)</string>
-    <string name="editText_measureIntervalString">测试间隔(s)</string>
+    <string name="editText_measureTimeString">测试时长:</string>
+    <string name="editText_trafficString">流量控制:</string>
     <!--宿舍服务器 <string name="server_IP">59.66.122.80</string> -->
     <!--联通服务器 <string name="server_IP">115.28.220.19</string> -->
     <!--电信服务器 <string name="server_IP">115.28.149.21</string> -->

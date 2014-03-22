@@ -87,7 +87,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		// 设置屏幕常亮
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
-		appStartDialog(this);
+//		appStartDialog(this);
 
 		// 调用百度统计
 		StatService.setAppChannel(this, "Baidu Market", true);
@@ -99,6 +99,8 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		Config.serverConentEditText = (EditText) findViewById(R.id.editText_serverIP);
 		Config.serverConentEditText.clearFocus();
+		Config.serverTimeEditText = (EditText) findViewById(R.id.editText_serverTime);
+		Config.serverTrafficEditText = (EditText) findViewById(R.id.editText_trafficMaximize);
 		Config.asuTextView = (TextView) findViewById(R.id.signalText);
 		Config.signalParameterTextView = (TextView) findViewById(R.id.signalParameterText);
 		Config.basestationTextView = (TextView) findViewById(R.id.basestationText);
@@ -115,6 +117,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		Config.netTextView = (TextView) findViewById(R.id.netText);
 		Config.pingTextView = (TextView) findViewById(R.id.pingText);
 		Config.timeTextView = (TextView) findViewById(R.id.timeText);
+		
+		Config.serverTimeEditText.setText(Config.testMeasuretime);
+		Config.serverTrafficEditText.setText(Config.testTraffic);
 		Spinner spinner = (Spinner) findViewById(R.id.measurementTypeSpinner);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, Config.measurementNames);
@@ -128,7 +133,9 @@ public class MainActivity extends Activity implements OnClickListener {
 					int arg2, long arg3) {
 				// TODO Auto-generated method stub
 				Config.measurementID = arg2;
-				Config.serverConentEditText.setText(Config.defaultTarget[arg2]);
+				if (arg2 == 7) {
+					Config.serverConentEditText.setText(Config.defaultTarget[arg2]);
+				}				
 			}
 
 			@Override
@@ -188,6 +195,13 @@ public class MainActivity extends Activity implements OnClickListener {
 					Toast.LENGTH_LONG).show();
 		}
 
+		startThread();
+		
+		Config.phoneModel = Build.MODEL;
+		Config.osVersion = Build.VERSION.RELEASE;
+		Config.setRemoteParameter();
+		Config.serverConentEditText.setText(Config.testServerip);
+		
 		try {
 			String IMSI = Config.tel.getSubscriberId();
 			Config.providerName = null;
@@ -217,8 +231,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					+ "\nNetworkOperatorName=" + Config.tel.getNetworkOperatorName()
 					+ "\nSimOperatorName=" + Config.tel.getSimOperatorName()
 					+ "\nSimSerialNumber=" + Config.tel.getSimSerialNumber();
-			Config.phoneModel = Build.MODEL;
-			Config.osVersion = Build.VERSION.RELEASE;
+			
 			Config.fosMobile.write(infoString.getBytes());
 			Config.fosMobile.write(System.getProperty("line.separator").getBytes());
 		} catch (Exception e) {
@@ -232,8 +245,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		menu.add(1, 1, 0, "吞吐量测试"); // 专业模式
-		menu.add(1, 2, 0, "Ping_DNS"); // 去除广告
+		menu.add(1, 1, 0, "连通性测试"); // 专业模式
+		menu.add(1, 2, 0, "无广告模式"); // 去除广告
 		menu.add(1, 3, 0, "版本介绍");
 		menu.add(1, 4, 0, "完全退出");
 		return true;
@@ -255,35 +268,6 @@ public class MainActivity extends Activity implements OnClickListener {
 				return false;
 			}
 			Config.reportTextView.setText("Testing...");
-			
-			new Thread(){
-
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					super.run();
-					String serverIPString = Config.serverConentEditText.getText().toString();					
-					String measureTimeString = Config.testMeasuretime;
-					String measureIntervalString = Config.testInterval;
-					Config.mySender = new Sender(mHandler, serverIPString,
-							measureTimeString, measureIntervalString,
-							Config.fosDownlink, Config.fosUplink);
-					handler4Show.post(runnable4Show);
-				}				
-			}.start();
-			
-			break;
-		case 2:
-//			handler4Ad.removeCallbacks(runnable4Ad);
-			
-			if (Config.wifiState.equals("Disconnected")
-					&& Config.dataConnectionState.equals("Disconnected")) {
-				Config.reportTextView.setText("网络已断开，请检查网络连接");
-				Toast.makeText(getApplicationContext(), "网络已断开，请检查网络连接",
-						Toast.LENGTH_SHORT).show();
-				return false;
-			}
-			Config.reportTextView.setText("Testing...");
 			handler4Ping.post(runnable4Ping);
 			
 			new Thread(){
@@ -292,7 +276,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				public void run() {
 					// TODO Auto-generated method stub
 					super.run();
-					Measurement.pingCmdProfession(Config.addressSina);
+					Measurement.pingCmdTest(Config.addressSina, 10);
 				}				
 			}.start();
 			
@@ -302,18 +286,13 @@ public class MainActivity extends Activity implements OnClickListener {
 				public void run() {
 					// TODO Auto-generated method stub
 					super.run();
-					for (int i = 0; i < 9999999; i++) {
-						Measurement.dnsLookupTest(Config.addressSina, 10);
-						try {
-							Thread.sleep(5000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
+					Measurement.dnsLookupTest(Config.addressSina, 10);
 				}				
 			}.start();
 			
+			break;
+		case 2:
+			handler4Ad.removeCallbacks(runnable4Ad);			
 			break;
 		case 3:
 			String tmp = "MobiNet帮您分析手机的网络状态\r\n支持移动联通电信三网的全网制式\r\nCopyright  2014  恪家饭";
@@ -420,6 +399,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v.equals(Config.start)) {
+			Config.testMeasuretime = Config.serverTimeEditText.getText().toString();
+			Config.testTraffic = Config.serverTrafficEditText.getText().toString();
 			if (Config.wifiState.equals("Disconnected")
 					&& Config.dataConnectionState.equals("Disconnected")) {
 				Config.reportTextView.setText("网络已断开，请检查网络连接");
@@ -430,33 +411,47 @@ public class MainActivity extends Activity implements OnClickListener {
 
 			Config.pingFlag = 0;
 			String serverIPString = Config.serverConentEditText.getText().toString();
+			String measureTimeString = Config.testMeasuretime;
+			String measureIntervalString = Config.testInterval;
 			
 			switch (Config.measurementID) {
 			case 0:
-				String measureTimeString = Config.testMeasuretime;
-				String measureIntervalString = Config.testInterval;
-				Config.mySender = new Sender(mHandler, serverIPString,
+				Config.reportTextView.setText("TCP downlink testing...");
+				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
 						measureTimeString, measureIntervalString,
-						Config.fosDownlink, Config.fosUplink);
+						Config.fosDownlink, 1);
 				handler4Show.post(runnable4Show);
 				break;
 			case 1:
-				
+				Config.reportTextView.setText("TCP uplink testing...");
+				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
+						measureTimeString, measureIntervalString,
+						Config.fosUplink, 2);
+				handler4Show.post(runnable4Show);
 				break;
 			case 2:
-				Config.reportTextView.setText("Ping testing...");
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				handler4Ping.removeCallbacks(runnable4Ping);
+				Config.reportTextView.setText("UDP downlink testing...");
 				Config.start.setEnabled(false);
-				handler4Ping.post(runnable4Ping);
-				Measurement.pingCmdTest(serverIPString, 10);
+				Config.myUdpTest = new UDPTest(serverIPString, measureTimeString, 1);
 				break;
 			case 3:
+				Config.reportTextView.setText("UDP uplink testing...");
+				Config.start.setEnabled(false);
+				Config.myUdpTest = new UDPTest(serverIPString, measureTimeString, 2);
+				break;
+			case 4:
+				Config.reportTextView.setText("TCP small flow testing...");
+				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
+						measureTimeString, measureIntervalString,
+						Config.fosDownlink, 3);
+				break;
+			case 5:
+				Config.reportTextView.setText("TCP large flow testing...");
+				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
+						measureTimeString, measureIntervalString,
+						Config.fosDownlink, 3);
+				break;
+			case 6:
 				Config.reportTextView.setText("DNS lookup testing...");
 				try {
 					Thread.sleep(100);
@@ -469,7 +464,20 @@ public class MainActivity extends Activity implements OnClickListener {
 				handler4Ping.post(runnable4Ping);
 				Measurement.dnsLookupTest(serverIPString, 10);
 				break;
-			case 4:
+			case 7:
+				Config.reportTextView.setText("Ping testing...");
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				handler4Ping.removeCallbacks(runnable4Ping);
+				Config.start.setEnabled(false);
+				handler4Ping.post(runnable4Ping);
+				Measurement.pingCmdTest(serverIPString, 10);
+				break;			
+			case 8:
 				Config.reportTextView.setText("Http test testing...");
 				try {
 					Thread.sleep(100);
@@ -482,6 +490,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				handler4Ping.post(runnable4Ping);
 				Measurement.httpTest(serverIPString);
 				break;
+			
 			default:
 				Config.reportTextView.setText("Test doesn't support");
 				break;
@@ -501,8 +510,8 @@ public class MainActivity extends Activity implements OnClickListener {
 			} else if (msg.what == 3) {
 				Config.reportTextView.setText("Client has closed connection");
 				handler4Show.removeCallbacks(runnable4Show);
-				Config.netTextView.setText("平均上行:" + Config.mySender.mAvgUplinkThroughput
-						+ " 平均下行:" + Config.mySender.mAvgDownlinkThroughput + " kbps");
+				Config.netTextView.setText("平均上行:" + Config.myTcpTest.mAvgUplinkThroughput
+						+ " 平均下行:" + Config.myTcpTest.mAvgDownlinkThroughput + " kbps");
 				Config.start.setEnabled(true);
 			} else if (msg.what == 4) {
 				Config.reportTextView.setText("Server maybe have some error");
@@ -1076,8 +1085,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		public void run() {
 			// TODO Auto-generated method stub
 			handler4Show.postDelayed(runnable4Show, 1000);
-			Config.netTextView.setText("上行:" + Config.mySender.mUplinkThroughput + " 下行:"
-					+ Config.mySender.mDownlinkThroughput + " kbps");
+			Config.netTextView.setText("上行:" + Config.myTcpTest.mUplinkThroughput + " 下行:"
+					+ Config.myTcpTest.mDownlinkThroughput + " kbps");
 		}
 	};
 	
@@ -1091,7 +1100,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			handler4Ping.postDelayed(runnable4Ping, 1000);
 			if (Config.pingFlag == 11) {
 				Config.pingTextView.setText("Ping:" + Config.pingInfo
-						+ " ms  DNS:" + Config.dnsLookupInfo + " ms HTTP:" + Config.httpInfo);
+						+ " DNS:" + Config.dnsLookupInfo + " HTTP:" + Config.httpInfo);
 				Config.start.setEnabled(true);
 				Config.reportTextView.setText("Ping test finished");
 				Config.pingFlag = 10;
@@ -1109,8 +1118,8 @@ public class MainActivity extends Activity implements OnClickListener {
 				builder.setPositiveButton("默默等待", null);
 				builder.show();
 			} else if (Config.pingFlag == 21) {
-				Config.pingTextView.setText("Ping:" + Config.pingInfo
-						+ " ms  DNS:" + Config.dnsLookupInfo + " ms HTTP:" + Config.httpInfo);
+				Config.pingTextView.setText("Ping:" + Config.pingInfo + " DNS:"
+						+ Config.dnsLookupInfo + " HTTP:" + Config.httpInfo);
 				Config.reportTextView.setText("DNS lookup test finished");
 				Config.start.setEnabled(true);
 				Config.pingFlag = 20;
@@ -1119,8 +1128,8 @@ public class MainActivity extends Activity implements OnClickListener {
 				Config.start.setEnabled(true);
 				Config.pingFlag = 20;
 			} else if (Config.pingFlag == 31) {
-				Config.pingTextView.setText("Ping:" + Config.pingInfo
-						+ " ms  DNS:" + Config.dnsLookupInfo + " ms HTTP:" + Config.httpInfo);
+				Config.pingTextView.setText("Ping:" + Config.pingInfo + " DNS:"
+						+ Config.dnsLookupInfo + " HTTP:" + Config.httpInfo);
 				Config.reportTextView.setText("HTTP test finished");
 				Config.start.setEnabled(true);
 				Config.pingFlag = 30;
@@ -1206,9 +1215,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			}
 		}
 	};
-	
-	
-	
+		
 	private void showGPSDialog(Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);  
         builder.setIcon(R.drawable.ic_launcher);  
@@ -1287,6 +1294,26 @@ public class MainActivity extends Activity implements OnClickListener {
 		interAd.loadAd();
 	}
 	
+	private void startThread() {
+		Config.startTime = System.currentTimeMillis();
+		try {
+			// 启动线程
+			handler4Cell.post(runnable4Cell);		
+			Thread.sleep(500);
+			handler4Time.post(runnable4Time);
+			Thread.sleep(500);
+			handler4Wifi.post(runnable4Wifi);
+			Thread.sleep(500);
+			handler4GPS.post(runnable4GPS);
+			Thread.sleep(500);
+			handler4Speed.post(runnable4Speed);
+		} catch (Exception e) {
+			// TODO: handle exception
+			Toast.makeText(getApplicationContext(), "Some mistake occured!",
+					Toast.LENGTH_LONG).show();
+		}
+	}
+	
 	private void appStartDialog(Context context) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle("功能介绍");
@@ -1299,22 +1326,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		Config.startTime = System.currentTimeMillis();
 		builder.setPositiveButton("知道了", new DialogInterface.OnClickListener() {  
             public void onClick(DialogInterface dialog, int whichButton) {  
-            	try {
-        			// 启动线程
-        			handler4Cell.post(runnable4Cell);		
-        			Thread.sleep(500);
-        			handler4Time.post(runnable4Time);
-        			Thread.sleep(500);
-        			handler4Wifi.post(runnable4Wifi);
-        			Thread.sleep(500);
-        			handler4GPS.post(runnable4GPS);
-        			Thread.sleep(500);
-        			handler4Speed.post(runnable4Speed);
-        		} catch (Exception e) {
-        			// TODO: handle exception
-        			Toast.makeText(getApplicationContext(), "Some mistake occured!",
-        					Toast.LENGTH_LONG).show();
-        		}
+            	startThread();
             	return;
             }
         });

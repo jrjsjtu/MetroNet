@@ -66,11 +66,59 @@
         android:maxLength="15"
         android:maxLines="1"
         android:text="@string/server_IP" />
-    
+
+    <EditText
+        android:id="@+id/editText_serverTimeString"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/editText_serverIP"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:ems="4"
+        android:focusable="false"
+        android:inputType="text"
+        android:text="@string/editText_measureTimeString" />
+
+    <EditText
+        android:id="@+id/editText_serverTime"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_serverIP"
+        android:layout_toRightOf="@+id/editText_serverTimeString"
+        android:ems="3"
+        android:inputType="text"
+        android:maxLength="3"
+        android:maxLines="1" />
+
+    <EditText
+        android:id="@+id/editText_trafficMaximizeString"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_serverIP"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/editText_serverTime"
+        android:background="@null"
+        android:ems="4"
+        android:inputType="text"
+        android:text="@string/editText_trafficString" />
+
+    <EditText
+        android:id="@+id/editText_trafficMaximize"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_serverIP"
+        android:layout_toRightOf="@+id/editText_trafficMaximizeString"
+        android:ems="5"
+        android:inputType="text"
+        android:maxLength="5"
+        android:maxLines="1" />
+
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText_serverIP"
+        android:layout_below="@+id/editText_serverTime"
         android:scrollbars="vertical" >
 
         <RelativeLayout
@@ -83,7 +131,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:ems="4"
                 android:gravity="right"
                 android:text="@string/typeString" />
@@ -92,7 +140,7 @@
                 android:id="@+id/typeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_toRightOf="@+id/typeString" />
 
             <TextView
@@ -101,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/typeText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:ems="4"
                 android:gravity="right"
                 android:text="@string/directionString" />
@@ -111,7 +159,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/typeText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/directionString" />
 
             <TextView
@@ -120,7 +168,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/directionText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:ems="4"
                 android:gravity="right"
                 android:text="@string/signalString" />
@@ -130,7 +178,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/directionText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/signalString" />
 
             <TextView
@@ -139,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/signalText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:ems="4"
                 android:gravity="right"
                 android:text="@string/signalParameterString" />
@@ -149,7 +197,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/signalText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/signalParameterString" />
 
             <TextView
@@ -158,7 +206,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/signalParameterText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:ems="4"
                 android:gravity="right"
                 android:text="@string/basestationString" />
@@ -168,7 +216,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/signalParameterText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/basestationString" />
 
             <TextView
@@ -177,7 +225,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/basestationText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:ems="4"
                 android:gravity="right"
                 android:text="@string/cellidString" />
@@ -187,7 +235,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/basestationText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/cellidString" />
 
             <TextView
@@ -196,7 +244,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/cellidText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:ems="4"
                 android:gravity="right"
                 android:text="@string/handoffString" />
@@ -206,7 +254,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cellidText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/handoffString" />
 
             <TextView
@@ -215,7 +263,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/handoffText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:ems="4"
                 android:gravity="right"
                 android:text="@string/gpsString" />
@@ -225,7 +273,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/handoffText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/gpsString" />
 
             <TextView
@@ -234,7 +282,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/gpsText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:ems="4"
                 android:gravity="right"
                 android:text="@string/locationString" />
@@ -244,7 +292,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/gpsText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/locationString" />
 
             <TextView
@@ -253,7 +301,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/locationText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:ems="4"
                 android:gravity="right"
                 android:text="@string/satelliteString" />
@@ -263,7 +311,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/locationText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/satelliteString" />
 
             <TextView
@@ -272,7 +320,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/satelliteText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:ems="4"
                 android:gravity="right"
                 android:text="@string/speedString" />
@@ -282,7 +330,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/satelliteText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/speedString" />
 
             <TextView
@@ -291,7 +339,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/speedText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:ems="4"
                 android:gravity="right"
                 android:text="@string/wifiString" />
@@ -301,7 +349,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/speedText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/wifiString" />
 
             <TextView
@@ -310,7 +358,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/wifiText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:ems="4"
                 android:gravity="right"
                 android:text="@string/serverString" />
@@ -320,7 +368,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/wifiText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/serverString" />
 
             <TextView
@@ -329,7 +377,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/serverText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:ems="4"
                 android:gravity="right"
                 android:text="@string/netString" />
@@ -339,7 +387,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/serverText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/netString" />
 
             <TextView
@@ -348,7 +396,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/netText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:ems="4"
                 android:gravity="right"
                 android:text="@string/pingString" />
@@ -358,16 +406,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/netText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/pingString" />
-            
+
             <TextView
                 android:id="@+id/timeString"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/pingText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:ems="4"
                 android:gravity="right"
                 android:text="@string/timeString" />
@@ -377,7 +425,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/pingText"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/timeString" />
         </RelativeLayout>
     </ScrollView>
