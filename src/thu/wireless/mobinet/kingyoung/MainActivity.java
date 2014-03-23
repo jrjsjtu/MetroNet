@@ -100,7 +100,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		Config.serverConentEditText = (EditText) findViewById(R.id.editText_serverIP);
 		Config.serverConentEditText.clearFocus();
 		Config.serverTimeEditText = (EditText) findViewById(R.id.editText_serverTime);
-		Config.serverTrafficEditText = (EditText) findViewById(R.id.editText_trafficMaximize);
 		Config.asuTextView = (TextView) findViewById(R.id.signalText);
 		Config.signalParameterTextView = (TextView) findViewById(R.id.signalParameterText);
 		Config.basestationTextView = (TextView) findViewById(R.id.basestationText);
@@ -119,7 +118,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		Config.timeTextView = (TextView) findViewById(R.id.timeText);
 		
 		Config.serverTimeEditText.setText(Config.testMeasuretime);
-		Config.serverTrafficEditText.setText(Config.testTraffic);
 		Spinner spinner = (Spinner) findViewById(R.id.measurementTypeSpinner);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, Config.measurementNames);
@@ -135,7 +133,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				Config.measurementID = arg2;
 				if (arg2 == 7) {
 					Config.serverConentEditText.setText(Config.defaultTarget[arg2]);
-				}				
+				}
 			}
 
 			@Override
@@ -145,99 +143,57 @@ public class MainActivity extends Activity implements OnClickListener {
 			}
 		});
 
-		// 创建日志目录				
-		try {	
-			// MobiNetPlus/XXX/Mobile.txt
-			Config.mobilePath = android.os.Environment.getExternalStorageDirectory() + "/MobiNetPlus";
-			String pathDate = Config.dirDateFormat.format(new Date(System.currentTimeMillis()));
-			File mobileFile = new File(Config.mobilePath);
-			mobileFile.mkdirs();
-			Config.mobilePath = Config.mobilePath + "/" + pathDate;
-			mobileFile = new File(Config.mobilePath);
-			mobileFile.mkdirs();
-			Config.fosMobile = new FileOutputStream(Config.mobilePath + "/Mobile.txt", true);
-			Config.fosSignal = new FileOutputStream(Config.mobilePath + "/Signal.txt", true);
-			Config.fosSpeed = new FileOutputStream(Config.mobilePath + "/Speed.txt", true);
-			Config.fosCell = new FileOutputStream(Config.mobilePath + "/Cell.txt", true);
-			Config.fosUplink = new FileOutputStream(Config.mobilePath + "/Uplink.txt", true);
-			Config.fosDownlink = new FileOutputStream(Config.mobilePath + "/Downlink.txt", true);
-			Config.fosPing = new FileOutputStream(Config.mobilePath + "/Ping.txt", true);
-			Config.fosAddition = new FileOutputStream(Config.mobilePath + "/Addition.txt", true);
-			Config.fosDNS = new FileOutputStream(Config.mobilePath + "/DNS.txt", true);
-					
-			// data/data/xxx/files/Mobile.txt
-//			fosMobile = this.openFileOutput("Mobile.txt", Context.MODE_APPEND);
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-
 		// 获取手机信息
 		try {
 			myListener = new MyPhoneStateListener();
 			Config.tel = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 			Config.tel.listen(myListener, Config.phoneEvents);
-			if(Config.tel.getSimState()!=TelephonyManager.SIM_STATE_READY) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-		        builder.setIcon(R.drawable.ic_launcher);
-		        builder.setTitle("No SIM Card");
-		        builder.setMessage("请插入SIM卡");
-		        builder.setPositiveButton("知道了",  
-		                new DialogInterface.OnClickListener() {  
-		                    public void onClick(DialogInterface dialog, int whichButton) {  
-		                        return;
-		                    }  
-		                });
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			Toast.makeText(getApplicationContext(), "Check your SIM card!",
-					Toast.LENGTH_LONG).show();
-		}
-
-		startThread();
-		
-		Config.phoneModel = Build.MODEL;
-		Config.osVersion = Build.VERSION.RELEASE;
-		Config.setRemoteParameter();
-		Config.serverConentEditText.setText(Config.testServerip);
-		
-		try {
-			String IMSI = Config.tel.getSubscriberId();
-			Config.providerName = null;
-			if (IMSI.startsWith("46000") || IMSI.startsWith("46002")
-					|| IMSI.startsWith("46007")) {
-				Config.providerName = "中国移动";
-			} else if (IMSI.startsWith("46001")) {
-				Config.providerName = "中国联通";
-			} else if (IMSI.startsWith("46003")) {
-				Config.providerName = "中国电信";
+			Config.providerName = "No SIM";
+			Config.phoneModel = Build.MODEL;
+			Config.osVersion = Build.VERSION.RELEASE;
+			Config.setRemoteParameter();
+			Config.serverConentEditText.setText(Config.testServerip);
+			Config.serverTimeEditText.setText(Config.testMeasuretime);			
+			String infoString = "PhoneModel=" + Build.MODEL 
+					+ "\nsdkVersion=" + Build.VERSION.SDK_INT 
+					+ "\nosVersion=" + Build.VERSION.RELEASE;
+			if(Config.tel.getSimState() == TelephonyManager.SIM_STATE_READY) {
+				String IMSI = Config.tel.getSubscriberId();			
+				if (IMSI.startsWith("46000") || IMSI.startsWith("46002")
+						|| IMSI.startsWith("46007")) {
+					Config.providerName = "中国移动";
+				} else if (IMSI.startsWith("46001")) {
+					Config.providerName = "中国联通";
+				} else if (IMSI.startsWith("46003")) {
+					Config.providerName = "中国电信";
+				} else {
+					Config.providerName = "非大陆用户";
+				}
 			} else {
-				Config.providerName = "非大陆用户";
+				Config.reportTextView.setText("No SIM Card");
 			}
-
-			ConnectivityManager connect = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-			NetworkInfo networkInfo = connect
-					.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-			String infoString = "PhoneModel=" + Build.MODEL + "\nsdkVersion="
-					+ String.valueOf(Build.VERSION.SDK_INT) + "\nosVersion="
-					+ Build.VERSION.RELEASE + "\nProviderName=" + Config.providerName
-					+ "\nDetailedState=" + networkInfo.getDetailedState()
-					+ "\nReason=" + networkInfo.getReason() + "\nSubtypeName="
-					+ networkInfo.getSubtypeName() + "\nExtraInfo="
-					+ networkInfo.getExtraInfo() + "\nTypeName="
-					+ networkInfo.getTypeName() + "\nIMEI=" + Config.tel.getDeviceId()
-					+ "\nIMSI=" + Config.tel.getSubscriberId()
-					+ "\nNetworkOperatorName=" + Config.tel.getNetworkOperatorName()
-					+ "\nSimOperatorName=" + Config.tel.getSimOperatorName()
-					+ "\nSimSerialNumber=" + Config.tel.getSimSerialNumber();
 			
+			ConnectivityManager connect = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+			NetworkInfo networkInfo = connect.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+			infoString += "\nProviderName=" + Config.providerName;
+			infoString += "\nDetailedState=" + networkInfo.getDetailedState();
+			infoString += "\nReason=" + networkInfo.getReason();
+			infoString += "\nSubtypeName=" + networkInfo.getSubtypeName();
+			infoString += "\nExtraInfo=" + networkInfo.getExtraInfo();
+			infoString += "\nTypeName=" + networkInfo.getTypeName();
+			infoString += "\nIMEI=" + Config.tel.getDeviceId();
+			infoString += "\nIMSI=" + Config.tel.getSubscriberId();
+			infoString += "\nNetworkOperatorName=" + Config.tel.getNetworkOperatorName();
+			infoString += "\nSimOperatorName=" + Config.tel.getSimOperatorName();
+			infoString += "\nSimSerialNumber=" + Config.tel.getSimSerialNumber();
 			Config.fosMobile.write(infoString.getBytes());
 			Config.fosMobile.write(System.getProperty("line.separator").getBytes());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			// TODO: handle exception
 			e.printStackTrace();
 		}
+
+		startThread();
 		
 //		initNetwork();
 	}
@@ -400,7 +356,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		if (v.equals(Config.start)) {
 			Config.testMeasuretime = Config.serverTimeEditText.getText().toString();
-			Config.testTraffic = Config.serverTrafficEditText.getText().toString();
 			if (Config.wifiState.equals("Disconnected")
 					&& Config.dataConnectionState.equals("Disconnected")) {
 				Config.reportTextView.setText("网络已断开，请检查网络连接");
@@ -440,18 +395,12 @@ public class MainActivity extends Activity implements OnClickListener {
 				Config.myUdpTest = new UDPTest(serverIPString, measureTimeString, 2);
 				break;
 			case 4:
-				Config.reportTextView.setText("TCP small flow testing...");
+				Config.reportTextView.setText("TCP flow testing...");
 				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
 						measureTimeString, measureIntervalString,
-						Config.fosDownlink, 3);
+						Config.fosTCPFlow, 3);
 				break;
 			case 5:
-				Config.reportTextView.setText("TCP large flow testing...");
-				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
-						measureTimeString, measureIntervalString,
-						Config.fosDownlink, 3);
-				break;
-			case 6:
 				Config.reportTextView.setText("DNS lookup testing...");
 				try {
 					Thread.sleep(100);
@@ -464,7 +413,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				handler4Ping.post(runnable4Ping);
 				Measurement.dnsLookupTest(serverIPString, 10);
 				break;
-			case 7:
+			case 6:
 				Config.reportTextView.setText("Ping testing...");
 				try {
 					Thread.sleep(100);
@@ -477,7 +426,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				handler4Ping.post(runnable4Ping);
 				Measurement.pingCmdTest(serverIPString, 10);
 				break;			
-			case 8:
+			case 7:
 				Config.reportTextView.setText("Http test testing...");
 				try {
 					Thread.sleep(100);
@@ -487,12 +436,13 @@ public class MainActivity extends Activity implements OnClickListener {
 				}
 				handler4Ping.removeCallbacks(runnable4Ping);
 				Config.start.setEnabled(false);
-				handler4Ping.post(runnable4Ping);
+				handler4Ping.post(runnable4Ping);				
 				Measurement.httpTest(serverIPString);
 				break;
 			
 			default:
 				Config.reportTextView.setText("Test doesn't support");
+//				Measurement.tracert("202.112.3.82");
 				break;
 			}
 		}
@@ -599,7 +549,9 @@ public class MainActivity extends Activity implements OnClickListener {
 			 * 整理日志数据
 			 */
 			String content = Config.networkTypeString + " ";
-			Config.typeTextView.setText(Config.providerName + "-" + Config.networkTypeString);
+			Config.typeTextView.setText(Config.providerName + "-"
+					+ Config.networkTypeString + " (" + Build.MODEL + "-"
+					+ Build.VERSION.RELEASE + ")");
 			
 			String parameter = "";
 			switch (Config.dianxinFlag) {
@@ -987,7 +939,9 @@ public class MainActivity extends Activity implements OnClickListener {
 				Config.servingCid = cid;
 				Config.servingLac = lac;
 				List<NeighboringCellInfo> infos = Config.tel.getNeighboringCellInfo();
-				Config.typeTextView.setText(Config.providerName + "-" + Config.networkTypeString);
+				Config.typeTextView.setText(Config.providerName + "-"
+						+ Config.networkTypeString + " (" + Build.MODEL + "-"
+						+ Build.VERSION.RELEASE + ")");
 				Config.basestationTextView.setText(String.valueOf(Config.servingCid) 
 						+ "/" + String.valueOf(Config.servingLac));
 				
@@ -1158,12 +1112,12 @@ public class MainActivity extends Activity implements OnClickListener {
 				String wifiContent = null;
 
 				if (activeNetInfo != null
-						&& activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-					Config.wifiState = "Connected";
+						&& activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {					
 					WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
 					WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+					Config.wifiState = "Connected:" + wifiInfo.getSSID();
 					wifiContent = Config.wifiState + " RSSI:"
-							+ String.valueOf(wifiInfo.getRssi());
+							+ wifiInfo.getRssi() + " Speed:" + wifiInfo.getLinkSpeed();
 				} else {
 					Config.wifiState = "Disconnected";
 					wifiContent = Config.wifiState;

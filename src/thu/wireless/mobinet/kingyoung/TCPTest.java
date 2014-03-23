@@ -29,7 +29,7 @@ public class TCPTest {
 		measureInterval = interval;
 		if (mode == 2) {
 			fosUplink = fos;
-		} else if (testmode == 1) {
+		} else if (mode == 1) {
 			fosDownlink = fos;
 		}
 		testmode = mode;
@@ -142,8 +142,7 @@ public class TCPTest {
 				String local = " Local "
 						+ clientSocketUp.getLocalAddress().getHostAddress()
 						+ " port " + clientSocketUp.getLocalPort();
-				String peer = clientSocketUp.getRemoteSocketAddress()
-						.toString();
+				String peer = clientSocketUp.getRemoteSocketAddress().toString();
 				fosUplink.write((" ConnectTime: " + connectTimeString + local
 						+ " connected to " + peer + "\n").getBytes());
 
@@ -208,10 +207,6 @@ public class TCPTest {
 
 					// 没有抛出IOException的话，说明写入成功
 					mTotalLen += currLen;
-//					if (mTotalLen >= Integer.valueOf(Config.testTraffic) * 1024) {
-//						clientSocketUp.close();
-//						break;
-//					}
 				} while (packetTime <= mEndTime);//add by XQy
 
 				// 报告整个测量期间的数据传输量和吞吐量

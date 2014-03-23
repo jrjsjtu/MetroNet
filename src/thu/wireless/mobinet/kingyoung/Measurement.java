@@ -272,4 +272,40 @@ public class Measurement {
 			}
 		}.start();
 	}
+	
+	static void tracert(final String target) {
+		new Thread(){
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				super.run();
+				String res[] = new String[50];
+				String cmd = "traceroute " + target; 
+
+				try {
+					String date = Config.contentDateFormat.format(new Date(System.currentTimeMillis()));
+					Config.fosTrace.write(cmd.getBytes());
+					Config.fosTrace.write(System.getProperty("line.separator").getBytes());
+
+					int i = 0;
+					Process process = Runtime.getRuntime().exec(cmd);
+					BufferedReader bufferedReader = new BufferedReader(
+							new InputStreamReader(process.getInputStream()));
+					while ((res[i] = bufferedReader.readLine()) != null) {
+						date = Config.contentDateFormat.format(new Date(System.currentTimeMillis()));
+						Config.fosTrace.write(date.getBytes());
+						Config.fosTrace.write(" ".getBytes());
+						Config.fosTrace.write(res[i].getBytes());
+						Config.fosTrace.write(System.getProperty("line.separator").getBytes());
+						i++;
+					}
+					Config.fosTrace.write(System.getProperty("line.separator").getBytes());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}.start();
+	}
 }

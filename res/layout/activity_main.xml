@@ -30,7 +30,7 @@
         android:layout_alignBaseline="@+id/measurementTypeSpinner"
         android:layout_alignBottom="@+id/measurementTypeSpinner"
         android:layout_alignLeft="@+id/measurementTypeSpinner"
-        android:layout_marginLeft="190dp"
+        android:layout_marginLeft="210dp"
         android:text="@string/button_start" />
 
     <LinearLayout
@@ -83,38 +83,23 @@
 
     <EditText
         android:id="@+id/editText_serverTime"
-        android:layout_width="50dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText_serverIP"
         android:layout_toRightOf="@+id/editText_serverTimeString"
-        android:ems="3"
+        android:ems="4"
         android:inputType="text"
-        android:maxLength="3"
+        android:maxLength="4"
         android:maxLines="1" />
-
-    <EditText
-        android:id="@+id/editText_trafficMaximizeString"
+    
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText_serverIP"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/editText_serverTime"
-        android:background="@null"
-        android:ems="4"
-        android:inputType="text"
-        android:text="@string/editText_trafficString" />
-
-    <EditText
-        android:id="@+id/editText_trafficMaximize"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText_serverIP"
-        android:layout_toRightOf="@+id/editText_trafficMaximizeString"
-        android:ems="5"
-        android:inputType="text"
-        android:maxLength="5"
-        android:maxLines="1" />
-
+        android:text="min" />
+    
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
