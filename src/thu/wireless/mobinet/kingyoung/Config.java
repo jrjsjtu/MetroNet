@@ -74,6 +74,7 @@ public class Config {
 	static TextView netTextView;
 	static TextView pingTextView;
 	static TextView timeTextView;
+	static TextView portTextView;
 	static EditText serverConentEditText;
 	static EditText serverTimeEditText;
 
@@ -140,10 +141,12 @@ public class Config {
 	static String mobilePath = null;
 	static int pingFlag = 0;
 	
-	static String[] measurementNames = { "TCP Downlink Test",
-			"TCP Uplink Test", "UDP Downlink Test", "UDP Uplink Test",
-			"TCP Flow Test", "DNS Lookup Test", "Ping Test", "HTTP Test" };
-	static String[] defaultTarget = { testServerip, testServerip, testServerip,
+	static String[] measurementNames = { "Clock Sync", "Traceroute", "Shark",
+			"TCP Downlink Test", "TCP Uplink Test", "UDP Downlink Test",
+			"UDP Uplink Test", "TCP Flow Test", "DNS Lookup Test", "Ping Test",
+			"HTTP Test" };
+	static String[] defaultTarget = { "Synchronize time", testServerip,
+			"Capture packet", testServerip, testServerip, testServerip,
 			testServerip, testServerip, testServerip, testServerip,
 			"3g.sina.com.cn" };
 	static int measurementID = 0;
@@ -224,7 +227,7 @@ public class Config {
 			tcpFlowPort = 15505;
 		} else if (phoneModel.equals("SM-N9008V")) {
 			testServerip = "202.112.3.74";
-			testMeasuretime = "120"; //1
+			testMeasuretime = "3"; //1
 			testInterval = "5";
 			tcpUploadPort = 15601;
 			tcpDownloadPort = 15602;

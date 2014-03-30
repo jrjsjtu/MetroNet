@@ -58,12 +58,12 @@
 
     <EditText
         android:id="@+id/editText_serverIP"
-        android:layout_width="160dp"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/button_Start"
         android:layout_toRightOf="@+id/editText_serverIPString"
         android:inputType="text"
-        android:maxLength="15"
+        android:maxLength="18"
         android:maxLines="1"
         android:text="@string/server_IP" />
 
@@ -93,6 +93,7 @@
         android:maxLines="1" />
     
     <TextView
+        android:id="@+id/tv_port"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText_serverIP"

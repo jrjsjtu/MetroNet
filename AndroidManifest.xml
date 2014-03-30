@@ -30,11 +30,6 @@
         android:persistent="true"
         android:theme="@style/AppTheme" >
         
-        <!-- a1333b1e debug-->
-        <meta-data android:name="BaiduMobAd_APP_ID" android:value="a1333b1e" /> 
-		<meta-data android:name="BaiduMobAd_APP_SEC" android:value="a1333b1e" />
-		<activity android:name="com.baidu.mobads.AppActivity" 
-		    android:configChanges="keyboard|keyboardHidden|orientation" />
 		<meta-data android:name="BaiduMobAd_CHANNEL" android:value="Baidu Market" />
 		<meta-data android:name="BaiduMobAd_STAT_ID" android:value="3b70a11423" />
 		<meta-data android:name="BaiduMobAd_SEND_STRATEGY" android:value="APP_START" />
@@ -48,7 +43,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>           
+            </intent-filter>       
         </activity>
         <activity android:name="thu.wireless.mobinet.kingyoung.MainActivity" />
     </application>

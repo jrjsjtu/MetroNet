@@ -1,19 +1,16 @@
 package thu.wireless.mobinet.kingyoung;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import com.baidu.mobads.InterstitialAd;
-import com.baidu.mobads.InterstitialAdListener;
 import com.baidu.mobstat.SendStrategyEnum;
 import com.baidu.mobstat.StatService;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -72,8 +69,6 @@ import android.widget.Toast;
  * note3:为避免写日志频繁,只有速度变化时才会将速度信息记录
  * note4:invokeDown前移 
  * note5:修改Downlink退出条件--packetTimed <= mEndTimed
- * 2014.2.28
- * note6:去除了百度统计及广告
  */
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -116,32 +111,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		Config.netTextView = (TextView) findViewById(R.id.netText);
 		Config.pingTextView = (TextView) findViewById(R.id.pingText);
 		Config.timeTextView = (TextView) findViewById(R.id.timeText);
-		
-		Config.serverTimeEditText.setText(Config.testMeasuretime);
-		Spinner spinner = (Spinner) findViewById(R.id.measurementTypeSpinner);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, Config.measurementNames);
-		// R.layout.spinner_dropdown
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    spinner.setAdapter(adapter);
-	    spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				// TODO Auto-generated method stub
-				Config.measurementID = arg2;
-				if (arg2 == 7) {
-					Config.serverConentEditText.setText(Config.defaultTarget[arg2]);
-				}
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		Config.portTextView = (TextView) findViewById(R.id.tv_port);
 
 		// 获取手机信息
 		try {
@@ -151,9 +121,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			Config.providerName = "No SIM";
 			Config.phoneModel = Build.MODEL;
 			Config.osVersion = Build.VERSION.RELEASE;
-			Config.setRemoteParameter();
-			Config.serverConentEditText.setText(Config.testServerip);
-			Config.serverTimeEditText.setText(Config.testMeasuretime);			
+		
 			String infoString = "PhoneModel=" + Build.MODEL 
 					+ "\nsdkVersion=" + Build.VERSION.SDK_INT 
 					+ "\nosVersion=" + Build.VERSION.RELEASE;
@@ -193,6 +161,82 @@ public class MainActivity extends Activity implements OnClickListener {
 			e.printStackTrace();
 		}
 
+		// 端口设置
+		Config.setRemoteParameter();
+		System.out.println(Config.testServerip);
+//		Config.serverConentEditText.setText(Config.testServerip);
+		Config.serverTimeEditText.setText(Config.testMeasuretime);	
+
+		Spinner spinner = (Spinner) findViewById(R.id.measurementTypeSpinner);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, Config.measurementNames);
+		// R.layout.spinner_dropdown
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    spinner.setAdapter(adapter);
+	    spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				// TODO Auto-generated method stub
+				Config.measurementID = arg2;
+				
+				Config.serverConentEditText.setText(Config.testServerip);
+				switch (arg2) {
+				case 0:
+					Config.serverConentEditText.setText("Synchronize time");
+					Config.serverConentEditText.setEnabled(false);
+					Config.serverTimeEditText.setEnabled(false);
+					break;
+				case 1:
+					Config.serverConentEditText.setEnabled(false);
+					Config.serverTimeEditText.setEnabled(false);
+					break;
+				case 2:
+					Config.serverConentEditText.setText("Capture packet");
+					Config.serverConentEditText.setEnabled(false);
+					Config.serverTimeEditText.setEnabled(false);
+					break;
+				case 3:
+					Config.portTextView.setText("min Port:" + Config.tcpDownloadPort);
+					Config.serverConentEditText.setEnabled(true);
+					Config.serverTimeEditText.setEnabled(true);
+					break;
+				case 4:
+					Config.portTextView.setText("min Port:" + Config.tcpUploadPort);
+					Config.serverConentEditText.setEnabled(true);
+					Config.serverTimeEditText.setEnabled(true);
+					break;
+				case 5:
+					Config.portTextView.setText("min Port:" + Config.udpDownloadPort);
+					Config.serverConentEditText.setEnabled(true);
+					Config.serverTimeEditText.setEnabled(true);
+					break;
+				case 6:
+					Config.portTextView.setText("min Port:" + Config.udpUploadPort);
+					Config.serverConentEditText.setEnabled(true);
+					Config.serverTimeEditText.setEnabled(true);
+					break;
+				case 7:
+					Config.portTextView.setText("min Port:" + Config.tcpFlowPort);
+					Config.serverConentEditText.setEnabled(true);
+					Config.serverTimeEditText.setEnabled(true);
+					break;
+				default:
+					Config.portTextView.setText("min");
+					Config.serverConentEditText.setEnabled(true);
+					Config.serverTimeEditText.setEnabled(false);
+					break;
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		startThread();
 		
 //		initNetwork();
@@ -202,9 +246,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		menu.add(1, 1, 0, "连通性测试"); // 专业模式
-		menu.add(1, 2, 0, "无广告模式"); // 去除广告
-		menu.add(1, 3, 0, "版本介绍");
-		menu.add(1, 4, 0, "完全退出");
+		menu.add(1, 2, 0, "版本介绍");
+		menu.add(1, 3, 0, "完全退出");
 		return true;
 	}
 
@@ -248,14 +291,11 @@ public class MainActivity extends Activity implements OnClickListener {
 			
 			break;
 		case 2:
-			handler4Ad.removeCallbacks(runnable4Ad);			
-			break;
-		case 3:
 			String tmp = "MobiNet帮您分析手机的网络状态\r\n支持移动联通电信三网的全网制式\r\nCopyright  2014  恪家饭";
 			Toast.makeText(getApplicationContext(), tmp, Toast.LENGTH_LONG)
 					.show();
 			break;
-		case 4:
+		case 3:
 			try {
 				Config.fosMobile.close();
 				Config.fosSignal.close();
@@ -266,7 +306,6 @@ public class MainActivity extends Activity implements OnClickListener {
 				Config.fosPing.close();
 				handler4Cell.removeCallbacks(runnable4Cell);
 				handler4Speed.removeCallbacks(runnable4Speed);
-				handler4Ad.removeCallbacks(runnable4Ad);
 				handler4GPS.removeCallbacks(runnable4GPS);
 				handler4Ping.removeCallbacks(runnable4Ping);
 				handler4Wifi.removeCallbacks(runnable4Wifi);
@@ -371,36 +410,59 @@ public class MainActivity extends Activity implements OnClickListener {
 			
 			switch (Config.measurementID) {
 			case 0:
+				ComponentName componetName = new ComponentName(
+						"ru.org.amip.ClockSync",
+						"ru.org.amip.ClockSync.view.Main");
+				Intent intent = new Intent();
+				intent.setComponent(componetName);
+				startActivity(intent);
+				break;
+			case 1:
+				ComponentName componetName1 = new ComponentName(
+						"com.scan.traceroute",
+						"com.scan.traceroute.TraceActivity");
+				Intent intent1 = new Intent();
+				intent1.setComponent(componetName1);
+				startActivity(intent1);
+				break;
+			case 2:
+				ComponentName componetName2 = new ComponentName("lv.n3o.shark",
+						"lv.n3o.shark.SharkMain");
+				Intent intent2 = new Intent();
+				intent2.setComponent(componetName2);
+				startActivity(intent2);
+				break;
+			case 3:
 				Config.reportTextView.setText("TCP downlink testing...");
 				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
 						measureTimeString, measureIntervalString,
 						Config.fosDownlink, 1);
 				handler4Show.post(runnable4Show);
 				break;
-			case 1:
+			case 4:
 				Config.reportTextView.setText("TCP uplink testing...");
 				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
 						measureTimeString, measureIntervalString,
 						Config.fosUplink, 2);
 				handler4Show.post(runnable4Show);
 				break;
-			case 2:
+			case 5:
 				Config.reportTextView.setText("UDP downlink testing...");
 				Config.start.setEnabled(false);
 				Config.myUdpTest = new UDPTest(serverIPString, measureTimeString, 1);
 				break;
-			case 3:
+			case 6:
 				Config.reportTextView.setText("UDP uplink testing...");
 				Config.start.setEnabled(false);
 				Config.myUdpTest = new UDPTest(serverIPString, measureTimeString, 2);
 				break;
-			case 4:
+			case 7:
 				Config.reportTextView.setText("TCP flow testing...");
 				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
 						measureTimeString, measureIntervalString,
 						Config.fosTCPFlow, 3);
 				break;
-			case 5:
+			case 8:
 				Config.reportTextView.setText("DNS lookup testing...");
 				try {
 					Thread.sleep(100);
@@ -413,7 +475,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				handler4Ping.post(runnable4Ping);
 				Measurement.dnsLookupTest(serverIPString, 10);
 				break;
-			case 6:
+			case 9:
 				Config.reportTextView.setText("Ping testing...");
 				try {
 					Thread.sleep(100);
@@ -426,7 +488,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				handler4Ping.post(runnable4Ping);
 				Measurement.pingCmdTest(serverIPString, 10);
 				break;			
-			case 7:
+			case 10:
 				Config.reportTextView.setText("Http test testing...");
 				try {
 					Thread.sleep(100);
@@ -1025,9 +1087,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		public void run() {
 			// TODO Auto-generated method stub
 			initLocation();
-			// 广告
-//			initBaiduAd();
-//			handler4Ad.post(runnable4Ad);
 		}
 	};
 
@@ -1136,23 +1195,6 @@ public class MainActivity extends Activity implements OnClickListener {
 			handler4Wifi.postDelayed(runnable4Wifi, 1000);
 		}
 	};
-
-	private Handler handler4Ad = new Handler();
-
-	private Runnable runnable4Ad = new Runnable() {
-
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub		
-			handler4Ad.postDelayed(runnable4Ad, 90000);
-	    	//after initBaiduAd
-	    	if (interAd.isAdReady()) {
-				interAd.showAd(MainActivity.this);
-			} else {
-				interAd.loadAd();
-			}
-		}
-	};
 	
 	private Handler handler4GPS = new Handler();
 
@@ -1211,42 +1253,6 @@ public class MainActivity extends Activity implements OnClickListener {
                 });  
         builder.show();  
     }
-
-	private InterstitialAd interAd;
-	
-	private void initBaiduAd() {
-		interAd = new InterstitialAd(this);
-		interAd.setListener(new InterstitialAdListener() {
-
-			@Override
-			public void onAdClick(InterstitialAd arg0) {
-//				Log.i("InterstitialAd", "onAdClick");
-			}
-
-			@Override
-			public void onAdDismissed() {
-//				Log.i("InterstitialAd", "onAdDismissed");
-				interAd.loadAd();
-			}
-
-			@Override
-			public void onAdFailed(String arg0) {
-//				Log.i("InterstitialAd", "onAdFailed");
-			}
-
-			@Override
-			public void onAdPresent() {
-//				Log.i("InterstitialAd", "onAdPresent");
-			}
-
-			@Override
-			public void onAdReady() {
-//				Log.i("InterstitialAd", "onAdReady");
-			}
-
-		});
-		interAd.loadAd();
-	}
 	
 	private void startThread() {
 		Config.startTime = System.currentTimeMillis();
