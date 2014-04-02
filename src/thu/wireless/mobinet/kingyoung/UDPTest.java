@@ -1,12 +1,11 @@
 package thu.wireless.mobinet.kingyoung;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import android.os.Handler;
 
@@ -16,24 +15,21 @@ public class UDPTest {
 	public String mDownlinkThroughput = "0";
 	public String mAvgUplinkThroughput = "0";
 	public String mAvgDownlinkThroughput = "0";
-	
-	private static DatagramSocket upSocket;
-	private static DatagramSocket downSocket;
+
 	private static String measureIP = "";
 	private static String measureTime;
-	private static String measureInterval;
 	private static int testmode = 0;
 	FileOutputStream fosUplink = null;
 	FileOutputStream fosDownlink = null;
 	String sendStr2 = "";
 	byte[] sendBuf2;
+	static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss.SSS");
 	
 	public UDPTest(Handler _mHandler, String serverIP, String measuretime,
 			String interval, FileOutputStream fosDown, FileOutputStream fosUp, int mode) {
 
 		measureIP = serverIP;
 		measureTime = measuretime;
-		measureInterval = interval;
 		fosDownlink = fosDown;
 		fosUplink = fosUp;
 		testmode = mode;
@@ -43,11 +39,15 @@ public class UDPTest {
 		(new myThread()).start();
 	}
 	
-	public UDPTest(String serverIP, String measuretime, int mode) {
+	public UDPTest(String serverIP, String measuretime, FileOutputStream fos, int mode) {
 
 		measureIP = serverIP;
 		measureTime = measuretime;
-		measureInterval = Config.testInterval;
+		if (mode == 2) {
+			fosUplink = fos;
+		} else if (mode == 1) {
+			fosDownlink = fos;
+		}
 		testmode = mode;
 
 		(new myThread()).start();
@@ -67,11 +67,11 @@ public class UDPTest {
 	
 	private void connect2server() {
 		int port = Config.udpUploadPort;
-		int bufLen = 1 * (1024-64);// MTU
+		int bufLen = 1 * (1024-32);// MTU 64
     	sendStr2 = "";
 		for (int j = 0; j < bufLen; j++)
 			sendStr2 += '0';
-		String tmp = String.format("%064d", 0);
+		String tmp = String.format("%032d", 0);
 		tmp = tmp + sendStr2;
 		sendBuf2 = tmp.getBytes();
 		while (true) {
@@ -82,12 +82,15 @@ public class UDPTest {
 
 	        	int i = 1;
 				while (true) {								
-					String t = String.format("%064d", i);
-					i++;
+					String t = String.format("%032d", i);					
 					t = t + sendStr2;
 					sendBuf2 = t.getBytes();		        	
 		            DatagramPacket sendPacket = new DatagramPacket(sendBuf2, sendBuf2.length, addr, port);
 		            client.send(sendPacket);
+		            if (i%5 == 0) {
+		            	fosUplink.write((df.format(new Date()) + " Send: " + i + "\n").getBytes());
+					}
+		            i++;
 		            long now = System.currentTimeMillis() - start;
 		            if (now > Long.valueOf(measureTime)*60000) {
 		            	System.out.println(now/1000);
@@ -125,17 +128,22 @@ public class UDPTest {
 				DatagramPacket sendPacket = new DatagramPacket(sendBuf, sendBuf.length, addr, port);
 				client.send(sendPacket);
 
+				long i = 1;
 				while (true) {
 					byte[] recvBuf = new byte[1024];
 					DatagramPacket recvPacket = new DatagramPacket(recvBuf, recvBuf.length);
 					client.receive(recvPacket);
 					String recvStr = new String(recvPacket.getData(), 0, recvPacket.getLength());
 					System.out.println("Got:" + recvStr.length());
+					if (i%5 == 0) {
+		            	fosDownlink.write((df.format(new Date()) + " Receive: " + i + "\n").getBytes());
+					}
 					long now = System.currentTimeMillis() - start;
 		            if (now > Long.valueOf(measureTime)*60000) {
 		            	System.out.println(now/1000);
 						break;
 					}
+		            i++;
 				}
 				client.close();
 			} catch (Exception e) {

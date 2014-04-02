@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="thu.wireless.mobinet.kingyoung"
     android:versionCode="6"
-    android:versionName="1.3.3.p" >
+    android:versionName="1.3.4.p" >
 
     <uses-sdk
         android:minSdkVersion="9"

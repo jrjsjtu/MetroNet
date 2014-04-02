@@ -449,12 +449,14 @@ public class MainActivity extends Activity implements OnClickListener {
 			case 5:
 				Config.reportTextView.setText("UDP downlink testing...");
 				Config.start.setEnabled(false);
-				Config.myUdpTest = new UDPTest(serverIPString, measureTimeString, 1);
+				Config.myUdpTest = new UDPTest(serverIPString,
+						measureTimeString, Config.fosDownlink, 1);
 				break;
 			case 6:
 				Config.reportTextView.setText("UDP uplink testing...");
 				Config.start.setEnabled(false);
-				Config.myUdpTest = new UDPTest(serverIPString, measureTimeString, 2);
+				Config.myUdpTest = new UDPTest(serverIPString,
+						measureTimeString, Config.fosUplink, 2);
 				break;
 			case 7:
 				Config.reportTextView.setText("TCP flow testing...");

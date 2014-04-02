@@ -175,101 +175,101 @@ public class Config {
 			testServerip = "202.112.3.74";
 			testMeasuretime = "120"; //1
 			testInterval = "5";
-			tcpUploadPort = 15001;
-			tcpDownloadPort = 15002;
-			udpUploadPort = 15003;
-			udpDownloadPort = 15004;
-			tcpFlowPort = 15005;
+			tcpUploadPort = 2501;
+			tcpDownloadPort = 2502;
+			udpUploadPort = 2503;
+			udpDownloadPort = 2504;
+			tcpFlowPort = 2505;
 		} else if (phoneModel.equals("HTC 608t")) {
 			testServerip = "202.112.3.74";
 			testMeasuretime = "120"; //1
 			testInterval = "5";
-			tcpUploadPort = 15101;
-			tcpDownloadPort = 15102;
-			udpUploadPort = 15103;
-			udpDownloadPort = 15104;
-			tcpFlowPort = 15105;
+			tcpUploadPort = 2511;
+			tcpDownloadPort = 2512;
+			udpUploadPort = 2513;
+			udpDownloadPort = 2514;
+			tcpFlowPort = 2515;
 		} else if (phoneModel.equals("SCH-I959")) {
 			testServerip = "202.112.3.82";
 			testMeasuretime = "120"; //1
 			testInterval = "5";
-			tcpUploadPort = 15201;
-			tcpDownloadPort = 15202;
-			udpUploadPort = 15203;
-			udpDownloadPort = 15204;
-			tcpFlowPort = 15205;
+			tcpUploadPort = 2521;
+			tcpDownloadPort = 2522;
+			udpUploadPort = 2523;
+			udpDownloadPort = 2524;
+			tcpFlowPort = 2525;
 		} else if (phoneModel.equals("HTC 609d")) {
 			testServerip = "202.112.3.82";
 			testMeasuretime = "120"; //1
 			testInterval = "5";
-			tcpUploadPort = 15301;
-			tcpDownloadPort = 15302;
-			udpUploadPort = 15303;
-			udpDownloadPort = 15304;
-			tcpFlowPort = 15305;
+			tcpUploadPort = 2531;
+			tcpDownloadPort = 2532;
+			udpUploadPort = 2533;
+			udpDownloadPort = 2534;
+			tcpFlowPort = 2535;
 		} else if (phoneModel.equals("GT-I9500")) {
 			testServerip = "202.112.3.78";
 			testMeasuretime = "120"; //1
 			testInterval = "5";
-			tcpUploadPort = 15401;
-			tcpDownloadPort = 15402;
-			udpUploadPort = 15403;
-			udpDownloadPort = 15404;
-			tcpFlowPort = 15405;
+			tcpUploadPort = 2541;
+			tcpDownloadPort = 2542;
+			udpUploadPort = 2543;
+			udpDownloadPort = 2544;
+			tcpFlowPort = 2545;
 		} else if (phoneModel.equals("HTC 606w")) {
 			testServerip = "202.112.3.78";
 			testMeasuretime = "120"; //1
 			testInterval = "5";
-			tcpUploadPort = 15501;
-			tcpDownloadPort = 15502;
-			udpUploadPort = 15503;
-			udpDownloadPort = 15504;
-			tcpFlowPort = 15505;
+			tcpUploadPort = 2551;
+			tcpDownloadPort = 2552;
+			udpUploadPort = 2553;
+			udpDownloadPort = 2554;
+			tcpFlowPort = 2555;
 		} else if (phoneModel.equals("SM-N9008V")) {
-			testServerip = "202.112.3.74";
-			testMeasuretime = "3"; //1
+			testServerip = "202.112.3.82";
+			testMeasuretime = "120"; //1
 			testInterval = "5";
-			tcpUploadPort = 15601;
-			tcpDownloadPort = 15602;
-			udpUploadPort = 15603;
-			udpDownloadPort = 15604;
-			tcpFlowPort = 15605;
+			tcpUploadPort = 2561;
+			tcpDownloadPort = 2562;
+			udpUploadPort = 2563;
+			udpDownloadPort = 2564;
+			tcpFlowPort = 2565;
 		} else if (phoneModel.equals("MI 1SC")) {
 			testServerip = "202.112.3.82"; // 115.28.12.102
 			testMeasuretime = "120"; //1
 			testInterval = "5";
-			tcpUploadPort = 15701;
-			tcpDownloadPort = 15702;
-			udpUploadPort = 15703;
-			udpDownloadPort = 15704;
-			tcpFlowPort = 15705;
-		} else if (phoneModel.equals("Galaxy Nexus")) {
-			testServerip = "202.112.3.74"; // 202.112.3.74
+			tcpUploadPort = 2571;
+			tcpDownloadPort = 2572;
+			udpUploadPort = 2573;
+			udpDownloadPort = 2574;
+			tcpFlowPort = 2575;
+		} else if (phoneModel.equals("SM-N9008S")) { // Galaxy Nexus
+			testServerip = "202.112.3.78";
 			testMeasuretime = "120"; //1
 			testInterval = "5";
-			tcpUploadPort = 15801;
-			tcpDownloadPort = 15802;
-			udpUploadPort = 15803;
-			udpDownloadPort = 15804;
-			tcpFlowPort = 15805;
-		}  else if (phoneModel.equals("MI 2")) {
+			tcpUploadPort = 2581;
+			tcpDownloadPort = 2582;
+			udpUploadPort = 2583;
+			udpDownloadPort = 2584;
+			tcpFlowPort = 2585;
+		} else if (phoneModel.equals("MI 2")) {
 			testServerip = "202.112.3.74";
 			testMeasuretime = "120"; //1
 			testInterval = "5";
-			tcpUploadPort = 15901;
-			tcpDownloadPort = 15902;
-			udpUploadPort = 15903;
-			udpDownloadPort = 15904;
-			tcpFlowPort = 15905;
+			tcpUploadPort = 2591;
+			tcpDownloadPort = 2592;
+			udpUploadPort = 2593;
+			udpDownloadPort = 2594;
+			tcpFlowPort = 2595;
 		} else {
 			testServerip = "115.28.12.102";
 			testMeasuretime = "120"; //1
 			testInterval = "5";
-			tcpUploadPort = 16001;
-			tcpDownloadPort = 16002;
-			udpUploadPort = 16003;
-			udpDownloadPort = 16004;
-			tcpFlowPort = 16005;
+			tcpUploadPort = 2601;
+			tcpDownloadPort = 2602;
+			udpUploadPort = 2603;
+			udpDownloadPort = 2604;
+			tcpFlowPort = 2605;
 		}
 	}
 	
