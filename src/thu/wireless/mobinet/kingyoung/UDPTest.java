@@ -67,6 +67,7 @@ public class UDPTest {
 	
 	private void connect2server() {
 		int port = Config.udpUploadPort;
+		int sleepInterval = Config.bufferSize;
 		int bufLen = 1 * (1024-32);// MTU 64
     	sendStr2 = "";
 		for (int j = 0; j < bufLen; j++)
@@ -87,6 +88,10 @@ public class UDPTest {
 					sendBuf2 = t.getBytes();		        	
 		            DatagramPacket sendPacket = new DatagramPacket(sendBuf2, sendBuf2.length, addr, port);
 		            client.send(sendPacket);
+		            // new add for sleep
+					if (sleepInterval > 0) {
+						Thread.sleep(sleepInterval);
+					}
 		            if (i%5 == 0) {
 		            	fosUplink.write((df.format(new Date()) + " Send: " + i + "\n").getBytes());
 					}
@@ -127,7 +132,7 @@ public class UDPTest {
 				InetAddress addr = InetAddress.getByName(measureIP);// 127.0.0.1		
 				DatagramPacket sendPacket = new DatagramPacket(sendBuf, sendBuf.length, addr, port);
 				client.send(sendPacket);
-
+				
 				long i = 1;
 				while (true) {
 					byte[] recvBuf = new byte[1024];

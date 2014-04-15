@@ -30,8 +30,17 @@
         android:layout_alignBaseline="@+id/measurementTypeSpinner"
         android:layout_alignBottom="@+id/measurementTypeSpinner"
         android:layout_alignLeft="@+id/measurementTypeSpinner"
-        android:layout_marginLeft="210dp"
+        android:layout_marginLeft="190dp"
         android:text="@string/button_start" />
+
+    <TextView
+        android:id="@+id/tv_port"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_hello"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/button_Start"
+        android:text="" />
 
     <LinearLayout
         android:layout_width="0px"
@@ -87,24 +96,44 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText_serverIP"
         android:layout_toRightOf="@+id/editText_serverTimeString"
-        android:ems="4"
+        android:ems="3"
         android:inputType="text"
         android:maxLength="4"
         android:maxLines="1" />
-    
+
     <TextView
-        android:id="@+id/tv_port"
+        android:id="@+id/tv_minute"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText_serverIP"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/editText_serverTime"
         android:text="min" />
-    
+
+    <EditText
+        android:id="@+id/editText_buffer"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_serverIP"
+        android:layout_toRightOf="@+id/tv_minute"
+        android:ems="3"
+        android:inputType="text"
+        android:maxLength="4"
+        android:maxLines="1" />
+
+    <TextView
+        android:id="@+id/tv_KB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_serverIP"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/editText_buffer"
+        android:text="B ms" />
+
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText_serverTime"
+        android:layout_below="@+id/editText_buffer"
         android:scrollbars="vertical" >
 
         <RelativeLayout

@@ -95,6 +95,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		Config.serverConentEditText = (EditText) findViewById(R.id.editText_serverIP);
 		Config.serverConentEditText.clearFocus();
 		Config.serverTimeEditText = (EditText) findViewById(R.id.editText_serverTime);
+		Config.bufferSizeEditText = (EditText) findViewById(R.id.editText_buffer);
+		
 		Config.asuTextView = (TextView) findViewById(R.id.signalText);
 		Config.signalParameterTextView = (TextView) findViewById(R.id.signalParameterText);
 		Config.basestationTextView = (TextView) findViewById(R.id.basestationText);
@@ -165,7 +167,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		Config.setRemoteParameter();
 		System.out.println(Config.testServerip);
 //		Config.serverConentEditText.setText(Config.testServerip);
-		Config.serverTimeEditText.setText(Config.testMeasuretime);	
+		Config.serverTimeEditText.setText(Config.testMeasuretime);
+		Config.bufferSizeEditText.setText(String.valueOf(Config.bufferSize));
 
 		Spinner spinner = (Spinner) findViewById(R.id.measurementTypeSpinner);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -198,32 +201,32 @@ public class MainActivity extends Activity implements OnClickListener {
 					Config.serverTimeEditText.setEnabled(false);
 					break;
 				case 3:
-					Config.portTextView.setText("min Port:" + Config.tcpDownloadPort);
+					Config.portTextView.setText("Port:" + Config.tcpDownloadPort);
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					break;
 				case 4:
-					Config.portTextView.setText("min Port:" + Config.tcpUploadPort);
+					Config.portTextView.setText("Port:" + Config.tcpUploadPort);
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					break;
 				case 5:
-					Config.portTextView.setText("min Port:" + Config.udpDownloadPort);
+					Config.portTextView.setText("Port:" + Config.udpDownloadPort);
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					break;
 				case 6:
-					Config.portTextView.setText("min Port:" + Config.udpUploadPort);
+					Config.portTextView.setText("Port:" + Config.udpUploadPort);
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					break;
 				case 7:
-					Config.portTextView.setText("min Port:" + Config.tcpFlowPort);
+					Config.portTextView.setText("Port:" + Config.tcpFlowPort);
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					break;
 				default:
-					Config.portTextView.setText("min");
+					Config.portTextView.setText("");
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(false);
 					break;
@@ -407,6 +410,8 @@ public class MainActivity extends Activity implements OnClickListener {
 			String serverIPString = Config.serverConentEditText.getText().toString();
 			String measureTimeString = Config.testMeasuretime;
 			String measureIntervalString = Config.testInterval;
+			Config.bufferSize = Integer.valueOf(Config.bufferSizeEditText.getText().toString());
+			Config.bufferSizeEditText.setEnabled(false);
 			
 			switch (Config.measurementID) {
 			case 0:
@@ -491,7 +496,13 @@ public class MainActivity extends Activity implements OnClickListener {
 				Measurement.pingCmdTest(serverIPString, 10);
 				break;			
 			case 10:
-				Config.reportTextView.setText("Http test testing...");
+				Config.reportTextView.setText("TCP flow alternate testing...");
+				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
+						measureTimeString, measureIntervalString,
+						Config.fosTCPFlow, 4);
+				break;
+			case 11:
+				Config.reportTextView.setText("TCP bandwidth testing...");
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
@@ -500,10 +511,27 @@ public class MainActivity extends Activity implements OnClickListener {
 				}
 				handler4Ping.removeCallbacks(runnable4Ping);
 				Config.start.setEnabled(false);
-				handler4Ping.post(runnable4Ping);				
-				Measurement.httpTest(serverIPString);
+				Config.mySender = new Sender(mHandler, serverIPString,
+						measureTimeString, measureIntervalString,
+						Config.fosDownlink, Config.fosUplink);
 				break;
-			
+			case 12:
+				Config.reportTextView.setText("MultiTCP testing...");
+				Config.start.setEnabled(false);
+				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
+						measureTimeString, measureIntervalString,
+						Config.fosDownlink, 1);
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Config.myTcpTest2 = new TCPTest(serverIPString,
+						measureTimeString, measureIntervalString,
+						Config.fosDownlink, 5);
+				handler4Show.post(runnable4Show);
+				break;
 			default:
 				Config.reportTextView.setText("Test doesn't support");
 //				Measurement.tracert("202.112.3.82");

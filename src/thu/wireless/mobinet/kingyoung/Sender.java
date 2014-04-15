@@ -94,7 +94,6 @@ public class Sender {
 		mHandler.sendEmptyMessage(0);
 		// btnSend.setEnabled(false);
 		// btnClose.setEnabled(false);
-		final long t1 = System.currentTimeMillis();
 
 		// 速率报告保留0位小数
 		numF = NumberFormat.getInstance();
@@ -111,18 +110,6 @@ public class Sender {
 				if (clientSocketUp == null) {
 					while (true) {
 						try {
-							new Thread(){
-
-								@Override
-								public void run() {
-									// TODO Auto-generated method stub
-									super.run();
-									long t2 = System.currentTimeMillis();
-									if ((t2-t1)>20000 && clientSocketUp == null) {
-										mHandler.sendEmptyMessage(4);
-									}
-								}							
-							}.start();
 							clientSocketUp = new Socket(measureIP, Config.tcpUploadPort);							
 							if (clientSocketUp != null)
 								break;
@@ -264,8 +251,7 @@ public class Sender {
 				e.printStackTrace();
 
 				try {
-					fosUplink.write((disconnectTime + " disconnected " + "\n")
-							.getBytes());
+					fosUplink.write((disconnectTime + " disconnected " + "\n").getBytes());
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -380,7 +366,7 @@ public class Sender {
 						// 没有抛出IOException的话，说明写入成功
 						mTotalLend += currLen;
 //					} while (true);
-					}while (packetTimed <= mEndTimed);//add by XQY
+					} while (packetTimed <= mEndTimed);//add by XQY
 
 					// 报告整个测量期间的数据传输量和吞吐量
 					mTotalTimed = packetTimed - mStartTimed;

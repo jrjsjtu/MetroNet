@@ -36,14 +36,15 @@ public class Config {
 	 * 115.28.12.102 ÔÆ
 	 */
 	static String testServerip = "202.112.3.74"; // "166.111.68.231";
-	static String testMeasuretime = "60"; //1
+	static String testMeasuretime = "60";
 	static String testInterval = "5";
-	static String appVersion = "1.3.3.p";
+	static String appVersion = "1.3.4.p";
 	static int tcpUploadPort = 15001;
 	static int tcpDownloadPort = 15002;
 	static int udpUploadPort = 15003;
 	static int udpDownloadPort = 15004;
 	static int tcpFlowPort = 15005;
+	static int bufferSize = -1;
 
 	static FileOutputStream fosMobile = null;
 	static FileOutputStream fosSignal = null;
@@ -77,6 +78,7 @@ public class Config {
 	static TextView portTextView;
 	static EditText serverConentEditText;
 	static EditText serverTimeEditText;
+	static EditText bufferSizeEditText;	
 
 	static String providerName = null;
 	static String phoneModel = null;
@@ -129,6 +131,7 @@ public class Config {
 
 	static Sender mySender = null;
 	static TCPTest myTcpTest = null;
+	static TCPTest myTcpTest2 = null;
 	static UDPTest myUdpTest = null;
 	static String lastWifiState = null;
 	static String lastAddition = null;
@@ -144,11 +147,11 @@ public class Config {
 	static String[] measurementNames = { "Clock Sync", "Traceroute", "Shark",
 			"TCP Downlink Test", "TCP Uplink Test", "UDP Downlink Test",
 			"UDP Uplink Test", "TCP Flow Test", "DNS Lookup Test", "Ping Test",
-			"HTTP Test" };
+			"TCP Flow Alternate", "TCP Bandwidth Test", "MultiTCP Test" };
 	static String[] defaultTarget = { "Synchronize time", testServerip,
-			"Capture packet", testServerip, testServerip, testServerip,
+			"Capture packet", testServerip, testServerip, testServerip, 
 			testServerip, testServerip, testServerip, testServerip,
-			"3g.sina.com.cn" };
+			testServerip, testServerip, testServerip };
 	static int measurementID = 0;
 	static String addressSina = "3g.sina.com.cn";
 	static String addressBaidu = "m.baidu.com";
@@ -173,7 +176,7 @@ public class Config {
 	public static void setRemoteParameter() {
 		if (phoneModel.equals("GT-I9508")) {
 			testServerip = "202.112.3.74";
-			testMeasuretime = "120"; //1
+			testMeasuretime = "120";
 			testInterval = "5";
 			tcpUploadPort = 2501;
 			tcpDownloadPort = 2502;
@@ -182,7 +185,7 @@ public class Config {
 			tcpFlowPort = 2505;
 		} else if (phoneModel.equals("HTC 608t")) {
 			testServerip = "202.112.3.74";
-			testMeasuretime = "120"; //1
+			testMeasuretime = "120";
 			testInterval = "5";
 			tcpUploadPort = 2511;
 			tcpDownloadPort = 2512;
@@ -191,7 +194,7 @@ public class Config {
 			tcpFlowPort = 2515;
 		} else if (phoneModel.equals("SCH-I959")) {
 			testServerip = "202.112.3.82";
-			testMeasuretime = "120"; //1
+			testMeasuretime = "120";
 			testInterval = "5";
 			tcpUploadPort = 2521;
 			tcpDownloadPort = 2522;
@@ -200,7 +203,7 @@ public class Config {
 			tcpFlowPort = 2525;
 		} else if (phoneModel.equals("HTC 609d")) {
 			testServerip = "202.112.3.82";
-			testMeasuretime = "120"; //1
+			testMeasuretime = "120";
 			testInterval = "5";
 			tcpUploadPort = 2531;
 			tcpDownloadPort = 2532;
@@ -208,8 +211,8 @@ public class Config {
 			udpDownloadPort = 2534;
 			tcpFlowPort = 2535;
 		} else if (phoneModel.equals("GT-I9500")) {
-			testServerip = "202.112.3.78";
-			testMeasuretime = "120"; //1
+			testServerip = "202.112.3.78"; // 59.66.122.103
+			testMeasuretime = "120";
 			testInterval = "5";
 			tcpUploadPort = 2541;
 			tcpDownloadPort = 2542;
@@ -218,7 +221,7 @@ public class Config {
 			tcpFlowPort = 2545;
 		} else if (phoneModel.equals("HTC 606w")) {
 			testServerip = "202.112.3.78";
-			testMeasuretime = "120"; //1
+			testMeasuretime = "2";
 			testInterval = "5";
 			tcpUploadPort = 2551;
 			tcpDownloadPort = 2552;
@@ -226,8 +229,8 @@ public class Config {
 			udpDownloadPort = 2554;
 			tcpFlowPort = 2555;
 		} else if (phoneModel.equals("SM-N9008V")) {
-			testServerip = "202.112.3.82";
-			testMeasuretime = "120"; //1
+			testServerip = "202.112.3.78";
+			testMeasuretime = "120";
 			testInterval = "5";
 			tcpUploadPort = 2561;
 			tcpDownloadPort = 2562;
@@ -236,7 +239,7 @@ public class Config {
 			tcpFlowPort = 2565;
 		} else if (phoneModel.equals("MI 1SC")) {
 			testServerip = "202.112.3.82"; // 115.28.12.102
-			testMeasuretime = "120"; //1
+			testMeasuretime = "120";
 			testInterval = "5";
 			tcpUploadPort = 2571;
 			tcpDownloadPort = 2572;
@@ -245,7 +248,7 @@ public class Config {
 			tcpFlowPort = 2575;
 		} else if (phoneModel.equals("SM-N9008S")) { // Galaxy Nexus
 			testServerip = "202.112.3.78";
-			testMeasuretime = "120"; //1
+			testMeasuretime = "120";
 			testInterval = "5";
 			tcpUploadPort = 2581;
 			tcpDownloadPort = 2582;
@@ -253,8 +256,8 @@ public class Config {
 			udpDownloadPort = 2584;
 			tcpFlowPort = 2585;
 		} else if (phoneModel.equals("MI 2")) {
-			testServerip = "202.112.3.74";
-			testMeasuretime = "120"; //1
+			testServerip = "202.112.3.78";
+			testMeasuretime = "120";
 			testInterval = "5";
 			tcpUploadPort = 2591;
 			tcpDownloadPort = 2592;
@@ -262,8 +265,8 @@ public class Config {
 			udpDownloadPort = 2594;
 			tcpFlowPort = 2595;
 		} else {
-			testServerip = "115.28.12.102";
-			testMeasuretime = "120"; //1
+			testServerip = "202.112.3.74";
+			testMeasuretime = "120";
 			testInterval = "5";
 			tcpUploadPort = 2601;
 			tcpDownloadPort = 2602;
