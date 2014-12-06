@@ -92,11 +92,11 @@
 
     <EditText
         android:id="@+id/editText_serverTime"
-        android:layout_width="80dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText_serverIP"
         android:layout_toRightOf="@+id/editText_serverTimeString"
-        android:ems="3"
+        android:ems="4"
         android:inputType="text"
         android:maxLength="4"
         android:maxLines="1" />
@@ -108,27 +108,18 @@
         android:layout_below="@+id/editText_serverIP"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/editText_serverTime"
-        android:text="min" />
+        android:text="min Packets:" />
 
     <EditText
         android:id="@+id/editText_buffer"
-        android:layout_width="80dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText_serverIP"
         android:layout_toRightOf="@+id/tv_minute"
-        android:ems="3"
+        android:ems="4"
         android:inputType="text"
         android:maxLength="4"
         android:maxLines="1" />
-
-    <TextView
-        android:id="@+id/tv_KB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText_serverIP"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@+id/editText_buffer"
-        android:text="B ms" />
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -235,30 +226,11 @@
                 android:layout_toRightOf="@+id/basestationString" />
 
             <TextView
-                android:id="@+id/cellidString"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/basestationText"
-                android:layout_marginTop="5dp"
-                android:ems="4"
-                android:gravity="right"
-                android:text="@string/cellidString" />
-
-            <TextView
-                android:id="@+id/cellidText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/basestationText"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/cellidString" />
-
-            <TextView
                 android:id="@+id/handoffString"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@+id/cellidText"
+                android:layout_below="@+id/basestationText"
                 android:layout_marginTop="5dp"
                 android:ems="4"
                 android:gravity="right"
@@ -268,7 +240,7 @@
                 android:id="@+id/handoffText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/cellidText"
+                android:layout_below="@+id/basestationText"
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/handoffString" />
 
@@ -349,30 +321,11 @@
                 android:layout_toRightOf="@+id/speedString" />
 
             <TextView
-                android:id="@+id/wifiString"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/speedText"
-                android:layout_marginTop="5dp"
-                android:ems="4"
-                android:gravity="right"
-                android:text="@string/wifiString" />
-
-            <TextView
-                android:id="@+id/wifiText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/speedText"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/wifiString" />
-
-            <TextView
                 android:id="@+id/serverString"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@+id/wifiText"
+                android:layout_below="@+id/speedText"
                 android:layout_marginTop="5dp"
                 android:ems="4"
                 android:gravity="right"
@@ -382,7 +335,7 @@
                 android:id="@+id/serverText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/wifiText"
+                android:layout_below="@+id/speedText"
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/serverString" />
 
@@ -423,25 +376,6 @@
                 android:layout_below="@+id/netText"
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/pingString" />
-
-            <TextView
-                android:id="@+id/timeString"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/pingText"
-                android:layout_marginTop="5dp"
-                android:ems="4"
-                android:gravity="right"
-                android:text="@string/timeString" />
-
-            <TextView
-                android:id="@+id/timeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/pingText"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/timeString" />
         </RelativeLayout>
     </ScrollView>
 
