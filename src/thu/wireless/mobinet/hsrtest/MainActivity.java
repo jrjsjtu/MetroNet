@@ -459,10 +459,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		public void onSignalStrengthsChanged(SignalStrength signalStrength) {
 			// TODO Auto-generated method stub
 			String date = Config.contentDateFormat.format(new Date(System.currentTimeMillis()));
-			TelephonyManager telManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-			Config.networkType = telManager.getNetworkType();
-			SignalUtil.getCurrentNetworkType(Config.networkType);
-			
+					
 			/**
 			 * 获取信号强度参数
 			 * http://www.oschina.net/code/explore/android-4.0.1/telephony/java/android/telephony/SignalStrength.java
@@ -484,7 +481,6 @@ public class MainActivity extends Activity implements OnClickListener {
 				Config.lteRsrp = parts[9];
 				Config.lteRsrq = parts[10];
 				Config.lteRssnr = parts[11];
-				Config.lteCqi = parts[12];
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -499,6 +495,10 @@ public class MainActivity extends Activity implements OnClickListener {
 			/**
 			 * 记录全部信号信息
 			 */
+			TelephonyManager telManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+			Config.networkType = telManager.getNetworkType();
+			SignalUtil.getCurrentNetworkType(Config.networkType);
+			
 			if (signalStrength.isGsm()) {
 				allSignal = (Integer.parseInt(Config.gsmSignalStrength)*2-113) + " "
 						+ (Integer.parseInt(Config.lteSignalStrength)*2-113) + " "

@@ -7,55 +7,42 @@ public class SignalUtil {
 		switch (type) {
 		case TelephonyManager.NETWORK_TYPE_GPRS:// 2.5G
 			Config.networkTypeString = "GPRS";
-//			Config.dianxinFlag = 2;
 			break;
 		case TelephonyManager.NETWORK_TYPE_EDGE:// 2.5G
 			Config.networkTypeString = "EDGE";
-//			Config.dianxinFlag = 2;
 			break;
 		case TelephonyManager.NETWORK_TYPE_UMTS:// 3G
 			Config.networkTypeString = "UMTS";
-//			Config.dianxinFlag = 2;
 			break;
 		case TelephonyManager.NETWORK_TYPE_HSDPA:// 3.5G
 			Config.networkTypeString = "HSDPA";
-//			Config.dianxinFlag = 2;
 			break;
 		case TelephonyManager.NETWORK_TYPE_HSUPA:// 3.5G
 			Config.networkTypeString = "HSUPA";
-//			Config.dianxinFlag = 2;
 			break;
 		case TelephonyManager.NETWORK_TYPE_HSPA:
 			Config.networkTypeString = "HSPA";
-//			Config.dianxinFlag = 2;
 			break;
 		case TelephonyManager.NETWORK_TYPE_HSPAP:// 3.75G
 			Config.networkTypeString = "HSPA+";
-//			Config.dianxinFlag = 2;
 			break;
 		case TelephonyManager.NETWORK_TYPE_CDMA:// 2G
 			Config.networkTypeString = "CDMA";
-//			Config.dianxinFlag = 1;
 			break;
 		case TelephonyManager.NETWORK_TYPE_1xRTT:// 2.5G
 			Config.networkTypeString = "1xRTT";
-//			Config.dianxinFlag = 1;
 			break;
 		case TelephonyManager.NETWORK_TYPE_EVDO_0:
 			Config.networkTypeString = "EVDO0";
-//			Config.dianxinFlag = 3;
 			break;
 		case TelephonyManager.NETWORK_TYPE_EVDO_A:// 3.5G
 			Config.networkTypeString = "EVDOA";
-//			Config.dianxinFlag = 3;
 			break;
 		case TelephonyManager.NETWORK_TYPE_EVDO_B:
 			Config.networkTypeString = "EVDOB";
-//			Config.dianxinFlag = 3;
 			break;
 		case TelephonyManager.NETWORK_TYPE_LTE:// 4G
 			Config.networkTypeString = "LTE";
-//			Config.dianxinFlag = 4;
 			break;
 		case TelephonyManager.NETWORK_TYPE_EHRPD:
 			Config.networkTypeString = "eHRPD";
@@ -75,8 +62,7 @@ public class SignalUtil {
 			if (Config.lteSignalStrength.equals("-1")
 					&& Config.lteRsrp.equals("-1")
 					&& Config.lteRsrq.equals("-1")
-					&& Config.lteRssnr.equals("-1")
-					&& Config.lteCqi.equals("-1")) {
+					&& Config.lteRssnr.equals("-1")) {
 				level = getGsmLevel();
 			} else {
 				level = getLteLevel();
@@ -153,6 +139,7 @@ public class SignalUtil {
 		int evdoSnr = Integer.parseInt(Config.evdoSnr);
 		int levelEvdoDbm;
 		int levelEvdoSnr;
+		
 		if (evdoDbm >= -65)
 			levelEvdoDbm = 4;
 		else if (evdoDbm >= -75)
@@ -183,13 +170,13 @@ public class SignalUtil {
 		int rsrp = Integer.parseInt(Config.lteRsrp);
 		if (rsrp == -1)
 			levelLteRsrp = 0;
-		else if (rsrp >= -85)
+		else if (rsrp >= -85) //Great
 			levelLteRsrp = 4;
-		else if (rsrp >= -95)
+		else if (rsrp >= -95) //Good
 			levelLteRsrp = 3;
-		else if (rsrp >= -105)
+		else if (rsrp >= -105) //MODERATE
 			levelLteRsrp = 2;
-		else if (rsrp >= -115)
+		else if (rsrp >= -115) //Poor
 			levelLteRsrp = 1;
 		else
 			levelLteRsrp = 0;

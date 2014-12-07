@@ -52,7 +52,6 @@ public class Config {
 	static FileOutputStream fosUplink = null;
 	static FileOutputStream fosDownlink = null;
 	static FileOutputStream fosPing = null;
-//	static FileOutputStream fosAddition = null;
 
 	static Button start;
 	static TextView directionTextView;
@@ -60,14 +59,12 @@ public class Config {
 	static TextView signalParameterTextView;
 	static TextView speedTextView;
 	static TextView basestationTextView;
-//	static TextView cellidTextView;
 	static TextView gpsTextView;
 	static TextView satelliteTextView;
 	static TextView locationTextView;
 	static TextView typeTextView;
 	static TextView reportTextView;
 	static TextView handoffTextView;
-//	static TextView wifiTextView;
 	static TextView netTextView;
 	static TextView pingTextView;
 	static TextView timeTextView;
@@ -157,8 +154,6 @@ public class Config {
 	static String lteRsrp = "-1";
 	static String lteRsrq = "-1";
 	static String lteRssnr = "-1";
-	static String lteCqi = "-1";
-	static String currentLevel = "-1";
 	
 	// add on 20141128
 	static String lastDataStateString = "";
