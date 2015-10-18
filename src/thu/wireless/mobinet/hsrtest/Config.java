@@ -15,26 +15,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class Config {
-	/**
-	 * 2月28日
-	 * Lili：59.66.224.230 电信3G
-	 * mine：59.66.122.85 移动4G
-	 * tanweiB：59.66.122.78 移动3G
-	 * tanweiT：59.66.122.143 联通3G
-	 * 
-	 * 3月2日
-	 * Lili: 59.66.224.230
-	 * Mine: 59.66.122.85
-	 * TanweiB: 59.66.123.33
-	 * TanweiT: 59.66.123.40
-	 */
-
-	/**
-	 * 202.112.3.74 移动 3G:15001 4G:16001
-	 * 202.112.3.78 联通
-	 * 202.112.3.82 电信
-	 * 115.28.12.102 云
-	 */
 	static String testServerip = "202.112.3.78"; // "166.111.68.231";
 	static String testMeasuretime = "60";
 	static String testInterval = "5";
@@ -46,14 +26,12 @@ public class Config {
 	static int bufferSize = -1;
 
 	static FileOutputStream fosMobile = null;
-	static FileOutputStream fosSignal = null;
-	static FileOutputStream fosSpeed = null;
-	static FileOutputStream fosCell = null;
 	static FileOutputStream fosUplink = null;
 	static FileOutputStream fosDownlink = null;
 	static FileOutputStream fosPing = null;
 
 	static Button start;
+//	static Button end;
 	static TextView directionTextView;
 	static TextView asuTextView;
 	static TextView signalParameterTextView;
@@ -92,9 +70,9 @@ public class Config {
 			| PhoneStateListener.LISTEN_DATA_ACTIVITY
 			| PhoneStateListener.LISTEN_DATA_CONNECTION_STATE;
 
-	static String laststateString = null;
+//	static String laststateString = null;
 	static boolean lastConnect = false;
-	static String lastConnectString = null;
+//	static String lastConnectString = null;
 	static int disconnectNumber = 0;
 	static String cellInfoContent = null;
 	static String lastCellInfoString = null;
@@ -102,8 +80,8 @@ public class Config {
 	static String dataConnectionState = "Initial";
 	static String dataContentString = null;
 
-	static String lastlocationString = null;
-	static String speedcontent = null;
+//	static String lastlocationString = null;
+//	static String speedcontent = null;
 	static int gpsAvailableNumber = -1;
 	static int gpsFixNumber = -1;
 	static String gpsStateString = "Initial";
@@ -137,7 +115,7 @@ public class Config {
 	
 	static String[] measurementNames = { "TCP Downlink Test",
 			"TCP Uplink Test", "UDP Downlink Test", "UDP Uplink Test",
-			"Ping Test" };// 1127
+			"TCP Double Test" };// 1127
 
 	static int measurementID = 0;
 	static String addressSina = "3g.sina.com.cn";
@@ -159,90 +137,99 @@ public class Config {
 	static String lastDataStateString = "";
 	static String lastDataDirectionString = "";
 	static int lastNetworkType = -1;
-//	static int intraHandoff = 0;
 	static int handoffNumber = -1;
 	
 	public static void setRemoteParameter() {
-//		testServerip = "202.112.3.78";
-//		testMeasuretime = "120";
-//		testInterval = "5";
-//		tcpUploadPort = 2561;
-//		tcpDownloadPort = 2562;
-//		udpUploadPort = 2563;
-//		udpDownloadPort = 2564;
-//		tcpFlowPort = 2565;
 		if (phoneModel.equals("SCH-I959")) {
-			testServerip = "202.112.3.82";
-			testMeasuretime = "50";
+			testServerip = "101.201.141.119";
+			testMeasuretime = "100";
 			testInterval = "5";
-			tcpUploadPort = 2521;
-			tcpDownloadPort = 2522;
-			udpUploadPort = 2523;
-			udpDownloadPort = 2524;
-			tcpFlowPort = 2525;
+			tcpUploadPort = 1521;
+			tcpDownloadPort = 1522;
+			udpUploadPort = 1523;
+			udpDownloadPort = 1524;
+			tcpFlowPort = 1525;
 		} else if (phoneModel.equals("HTC 609d")) {
-			testServerip = "202.112.3.82";
-			testMeasuretime = "120";
+			testServerip = "101.201.141.119";
+			testMeasuretime = "100";
 			testInterval = "5";
-			tcpUploadPort = 2531;
-			tcpDownloadPort = 2532;
-			udpUploadPort = 2533;
-			udpDownloadPort = 2534;
-			tcpFlowPort = 2535;
+			tcpUploadPort = 1531;
+			tcpDownloadPort = 1532;
+			udpUploadPort = 1533;
+			udpDownloadPort = 1534;
+			tcpFlowPort = 1535;
 		} else if (phoneModel.equals("GT-I9500")) {
-			testServerip = "202.112.3.82"; // 59.66.122.103
-			testMeasuretime = "50";
+			testServerip = "101.201.141.119"; // 59.66.122.103
+			testMeasuretime = "100";
 			testInterval = "5";
-			tcpUploadPort = 2541;
-			tcpDownloadPort = 2542;
-			udpUploadPort = 2543;
-			udpDownloadPort = 2544;
-			tcpFlowPort = 2545;
-		} else if (phoneModel.equals("MI 2")) {//HTC 606w
-			testServerip = "202.112.3.74";
-			testMeasuretime = "120";
+			tcpUploadPort = 1541;
+			tcpDownloadPort = 1542;
+			udpUploadPort = 1543;
+			udpDownloadPort = 1544;
+			tcpFlowPort = 1545;
+		} else if (phoneModel.equals("HTC X920e")) {
+			testServerip = "101.201.141.119";
+			testMeasuretime = "100";
 			testInterval = "5";
-			tcpUploadPort = 2551;
-			tcpDownloadPort = 2552;
-			udpUploadPort = 2553;
-			udpDownloadPort = 2554;
-			tcpFlowPort = 2555;
+			tcpUploadPort = 1551;
+			tcpDownloadPort = 1552;
+			udpUploadPort = 1553;
+			udpDownloadPort = 1554;
+			tcpFlowPort = 1555;
 		} else if (phoneModel.equals("SM-N9008V")) {
-			testServerip = "202.112.3.78";
-			testMeasuretime = "50";
+			testServerip = "101.201.141.119";
+			testMeasuretime = "100";
 			testInterval = "5";
-			tcpUploadPort = 2561;
-			tcpDownloadPort = 2562;
-			udpUploadPort = 2563;
-			udpDownloadPort = 2564;
-			tcpFlowPort = 2565;
-		} else if (phoneModel.equals("Nexus 4")) {
-			testServerip = "202.112.3.74"; // 0424实验中对应5号手机
-			testMeasuretime = "120";
+			tcpUploadPort = 1561;
+			tcpDownloadPort = 1562;
+			udpUploadPort = 1563;
+			udpDownloadPort = 1564;
+			tcpFlowPort = 1565;
+		} else if (phoneModel.equals("M351")) {
+			testServerip = "101.201.141.119"; // 0424实验中对应5号手机
+			testMeasuretime = "100";
 			testInterval = "5";
-			tcpUploadPort = 2571;
-			tcpDownloadPort = 2572;
-			udpUploadPort = 2573;
-			udpDownloadPort = 2574;
-			tcpFlowPort = 2575;
+			tcpUploadPort = 1571;
+			tcpDownloadPort = 1572;
+			udpUploadPort = 1573;
+			udpDownloadPort = 1574;
+			tcpFlowPort = 1575;
 		} else if (phoneModel.equals("SM-N9008S")) { // Galaxy Nexus
-			testServerip = "202.112.3.78";
-			testMeasuretime = "50";
+			testServerip = "101.201.141.119";
+			testMeasuretime = "100";
 			testInterval = "5";
-			tcpUploadPort = 2581;
-			tcpDownloadPort = 2582;
-			udpUploadPort = 2583;
-			udpDownloadPort = 2584;
-			tcpFlowPort = 2585;
+			tcpUploadPort = 1581;
+			tcpDownloadPort = 1582;
+			udpUploadPort = 1583;
+			udpDownloadPort = 1584;
+			tcpFlowPort = 1585;
+		} else if (phoneModel.equals("HTC 606w")) { // H60-L02
+			testServerip = "101.201.141.119";
+			testMeasuretime = "100";
+			testInterval = "5";
+			tcpUploadPort = 1591;
+			tcpDownloadPort = 1592;
+			udpUploadPort = 1593;
+			udpDownloadPort = 1594;
+			tcpFlowPort = 1595;
+		} else if (phoneModel.equals("HTC D820u")) { // H60-L02
+			testServerip = "101.201.141.119";
+			testMeasuretime = "100";
+			testInterval = "5";
+			tcpUploadPort = 1601;
+			tcpDownloadPort = 1602;
+			udpUploadPort = 1603;
+			udpDownloadPort = 1604;
+			tcpFlowPort = 1605;
 		} else {
-			testServerip = "202.112.3.78";
-			testMeasuretime = "120";
+			testServerip = "101.201.141.119";
+			testMeasuretime = "100";
 			testInterval = "5";
-			tcpUploadPort = 2501;
-			tcpDownloadPort = 2502;
-			udpUploadPort = 2503;
-			udpDownloadPort = 2504;
-			tcpFlowPort = 2505;
+			tcpUploadPort = 2601;
+			tcpDownloadPort = 2602;
+			udpUploadPort = 2603;
+			udpDownloadPort = 2604;
+			tcpFlowPort = 2605;
 		}
 	}
 	

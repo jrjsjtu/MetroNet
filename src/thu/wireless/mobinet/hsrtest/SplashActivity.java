@@ -36,9 +36,9 @@ public class SplashActivity extends Activity{
 				mobileFile = new File(mobilePath);
 				mobileFile.mkdirs();
 				Config.fosMobile = new FileOutputStream(mobilePath + "/Mobile.txt", true);
-				Config.fosSignal = new FileOutputStream(mobilePath + "/Signal.txt", true);
-				Config.fosSpeed = new FileOutputStream(mobilePath + "/Speed.txt", true);
-				Config.fosCell = new FileOutputStream(mobilePath + "/Cell.txt", true);
+//				Config.fosSignal = new FileOutputStream(mobilePath + "/Signal.txt", true);
+//				Config.fosSpeed = new FileOutputStream(mobilePath + "/Speed.txt", true);
+//				Config.fosCell = new FileOutputStream(mobilePath + "/Cell.txt", true);
 				Config.fosUplink = new FileOutputStream(mobilePath + "/Uplink.txt", true);
 				Config.fosDownlink = new FileOutputStream(mobilePath + "/Downlink.txt", true);
 				Config.fosPing = new FileOutputStream(mobilePath + "/Ping.txt", true);

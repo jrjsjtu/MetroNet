@@ -1,7 +1,5 @@
 package thu.wireless.mobinet.hsrtest;
 
-import java.io.IOException;
-import java.util.Date;
 import java.util.Iterator;
 
 import com.baidu.mobstat.SendStrategyEnum;
@@ -26,6 +24,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.telephony.CellLocation;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
@@ -63,6 +62,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		
 		// 设置屏幕常亮
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 10*60*1000);
 
 		// 调用百度统计
 		StatService.setAppChannel(this, "Baidu Market", true);
@@ -71,6 +71,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		// 手机状态相关控件
 		Config.start = (Button) findViewById(R.id.button_Start);
 		Config.start.setOnClickListener(this);
+		
+//		Config.end = (Button) findViewById(R.id.button_End);
+//		Config.end.setOnClickListener(this);
+//		Config.end.setEnabled(false);
 
 		Config.serverConentEditText = (EditText) findViewById(R.id.editText_serverIP);
 		Config.serverConentEditText.clearFocus();
@@ -165,42 +169,44 @@ public class MainActivity extends Activity implements OnClickListener {
 				
 				//0625:182.92.155.67
 				//0719:182.92.104.73
+				//0125:123.57.140.65
+				//0127:123.57.140.65
 				switch (arg2) {
 				case 0:
-					Config.serverConentEditText.setText("182.92.212.24");
+					Config.serverConentEditText.setText("101.201.141.119");
 					Config.portTextView.setText("Port:" + Config.tcpDownloadPort);
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 1:
-					Config.serverConentEditText.setText("182.92.212.24");
+					Config.serverConentEditText.setText("101.201.141.119");
 					Config.portTextView.setText("Port:" + Config.tcpUploadPort);
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 2:
-					Config.serverConentEditText.setText("182.92.212.24");
-					Config.serverTimeEditText.setText("30");
+					Config.serverConentEditText.setText("101.201.141.119");
 					Config.portTextView.setText("Port:" + Config.udpDownloadPort);
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 3:
-					Config.serverConentEditText.setText("182.92.212.24");
+					Config.serverConentEditText.setText("101.201.141.119");
 					Config.portTextView.setText("Port:" + Config.udpUploadPort);//0626
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 4:
-					Config.serverConentEditText.setText("182.92.212.24");
-					Config.portTextView.setText("");
+					Config.serverConentEditText.setText("101.201.141.119");
+					Config.portTextView.setText(Config.tcpUploadPort + "&"
+							+ Config.tcpDownloadPort);
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
-					Config.bufferSizeEditText.setText("");
+					Config.bufferSizeEditText.setText("1024");
 					break;
 				default:
 					Config.portTextView.setText("");
@@ -261,15 +267,12 @@ public class MainActivity extends Activity implements OnClickListener {
 			
 			break;
 		case 2:
-			String tmp = "MobiNet帮您分析手机的网络状态\r\n支持移动联通电信三网的全网制式\r\nCopyright  2014  恪家饭";
+			String tmp = "HSRNetTest帮您分析手机的网络状态\r\n支持移动联通电信三网的全网制式\r\nCopyright  2014  恪家饭";
 			Toast.makeText(getApplicationContext(), tmp, Toast.LENGTH_LONG).show();
 			break;
 		case 3:
 			try {
 				Config.fosMobile.close();
-				Config.fosSignal.close();
-				Config.fosSpeed.close();
-				Config.fosCell.close();
 				Config.fosUplink.close();
 				Config.fosDownlink.close();
 				Config.fosPing.close();
@@ -406,31 +409,45 @@ public class MainActivity extends Activity implements OnClickListener {
 						measureTimeString, Config.fosUplink, 2);
 				break;
 			case 4:
-				Config.reportTextView.setText("Ping testing...");
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-//				// ping 10 times
+				Config.reportTextView.setText("TCP double testing...");
+				Config.start.setEnabled(false);
+				Config.mySender = new Sender(mHandler, serverIPString,
+						measureTimeString, measureIntervalString,
+						Config.fosDownlink, Config.fosUplink);
+//				handler4Show.post(runnable4Show);
+				break;
+//			case 4:
+//				Config.reportTextView.setText("Ping testing...");
+//				try {
+//					Thread.sleep(100);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+////				// ping 10 times
+////				handler4Ping.removeCallbacks(runnable4Ping);
+////				Config.start.setEnabled(false);
+////				handler4Ping.post(runnable4Ping);
+////				Measurement.pingCmdTest(serverIPString, 10);
+//				// ping long-lived
 //				handler4Ping.removeCallbacks(runnable4Ping);
 //				Config.start.setEnabled(false);
 //				handler4Ping.post(runnable4Ping);
-//				Measurement.pingCmdTest(serverIPString, 10);
-				// ping long-lived
-				handler4Ping.removeCallbacks(runnable4Ping);
-				Config.start.setEnabled(false);
-				handler4Ping.post(runnable4Ping);
-				Measurement.pingCmdProfession(serverIPString);
-				break;
+//				Measurement.pingCmdProfession(serverIPString);
+//				break;
 			default:
 				Config.reportTextView.setText("Test doesn't support");
 				break;
 			}
 		}
+		
+//		if (v.equals(Config.end)) {
+////			System.out.println("stop");
+////			Config.reportTextView.setText("Test stopped");
+////			Config.myTcpTest = null;
+////			handler4Show.post(runnable4Show);
+//		}
 	}
-
 	Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			if (msg.what == 0) {
@@ -458,8 +475,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		@Override
 		public void onSignalStrengthsChanged(SignalStrength signalStrength) {
 			// TODO Auto-generated method stub
-			String date = Config.contentDateFormat.format(new Date(System.currentTimeMillis()));
-					
 			/**
 			 * 获取信号强度参数
 			 * http://www.oschina.net/code/explore/android-4.0.1/telephony/java/android/telephony/SignalStrength.java
@@ -513,18 +528,18 @@ public class MainActivity extends Activity implements OnClickListener {
 						+ Config.networkType + " " + Config.servingCid;
 			}
 
-			if (allSignal.equals(Config.lastAddition)) {
-				
-			} else {
-				Config.lastAddition = allSignal;
-				try {
-					Config.fosSignal.write((date + " " + allSignal).getBytes());
-					Config.fosSignal.write(System.getProperty("line.separator").getBytes());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+//			if (allSignal.equals(Config.lastAddition)) {
+//				
+//			} else {
+//				Config.lastAddition = allSignal;
+//				try {
+//					Config.fosSignal.write((date + " " + allSignal).getBytes());
+//					Config.fosSignal.write(System.getProperty("line.separator").getBytes());
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
 
 			Config.typeTextView.setText(Config.providerName + "-"
 					+ Config.networkTypeString + " " + Config.networkType
@@ -532,18 +547,18 @@ public class MainActivity extends Activity implements OnClickListener {
 			
 			
 			String cellContent = Config.networkType + " " + Config.servingCid;
-			if (cellContent.equals(Config.lastlocationString)) {
+			if (cellContent.equals(Config.lastCellInfoString)) {
 				
 			} else {
-				Config.lastlocationString = cellContent;				
-				cellContent = date + " " + cellContent + " " + Config.servingLac + " " + Config.servingPsc;
-				try {
-					Config.fosCell.write(cellContent.getBytes());
-					Config.fosCell.write(System.getProperty("line.separator").getBytes());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Config.lastCellInfoString = cellContent;				
+//				cellContent = date + " " + cellContent + " " + Config.servingLac + " " + Config.servingPsc;
+//				try {
+//					Config.fosCell.write(cellContent.getBytes());
+//					Config.fosCell.write(System.getProperty("line.separator").getBytes());
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				Config.handoffNumber++;
 			}
 			
@@ -579,8 +594,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		@Override
 		public void onDataConnectionStateChanged(int state, int networkType) {
 			// TODO Auto-generated method stub
-			String date = Config.contentDateFormat.format(new Date(System.currentTimeMillis()));
-			
 			if (networkType == Config.lastNetworkType) {
 				
 			} else {
@@ -617,18 +630,10 @@ public class MainActivity extends Activity implements OnClickListener {
 			 * 写入日志
 			 */
 			String cellContent = Config.networkType + " " + Config.servingCid;
-			if (cellContent.equals(Config.lastlocationString)) {
+			if (cellContent.equals(Config.lastCellInfoString)) {
 				
 			} else {
-				Config.lastlocationString = cellContent;				
-				cellContent = date + " " + cellContent + " " + Config.servingLac + " " + Config.servingPsc;
-				try {
-					Config.fosCell.write(cellContent.getBytes());
-					Config.fosCell.write(System.getProperty("line.separator").getBytes());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Config.lastCellInfoString = cellContent;
 				Config.handoffNumber++;
 			}
 				
@@ -636,14 +641,6 @@ public class MainActivity extends Activity implements OnClickListener {
 				
 			} else {
 				Config.lastDataStateString = Config.dataConnectionState;
-				String dataContent = date + " S: " + Config.dataConnectionState;
-				try {
-					Config.fosMobile.write(dataContent.getBytes());
-					Config.fosMobile.write(System.getProperty("line.separator").getBytes());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				Config.directionTextView.setText(Config.dataConnectionState + " 方向:" + Config.dataDirection);
 			}
 			
@@ -656,21 +653,19 @@ public class MainActivity extends Activity implements OnClickListener {
 		@Override
 		public void onDataActivity(int direction) {
 			// TODO Auto-generated method stub
-			String date = Config.contentDateFormat.format(new Date(System.currentTimeMillis()));
-			
 			switch (direction) {
 			case TelephonyManager.DATA_ACTIVITY_NONE://0
 				// No IP Traffic
 				Config.dataDirection = "NONE";
 				break;
 			case TelephonyManager.DATA_ACTIVITY_IN://1
-				Config.dataDirection = "Active";
+				Config.dataDirection = "In";
 				break;
 			case TelephonyManager.DATA_ACTIVITY_OUT://2
-				Config.dataDirection = "Active";
+				Config.dataDirection = "Out";
 				break;
 			case TelephonyManager.DATA_ACTIVITY_INOUT://3
-				Config.dataDirection = "Active";
+				Config.dataDirection = "InOut";
 				break;
 			case TelephonyManager.DATA_ACTIVITY_DORMANT://4
 				// Data connection is active, but physical link is down
@@ -687,15 +682,6 @@ public class MainActivity extends Activity implements OnClickListener {
 				
 			} else {
 				Config.lastDataDirectionString = Config.dataDirection;
-				String dataContent = date + " D: " + Config.dataDirection;
-				try {
-					Config.fosMobile.write(dataContent.getBytes());
-					Config.fosMobile.write(System.getProperty("line.separator").getBytes());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
 				Config.directionTextView.setText(Config.dataConnectionState + " 方向:" + Config.dataDirection);
 			}
 
@@ -705,43 +691,46 @@ public class MainActivity extends Activity implements OnClickListener {
 		@Override
 		public void onCellLocationChanged(CellLocation location) {
 			// TODO Auto-generated method stub
-			String date = Config.contentDateFormat.format(new Date(System.currentTimeMillis()));
-			
 			TelephonyManager telManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 			Config.networkType = telManager.getNetworkType();
 			SignalUtil.getCurrentNetworkType(Config.networkType);
-			switch (Config.networkType) {
-			case 4:
-			case 5:
-			case 6:
-			case 7:
-			case 12:
-				CdmaCellLocation cdmaCellLocation = (CdmaCellLocation) location;
-				Config.servingCid = cdmaCellLocation.getBaseStationId();
-				Config.servingLac = cdmaCellLocation.getNetworkId();
-				Config.servingPsc = cdmaCellLocation.getSystemId();
-				break;
-			default:
-				GsmCellLocation gsmCellLocation = (GsmCellLocation) location;
-				Config.servingCid = gsmCellLocation.getCid() & 0xffff;
-				Config.servingLac = gsmCellLocation.getLac();
-				Config.servingPsc = gsmCellLocation.getPsc();
-				break;
+			try {
+				switch (Config.networkType) {
+				case 4:
+				case 5:
+				case 6:
+				case 7:
+				case 12:
+					CdmaCellLocation cdmaCellLocation = (CdmaCellLocation) location;
+					Config.servingCid = cdmaCellLocation.getBaseStationId();
+					Config.servingLac = cdmaCellLocation.getNetworkId();
+					Config.servingPsc = cdmaCellLocation.getSystemId();
+					break;
+				default:
+					GsmCellLocation gsmCellLocation = (GsmCellLocation) location;
+					Config.servingCid = gsmCellLocation.getCid() & 0xffff;
+					Config.servingLac = gsmCellLocation.getLac();
+					Config.servingPsc = gsmCellLocation.getPsc();
+					break;
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				// when no SIM card
 			}
 			
 			String cellContent = Config.networkType + " " + Config.servingCid;
-			if (cellContent.equals(Config.lastlocationString)) {
+			if (cellContent.equals(Config.lastCellInfoString)) {
 				
 			} else {
-				Config.lastlocationString = cellContent;				
-				cellContent = date + " " + cellContent + " " + Config.servingLac + " " + Config.servingPsc;
-				try {
-					Config.fosCell.write(cellContent.getBytes());
-					Config.fosCell.write(System.getProperty("line.separator").getBytes());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Config.lastCellInfoString = cellContent;				
+//				cellContent = date + " " + cellContent + " " + Config.servingLac + " " + Config.servingPsc;
+//				try {
+//					Config.fosCell.write(cellContent.getBytes());
+//					Config.fosCell.write(System.getProperty("line.separator").getBytes());
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				
 				Config.handoffNumber++;
 				Config.handoffTextView.setText("切换:" + Config.handoffNumber
@@ -801,8 +790,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		@Override
 		public void onLocationChanged(Location location) {
 			// TODO Auto-generated method stub
-			String date = Config.contentDateFormat.format(new Date(System.currentTimeMillis()));
-
 			/**
 			 * 测速
 			 */
@@ -819,25 +806,25 @@ public class MainActivity extends Activity implements OnClickListener {
 			float speed2 = (float) (Config.speed * 3.6);
 			Config.mobilitySpeed = String.valueOf(speed2);
 			Config.speedTextView.setText(Config.mobilitySpeed + " km/h");
-			Config.speedcontent = Config.gpsStateString + " " + speed2;
-
-			if (Config.speedcontent.equals(Config.lastlocationString)) {
-
-			} else {
-				Config.lastlocationString = Config.speedcontent;
-				Config.speedcontent = date + " " + Config.speedcontent + " "
-						+ Config.latitude + " "
-						+ Config.longitude + " "
-						+ Config.accuracy;
-				try {
-					Config.fosSpeed.write(Config.speedcontent.getBytes());
-					Config.fosSpeed.write(System.getProperty("line.separator")
-							.getBytes());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+//			Config.speedcontent = Config.gpsStateString + " " + speed2;
+//
+//			if (Config.speedcontent.equals(Config.lastlocationString)) {
+//
+//			} else {
+//				Config.lastlocationString = Config.speedcontent;
+//				Config.speedcontent = date + " " + Config.speedcontent + " "
+//						+ Config.latitude + " "
+//						+ Config.longitude + " "
+//						+ Config.accuracy;
+//				try {
+//					Config.fosSpeed.write(Config.speedcontent.getBytes());
+//					Config.fosSpeed.write(System.getProperty("line.separator")
+//							.getBytes());
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
 		}
 	};
 

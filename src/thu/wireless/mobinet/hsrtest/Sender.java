@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.text.NumberFormat;
 import java.util.Date;
+
 import android.os.Handler;
 
 public class Sender {
@@ -22,14 +23,13 @@ public class Sender {
 	public String mAvgDownlinkThroughput = "0";
 
 	public Sender(Handler _mHandler, String serverIP, String measuretime,
-			String interval, FileOutputStream fosDown, FileOutputStream fosUp, int packet) {
+			String interval, FileOutputStream fosDown, FileOutputStream fosUp) {
 
 		measureIP = serverIP;
 		measureTime = measuretime;
 		measureInterval = interval;
 		fosDownlink = fosDown;
 		fosUplink = fosUp;
-		packetSize = packet;
 
 		this.mHandler = _mHandler;
 
@@ -80,7 +80,6 @@ public class Sender {
 	private static String measureIP;
 	private static String measureTime;
 	private static String measureInterval;
-	private static int packetSize;
 	private static Socket clientSocketUp;
 	private static Socket clientSocketDown;
 	private static String disconnectTime;
@@ -124,12 +123,7 @@ public class Sender {
 				if (clientSocketDown == null) {
 					while (true) {
 						try {
-							if (packetSize < 1000) {
-								clientSocketDown = new Socket(measureIP, Config.tcpDownloadPort+4);
-							}
-							else {
-								clientSocketDown = new Socket(measureIP, Config.tcpDownloadPort);
-							}
+							clientSocketDown = new Socket(measureIP, Config.tcpDownloadPort);
 							if (clientSocketDown != null)
 								break;
 						} catch (Exception ce) {
@@ -159,7 +153,7 @@ public class Sender {
 
 				// uplink
 				// 每次向套接字中写入buf的数据，长度为4K,大小为8KB，内容为全'1'
-				int bufLen = packetSize;
+				int bufLen = 1 * 1024;
 				// 每次写入的字节数
 				int currLen = bufLen * 2;
 				String buf = "";
@@ -271,13 +265,8 @@ public class Sender {
 				while (true) {
 					try {
 						clientSocketUp = new Socket(measureIP, Config.tcpUploadPort);
-						if (packetSize < 1000) {
-							clientSocketDown = new Socket(measureIP, Config.tcpDownloadPort+4);
-						}
-						else {
-							clientSocketDown = new Socket(measureIP, Config.tcpDownloadPort);
-						}
-						
+						Thread.sleep(500);
+						clientSocketDown = new Socket(measureIP, Config.tcpDownloadPort);
 						if (clientSocketUp != null && clientSocketDown != null) {
 							break;
 						}
@@ -314,7 +303,7 @@ public class Sender {
 							+ " connect to " + peer + "\n").getBytes());
 
 					// 每次从套接字读入数据到buf，buf的长度由bufLen指定为4K
-					int bufLen = packetSize;
+					int bufLen = 1 * 1024;
 					char buf[] = new char[bufLen];
 
 					// 每次读入的字节数
