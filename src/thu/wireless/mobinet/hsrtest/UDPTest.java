@@ -24,9 +24,10 @@ public class UDPTest {
 	String sendStr2 = "";
 	byte[] sendBuf2;
 	static SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss.SSS");
-	
+
 	public UDPTest(Handler _mHandler, String serverIP, String measuretime,
-			String interval, FileOutputStream fosDown, FileOutputStream fosUp, int mode) {
+			String interval, FileOutputStream fosDown, FileOutputStream fosUp,
+			int mode) {
 
 		measureIP = serverIP;
 		measureTime = measuretime;
@@ -38,8 +39,9 @@ public class UDPTest {
 
 		(new myThread()).start();
 	}
-	
-	public UDPTest(String serverIP, String measuretime, FileOutputStream fos, int mode) {
+
+	public UDPTest(String serverIP, String measuretime, FileOutputStream fos,
+			int mode) {
 
 		measureIP = serverIP;
 		measureTime = measuretime;
@@ -52,7 +54,7 @@ public class UDPTest {
 
 		(new myThread()).start();
 	}
-	
+
 	class myThread extends Thread {
 
 		@Override
@@ -66,12 +68,12 @@ public class UDPTest {
 			}
 		}
 	}
-	
+
 	private void connect2server() {
 		int port = Config.udpUploadPort;
-		
-		int bufLen = 1 * (1024-45);// MTU 64
-    	sendStr2 = "";
+
+		int bufLen = 1 * (1024 - 45);// MTU 64
+		sendStr2 = "";
 		for (int j = 0; j < bufLen; j++)
 			sendStr2 += '0';
 		String tmp = String.format("%032d", 0);
@@ -79,41 +81,45 @@ public class UDPTest {
 		sendBuf2 = tmp.getBytes();
 		while (true) {
 			try {
-				InetAddress addr = InetAddress.getByName(measureIP);//127.0.0.1
-		        DatagramSocket client = new DatagramSocket();
-		        long start = System.currentTimeMillis();
+				InetAddress addr = InetAddress.getByName(measureIP);// 127.0.0.1
+				DatagramSocket client = new DatagramSocket();
+				long start = System.currentTimeMillis();
 
-	        	int i = 1;
+				int i = 1;
 				while (true) {
 					String cd = df.format(new Date(System.currentTimeMillis()));
 					String t = String.format("%032d", i);
 					t = t + "+" + cd + sendStr2;
-					sendBuf2 = t.getBytes();		        	
-		            DatagramPacket sendPacket = new DatagramPacket(sendBuf2, sendBuf2.length, addr, port);
-		            client.send(sendPacket);
-//		            if (i%80 == 0) {
-//						Thread.sleep(200); // new change
-//					}
+					sendBuf2 = t.getBytes();
+					DatagramPacket sendPacket = new DatagramPacket(sendBuf2,
+							sendBuf2.length, addr, port);
+					client.send(sendPacket);
+					// if (i%80 == 0) {
+					// Thread.sleep(200); // new change
+					// }
 
-		            if (i%5 == 0) {
-		            	fosUplink.write((df.format(new Date()) + " Send: " + i + "\n").getBytes());
+					if (i % 5 == 0) {
+						fosUplink
+								.write((df.format(new Date()) + " Send: " + i + "\n")
+										.getBytes());
 					}
-		            i++;
-		            long now = System.currentTimeMillis() - start;
-		            if (now > Long.valueOf(measureTime)*60000) {
-		            	System.out.println(now/1000);
+					i++;
+					long now = System.currentTimeMillis() - start;
+					if (now > Long.valueOf(measureTime) * 60000) {
+						System.out.println(now / 1000);
 						break;
 					}
 				}
-		        client.close();
+				client.close();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				try {
 					DatagramSocket client = new DatagramSocket();
-					InetAddress addr = InetAddress.getByName(measureIP);//127.0.0.1
+					InetAddress addr = InetAddress.getByName(measureIP);// 127.0.0.1
 					byte[] buffer = "I'm Client".getBytes();
-		            DatagramPacket sendPacket = new DatagramPacket(buffer,buffer.length, addr, port);
-		            client.send(sendPacket);
+					DatagramPacket sendPacket = new DatagramPacket(buffer,
+							buffer.length, addr, port);
+					client.send(sendPacket);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -122,7 +128,7 @@ public class UDPTest {
 			}
 		}
 	}
-	
+
 	private void server2client() {
 		int port = Config.udpDownloadPort;
 		while (true) {
@@ -131,37 +137,42 @@ public class UDPTest {
 				long start = System.currentTimeMillis();
 				String sendStr = "Hello! I'm Client";
 				byte[] sendBuf;
-				sendBuf = sendStr.getBytes();//115.28.12.102
-				InetAddress addr = InetAddress.getByName(measureIP);// 127.0.0.1		
-				DatagramPacket sendPacket = new DatagramPacket(sendBuf, sendBuf.length, addr, port);
+				sendBuf = sendStr.getBytes();// 115.28.12.102
+				InetAddress addr = InetAddress.getByName(measureIP);// 127.0.0.1
+				DatagramPacket sendPacket = new DatagramPacket(sendBuf,
+						sendBuf.length, addr, port);
 				client.send(sendPacket);
-				
+
 				long i = 1;
 				while (true) {
 					byte[] recvBuf = new byte[1024];
-					DatagramPacket recvPacket = new DatagramPacket(recvBuf, recvBuf.length);
+					DatagramPacket recvPacket = new DatagramPacket(recvBuf,
+							recvBuf.length);
 					client.receive(recvPacket);
-					String recvStr = new String(recvPacket.getData(), 0, recvPacket.getLength());
+					String recvStr = new String(recvPacket.getData(), 0,
+							recvPacket.getLength());
 					System.out.println("Got:" + recvStr.length());
-					if (i%5 == 0) {
-		            	fosDownlink.write((df.format(new Date()) + " Receive: " + i + "\n").getBytes());
+					if (i % 5 == 0) {
+						fosDownlink.write((df.format(new Date()) + " Receive: "
+								+ i + "\n").getBytes());
 					}
 					long now = System.currentTimeMillis() - start;
-		            if (now > Long.valueOf(measureTime)*60000) {
-		            	System.out.println(now/1000);
+					if (now > Long.valueOf(measureTime) * 60000) {
+						System.out.println(now / 1000);
 						break;
 					}
-		            i++;
+					i++;
 				}
 				client.close();
 			} catch (Exception e) {
 				// TODO: handle exception
 				try {
 					DatagramSocket client = new DatagramSocket();
-					InetAddress addr = InetAddress.getByName(measureIP);//127.0.0.1
+					InetAddress addr = InetAddress.getByName(measureIP);// 127.0.0.1
 					byte[] buffer = "I'm Client".getBytes();
-		            DatagramPacket sendPacket = new DatagramPacket(buffer,buffer.length, addr, port);
-		            client.send(sendPacket);
+					DatagramPacket sendPacket = new DatagramPacket(buffer,
+							buffer.length, addr, port);
+					client.send(sendPacket);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -170,46 +181,51 @@ public class UDPTest {
 			}
 		}
 	}
-	
+
 	private void server2client2() {
-		int port = Config.udpDownloadPort+1;
+		int port = Config.udpDownloadPort + 1;
 		while (true) {
 			try {
 				DatagramSocket client = new DatagramSocket();
 				long start = System.currentTimeMillis();
 				String sendStr = "Hello! I'm Client";
 				byte[] sendBuf;
-				sendBuf = sendStr.getBytes();//115.28.12.102
-				InetAddress addr = InetAddress.getByName(measureIP);// 127.0.0.1		
-				DatagramPacket sendPacket = new DatagramPacket(sendBuf, sendBuf.length, addr, port);
+				sendBuf = sendStr.getBytes();// 115.28.12.102
+				InetAddress addr = InetAddress.getByName(measureIP);// 127.0.0.1
+				DatagramPacket sendPacket = new DatagramPacket(sendBuf,
+						sendBuf.length, addr, port);
 				client.send(sendPacket);
-				
+
 				long i = 1;
 				while (true) {
 					byte[] recvBuf = new byte[1024];
-					DatagramPacket recvPacket = new DatagramPacket(recvBuf, recvBuf.length);
+					DatagramPacket recvPacket = new DatagramPacket(recvBuf,
+							recvBuf.length);
 					client.receive(recvPacket);
-					String recvStr = new String(recvPacket.getData(), 0, recvPacket.getLength());
+					String recvStr = new String(recvPacket.getData(), 0,
+							recvPacket.getLength());
 					System.out.println("Got:" + recvStr.length());
-					if (i%5 == 0) {
-		            	fosDownlink.write((df.format(new Date()) + " Receive: " + i + "\n").getBytes());
+					if (i % 5 == 0) {
+						fosDownlink.write((df.format(new Date()) + " Receive: "
+								+ i + "\n").getBytes());
 					}
 					long now = System.currentTimeMillis() - start;
-		            if (now > Long.valueOf(measureTime)*60000) {
-		            	System.out.println(now/1000);
+					if (now > Long.valueOf(measureTime) * 60000) {
+						System.out.println(now / 1000);
 						break;
 					}
-		            i++;
+					i++;
 				}
 				client.close();
 			} catch (Exception e) {
 				// TODO: handle exception
 				try {
 					DatagramSocket client = new DatagramSocket();
-					InetAddress addr = InetAddress.getByName(measureIP);//127.0.0.1
+					InetAddress addr = InetAddress.getByName(measureIP);// 127.0.0.1
 					byte[] buffer = "I'm Client".getBytes();
-		            DatagramPacket sendPacket = new DatagramPacket(buffer,buffer.length, addr, port);
-		            client.send(sendPacket);
+					DatagramPacket sendPacket = new DatagramPacket(buffer,
+							buffer.length, addr, port);
+					client.send(sendPacket);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

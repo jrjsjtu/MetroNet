@@ -39,7 +39,7 @@ public class TCPTest {
 
 		(new myThread()).start();
 	}
-	
+
 	public TCPTest(String serverIP, String measuretime, String interval,
 			FileOutputStream fos, int mode) {
 
@@ -79,14 +79,14 @@ public class TCPTest {
 					server2clientFlowAlternate();
 				}
 			} else if (testmode == 5) { // MutiTCP
-				server2MultiClient(Config.tcpDownloadPort+5);
+				server2MultiClient(Config.tcpDownloadPort + 5);
 			} else if (testmode == 6) { // MutiTCP
-				server2MultiClient(Config.tcpDownloadPort+6);
+				server2MultiClient(Config.tcpDownloadPort + 6);
 			} else if (testmode == 7) { // MutiTCP
-				server2MultiClient(Config.tcpDownloadPort+7);
+				server2MultiClient(Config.tcpDownloadPort + 7);
 			} else if (testmode == 11) {
 				server2client30();
-			} 
+			}
 		}
 	}
 
@@ -94,16 +94,16 @@ public class TCPTest {
 	 * Uplink
 	 */
 	private static long mStartTime;
-	private static long mEndTime; // ²âÁ¿½áÊøÊ±¼ä
-	private static long mTime; // ²âÁ¿Ê±¼ä
-	private static long mInterval; // ±¨¸æÖÜÆÚ
+	private static long mEndTime; // æµ‹é‡ç»“æŸæ—¶é—´
+	private static long mTime; // æµ‹é‡æ—¶é—´
+	private static long mInterval; // æŠ¥å‘Šå‘¨æœŸ
 
 	private static long packetTime;
-	private static long mLastTime; // ÉÏÒ»´ÎÍÌÍÂÁ¿±¨¸æÊ±¼ä
-	private static long mNextTime; // ÏÂÒ»´ÎÍÌÍÂÁ¿±¨¸æÊ±¼ä
-	private static long mTotalTime; // ´Ó¿ªÊ¼µ½Ğ´Èë×îºóÒ»¸öbufµÄÊ±¼ä
+	private static long mLastTime; // ä¸Šä¸€æ¬¡ååé‡æŠ¥å‘Šæ—¶é—´
+	private static long mNextTime; // ä¸‹ä¸€æ¬¡ååé‡æŠ¥å‘Šæ—¶é—´
+	private static long mTotalTime; // ä»å¼€å§‹åˆ°å†™å…¥æœ€åä¸€ä¸ªbufçš„æ—¶é—´
 
-	private static long mTotalLen; // ¿Í»§»úÏòTCP´°¿Ú£¨»º´æ£©ÖĞĞ´ÈëµÄ×ÜÊı¾İÁ¿£¬ÔÚmTotalTimeÊ±¼ä¶ÎÖĞ£¬TCP´°¿Ú£¨»º´æ£©ÖĞ¿ÉÄÜ»¹ÓĞĞ©Êı¾İÃ»ÓĞ·¢ËÍ³öÈ¥;²âÁ¿Ê±¼äÔ½³¤£¬Îó²îÔ½Ğ¡
+	private static long mTotalLen; // å®¢æˆ·æœºå‘TCPçª—å£ï¼ˆç¼“å­˜ï¼‰ä¸­å†™å…¥çš„æ€»æ•°æ®é‡ï¼Œåœ¨mTotalTimeæ—¶é—´æ®µä¸­ï¼ŒTCPçª—å£ï¼ˆç¼“å­˜ï¼‰ä¸­å¯èƒ½è¿˜æœ‰äº›æ•°æ®æ²¡æœ‰å‘é€å‡ºå»;æµ‹é‡æ—¶é—´è¶Šé•¿ï¼Œè¯¯å·®è¶Šå°
 	private static long mLastTotalLen;
 	private static NumberFormat numF;
 
@@ -111,14 +111,14 @@ public class TCPTest {
 	 * Downlink
 	 */
 	private static long mStartTimed;
-	private static long mEndTimed; // ²âÁ¿½áÊøÊ±¼ä
+	private static long mEndTimed; // æµ‹é‡ç»“æŸæ—¶é—´
 
 	private static long packetTimed;
-	private static long mLastTimed; // ÉÏÒ»´ÎÍÌÍÂÁ¿±¨¸æÊ±¼ä
-	private static long mNextTimed; // ÏÂÒ»´ÎÍÌÍÂÁ¿±¨¸æÊ±¼ä
-	private static long mTotalTimed; // ´Ó¿ªÊ¼µ½Ğ´Èë×îºóÒ»¸öbufµÄÊ±¼ä
+	private static long mLastTimed; // ä¸Šä¸€æ¬¡ååé‡æŠ¥å‘Šæ—¶é—´
+	private static long mNextTimed; // ä¸‹ä¸€æ¬¡ååé‡æŠ¥å‘Šæ—¶é—´
+	private static long mTotalTimed; // ä»å¼€å§‹åˆ°å†™å…¥æœ€åä¸€ä¸ªbufçš„æ—¶é—´
 
-	private static long mTotalLend; // ¿Í»§»úÏòTCP´°¿Ú£¨»º´æ£©ÖĞĞ´ÈëµÄ×ÜÊı¾İÁ¿£¬ÔÚmTotalTimeÊ±¼ä¶ÎÖĞ£¬TCP´°¿Ú£¨»º´æ£©ÖĞ¿ÉÄÜ»¹ÓĞĞ©Êı¾İÃ»ÓĞ·¢ËÍ³öÈ¥;²âÁ¿Ê±¼äÔ½³¤£¬Îó²îÔ½Ğ¡
+	private static long mTotalLend; // å®¢æˆ·æœºå‘TCPçª—å£ï¼ˆç¼“å­˜ï¼‰ä¸­å†™å…¥çš„æ€»æ•°æ®é‡ï¼Œåœ¨mTotalTimeæ—¶é—´æ®µä¸­ï¼ŒTCPçª—å£ï¼ˆç¼“å­˜ï¼‰ä¸­å¯èƒ½è¿˜æœ‰äº›æ•°æ®æ²¡æœ‰å‘é€å‡ºå»;æµ‹é‡æ—¶é—´è¶Šé•¿ï¼Œè¯¯å·®è¶Šå°
 	private static long mLastTotalLend;
 
 	private static Socket clientSocketDown;
@@ -144,22 +144,23 @@ public class TCPTest {
 		// btnSend.setEnabled(false);
 		// btnClose.setEnabled(false);
 
-		// ËÙÂÊ±¨¸æ±£Áô0Î»Ğ¡Êı
+		// é€Ÿç‡æŠ¥å‘Šä¿ç•™0ä½å°æ•°
 		numF = NumberFormat.getInstance();
 		numF.setMaximumFractionDigits(0);
 
-		// ²âÁ¿Ê±¼äÓÉ²ÎÊıargv[2]Ö¸¶¨£¬µ¥Î»Îªmin
+		// æµ‹é‡æ—¶é—´ç”±å‚æ•°argv[2]æŒ‡å®šï¼Œå•ä½ä¸ºmin
 		mTime = Integer.parseInt(measureTime) * 60 * 1000;
-		// ²ÎÊıargv[3]Ö¸¶¨´ø¿í±¨¸æÖÜÆÚ£¬µ¥Î»Îªs
+		// å‚æ•°argv[3]æŒ‡å®šå¸¦å®½æŠ¥å‘Šå‘¨æœŸï¼Œå•ä½ä¸ºs
 		mInterval = Integer.parseInt(measureInterval) * 1000;
 
 		while (true) {
 			try {
-				// ½¨Á¢Á¬½Ó£¬ÃüÁîĞĞ²ÎÊıargv[0]Ö¸Ê¾·şÎñÆ÷µÄIPµØÖ·£¬·şÎñÆ÷Ê¹ÓÃ5001ºÅ¶Ë¿Ú¼àÌı
+				// å»ºç«‹è¿æ¥ï¼Œå‘½ä»¤è¡Œå‚æ•°argv[0]æŒ‡ç¤ºæœåŠ¡å™¨çš„IPåœ°å€ï¼ŒæœåŠ¡å™¨ä½¿ç”¨5001å·ç«¯å£ç›‘å¬
 				if (clientSocketUp == null) {
 					while (true) {
 						try {
-							clientSocketUp = new Socket(measureIP, Config.tcpUploadPort);							
+							clientSocketUp = new Socket(measureIP,
+									Config.tcpUploadPort);
 							if (clientSocketUp != null)
 								break;
 						} catch (Exception e) {
@@ -170,28 +171,31 @@ public class TCPTest {
 
 				// send 1
 				mHandler.sendEmptyMessage(1);
-				
+
 				mTotalLen = 0;
 				mLastTotalLen = 0;
-				
-				String connectTimeString = Config.contentDateFormat.format(new Date());
+
+				String connectTimeString = Config.contentDateFormat
+						.format(new Date());
 				String local = " Local "
 						+ clientSocketUp.getLocalAddress().getHostAddress()
 						+ " port " + clientSocketUp.getLocalPort();
-				String peer = clientSocketUp.getRemoteSocketAddress().toString();
+				String peer = clientSocketUp.getRemoteSocketAddress()
+						.toString();
 				fosUplink.write((" ConnectTime: " + connectTimeString + local
 						+ " connected to " + peer + "\n").getBytes());
 
-				// Ã¿´ÎÏòÌ×½Ó×ÖÖĞĞ´ÈëbufµÄÊı¾İ£¬³¤¶ÈÎª4K,´óĞ¡Îª8KB£¬ÄÚÈİÎªÈ«'1'
+				// æ¯æ¬¡å‘å¥—æ¥å­—ä¸­å†™å…¥bufçš„æ•°æ®ï¼Œé•¿åº¦ä¸º4K,å¤§å°ä¸º8KBï¼Œå†…å®¹ä¸ºå…¨'1'
 				int bufLen = 1 * 1024;
-//				int bufLen = Config.bufferSize;
-				// Ã¿´ÎĞ´ÈëµÄ×Ö½ÚÊı
+				// int bufLen = Config.bufferSize;
+				// æ¯æ¬¡å†™å…¥çš„å­—èŠ‚æ•°
 				int currLen = bufLen * 2;
 				String buf = "";
 				for (int i = 0; i < bufLen; i++)
 					buf += '1';
 
-				DataOutputStream outToServer = new DataOutputStream(clientSocketUp.getOutputStream());
+				DataOutputStream outToServer = new DataOutputStream(
+						clientSocketUp.getOutputStream());
 
 				mStartTime = System.currentTimeMillis();
 				mEndTime = mStartTime + mTime;
@@ -201,7 +205,8 @@ public class TCPTest {
 				do {
 					outToServer.writeChars(buf);
 					packetTime = System.currentTimeMillis();
-					disconnectTime = Config.contentDateFormat.format(new Date());
+					disconnectTime = Config.contentDateFormat
+							.format(new Date());
 
 					if (packetTime >= mNextTime) {
 						long inBytes = mTotalLen - mLastTotalLen;
@@ -215,8 +220,8 @@ public class TCPTest {
 						fosUplink.write((inStart / 1000 + "-" + inStop / 1000
 								+ " sec " + inBytes / 1024 + " KB " + rate
 								+ " kbps" + "\n").getBytes());
-						 
-						mUplinkThroughput = String.valueOf((int)throughput);//»Ø´«
+
+						mUplinkThroughput = String.valueOf((int) throughput);// å›ä¼ 
 
 						mLastTime = mNextTime;
 						mNextTime += mInterval;
@@ -228,25 +233,27 @@ public class TCPTest {
 							inStart = mLastTime - mStartTime;
 							inStop = mNextTime - mStartTime;
 							// 1KB = 1024B; 1kbps = 1000bps
-							throughput = (double) inBytes * 8 / (mInterval / 1000) / 1000;
+							throughput = (double) inBytes * 8
+									/ (mInterval / 1000) / 1000;
 							rate = numF.format(throughput);
 							fosUplink.write((inStart / 1000 + "-" + inStop
 									/ 1000 + " sec " + inBytes / 1024 + " KB "
 									+ rate + " kbps" + "\n").getBytes());
-							
-							mUplinkThroughput = String.valueOf((int)throughput);//»Ø´«
-							
+
+							mUplinkThroughput = String
+									.valueOf((int) throughput);// å›ä¼ 
+
 							mLastTime = mNextTime;
 							mNextTime += mInterval;
 							mLastTotalLen = mTotalLen;
 						}
 					}
 
-					// Ã»ÓĞÅ×³öIOExceptionµÄ»°£¬ËµÃ÷Ğ´Èë³É¹¦
+					// æ²¡æœ‰æŠ›å‡ºIOExceptionçš„è¯ï¼Œè¯´æ˜å†™å…¥æˆåŠŸ
 					mTotalLen += currLen;
-				} while (packetTime <= mEndTime);//add by XQy
+				} while (packetTime <= mEndTime);// add by XQy
 
-				// ±¨¸æÕû¸ö²âÁ¿ÆÚ¼äµÄÊı¾İ´«ÊäÁ¿ºÍÍÌÍÂÁ¿
+				// æŠ¥å‘Šæ•´ä¸ªæµ‹é‡æœŸé—´çš„æ•°æ®ä¼ è¾“é‡å’Œååé‡
 				mTotalTime = packetTime - mStartTime;
 				double throughput = (double) mTotalLen * 8
 						/ (mTotalTime / 1000) / 1000;
@@ -255,8 +262,8 @@ public class TCPTest {
 						+ mTotalTime / 1000 + " sec " + mTotalLen / 1024
 						+ " KB " + rate + " kbps" + "\n";
 
-				mAvgUplinkThroughput = String.valueOf((int)throughput);//»Ø´«
-				
+				mAvgUplinkThroughput = String.valueOf((int) throughput);// å›ä¼ 
+
 				try {
 					fosUplink.write(content.getBytes());
 				} catch (Exception e) {
@@ -264,15 +271,14 @@ public class TCPTest {
 					e.printStackTrace();
 				}
 
-				// ¹Ø±ÕÌ×½Ó×ÖºÍÁ¬½Ó
+				// å…³é—­å¥—æ¥å­—å’Œè¿æ¥
 				clientSocketUp.close();
 
 				while (true) {
 					if (boolthd) {
 						break;
-					}
-					else {
-						Thread.sleep(1000);//add by XQY
+					} else {
+						Thread.sleep(1000);// add by XQY
 						continue;
 					}
 				}
@@ -283,19 +289,21 @@ public class TCPTest {
 				e.printStackTrace();
 
 				try {
-					fosUplink.write((disconnectTime + " disconnected " + "\n").getBytes());
+					fosUplink.write((disconnectTime + " disconnected " + "\n")
+							.getBytes());
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
+
 				// send 2
 				mHandler.sendEmptyMessage(2);
 
-				// ½¨Á¢Á¬½Ó£¬ÃüÁîĞĞ²ÎÊıargv[0]Ö¸Ê¾·şÎñÆ÷µÄIPµØÖ·£¬·şÎñÆ÷Ê¹ÓÃ5001ºÅ¶Ë¿Ú¼àÌı
+				// å»ºç«‹è¿æ¥ï¼Œå‘½ä»¤è¡Œå‚æ•°argv[0]æŒ‡ç¤ºæœåŠ¡å™¨çš„IPåœ°å€ï¼ŒæœåŠ¡å™¨ä½¿ç”¨5001å·ç«¯å£ç›‘å¬
 				while (true) {
 					try {
-						clientSocketUp = new Socket(measureIP, Config.tcpUploadPort);
+						clientSocketUp = new Socket(measureIP,
+								Config.tcpUploadPort);
 						if (clientSocketUp != null) {
 							break;
 						}
@@ -314,29 +322,30 @@ public class TCPTest {
 		// btnSend.setEnabled(true);
 		// btnClose.setEnabled(true);
 	}
-	
+
 	private void server2client() {
 		// send 0
 		mHandler.sendEmptyMessage(0);
 		// btnSend.setEnabled(false);
 		// btnClose.setEnabled(false);
 
-		// ËÙÂÊ±¨¸æ±£Áô0Î»Ğ¡Êı
+		// é€Ÿç‡æŠ¥å‘Šä¿ç•™0ä½å°æ•°
 		numF = NumberFormat.getInstance();
 		numF.setMaximumFractionDigits(0);
 
-		// ²âÁ¿Ê±¼äÓÉ²ÎÊıargv[2]Ö¸¶¨£¬µ¥Î»Îªmin
+		// æµ‹é‡æ—¶é—´ç”±å‚æ•°argv[2]æŒ‡å®šï¼Œå•ä½ä¸ºmin
 		mTime = Integer.parseInt(measureTime) * 60 * 1000;
-		// ²ÎÊıargv[3]Ö¸¶¨´ø¿í±¨¸æÖÜÆÚ£¬µ¥Î»Îªs
+		// å‚æ•°argv[3]æŒ‡å®šå¸¦å®½æŠ¥å‘Šå‘¨æœŸï¼Œå•ä½ä¸ºs
 		mInterval = Integer.parseInt(measureInterval) * 1000;
-		
+
 		while (true) {
 			try {
-				// ½¨Á¢Á¬½Ó
+				// å»ºç«‹è¿æ¥
 				if (clientSocketDown == null) {
 					while (true) {
 						try {
-							clientSocketDown = new Socket(measureIP, Config.tcpDownloadPort);
+							clientSocketDown = new Socket(measureIP,
+									Config.tcpDownloadPort);
 							if (clientSocketDown != null)
 								break;
 						} catch (Exception ce) {
@@ -351,24 +360,26 @@ public class TCPTest {
 				mTotalLend = 0;
 				mLastTotalLend = 0;
 
-				String connectTimeString = Config.contentDateFormat.format(new Date());
+				String connectTimeString = Config.contentDateFormat
+						.format(new Date());
 				String local = " Local "
 						+ clientSocketDown.getLocalAddress().getHostAddress()
 						+ " port " + clientSocketDown.getLocalPort();
-				String peer = clientSocketDown.getRemoteSocketAddress().toString();
+				String peer = clientSocketDown.getRemoteSocketAddress()
+						.toString();
 				try {
-					fosDownlink.write((" ConnectTime: " + connectTimeString + local
-							+ " connect to " + peer + "\n").getBytes());
+					fosDownlink.write((" ConnectTime: " + connectTimeString
+							+ local + " connect to " + peer + "\n").getBytes());
 				} catch (Exception e) {
 					// TODO: handle exception
-				}				
+				}
 
-				// Ã¿´Î´ÓÌ×½Ó×Ö¶ÁÈëÊı¾İµ½buf£¬bufµÄ³¤¶ÈÓÉbufLenÖ¸¶¨Îª4K
+				// æ¯æ¬¡ä»å¥—æ¥å­—è¯»å…¥æ•°æ®åˆ°bufï¼Œbufçš„é•¿åº¦ç”±bufLenæŒ‡å®šä¸º4K
 				int bufLen = 1 * 1024;
-//				int bufLen = Config.bufferSize;
+				// int bufLen = Config.bufferSize;
 				char buf[] = new char[bufLen];
 
-				// Ã¿´Î¶ÁÈëµÄ×Ö½ÚÊı
+				// æ¯æ¬¡è¯»å…¥çš„å­—èŠ‚æ•°
 				int currLen = 0;
 
 				BufferedReader inFromServer = new BufferedReader(
@@ -386,7 +397,7 @@ public class TCPTest {
 						break;
 					packetTimed = System.currentTimeMillis();
 
-					// ÖÜÆÚĞÔµØ±¨¸æ´ø¿í
+					// å‘¨æœŸæ€§åœ°æŠ¥å‘Šå¸¦å®½
 					if (packetTimed >= mNextTimed) {
 						long inBytes = mTotalLend - mLastTotalLend;
 						long inStart = mLastTimed - mStartTimed;
@@ -397,14 +408,14 @@ public class TCPTest {
 								/ (mInterval / 1000) / 1000;
 						String rate = numF.format(throughput);
 						try {
-							fosDownlink.write((inStart / 1000 + "-" + inStop / 1000
-									+ " sec " + inBytes / 1024 + " KB "
+							fosDownlink.write((inStart / 1000 + "-" + inStop
+									/ 1000 + " sec " + inBytes / 1024 + " KB "
 									+ rate + " kbps\n").getBytes());
 						} catch (Exception e) {
 							// TODO: handle exception
-						}						
+						}
 
-						mDownlinkThroughput = String.valueOf((int) throughput);// »Ø´«
+						mDownlinkThroughput = String.valueOf((int) throughput);// å›ä¼ 
 
 						mLastTimed = mNextTimed;
 						mNextTimed += mInterval;
@@ -420,14 +431,16 @@ public class TCPTest {
 									/ (mInterval / 1000) / 1000;
 							rate = numF.format(throughput);
 							try {
-								fosDownlink.write((inStart / 1000 + "-" + inStop
-										/ 1000 + " sec " + inBytes / 1024 + " KB "
-										+ rate + " kbps\n").getBytes());
+								fosDownlink.write((inStart / 1000 + "-"
+										+ inStop / 1000 + " sec " + inBytes
+										/ 1024 + " KB " + rate + " kbps\n")
+										.getBytes());
 							} catch (Exception e) {
 								// TODO: handle exception
-							}						
+							}
 
-							mDownlinkThroughput = String.valueOf((int) throughput);// »Ø´«
+							mDownlinkThroughput = String
+									.valueOf((int) throughput);// å›ä¼ 
 
 							mLastTimed = mNextTimed;
 							mNextTimed += mInterval;
@@ -435,11 +448,11 @@ public class TCPTest {
 						}
 					}
 
-					// Ã»ÓĞÅ×³öIOExceptionµÄ»°£¬ËµÃ÷Ğ´Èë³É¹¦
-					mTotalLend += currLen;				
+					// æ²¡æœ‰æŠ›å‡ºIOExceptionçš„è¯ï¼Œè¯´æ˜å†™å…¥æˆåŠŸ
+					mTotalLend += currLen;
 				} while (packetTimed <= mEndTimed);// add by XQY
 
-				// ±¨¸æÕû¸ö²âÁ¿ÆÚ¼äµÄÊı¾İ´«ÊäÁ¿ºÍÍÌÍÂÁ¿
+				// æŠ¥å‘Šæ•´ä¸ªæµ‹é‡æœŸé—´çš„æ•°æ®ä¼ è¾“é‡å’Œååé‡
 				mTotalTimed = packetTimed - mStartTimed;
 				double throughput = (double) mTotalLend * 8
 						/ (mTotalTimed / 1000) / 1000;
@@ -448,7 +461,7 @@ public class TCPTest {
 						+ "0-" + mTotalTimed / 1000 + " sec " + mTotalLend
 						/ 1024 + " KB " + rate + " kbps" + "\n";
 
-				mAvgDownlinkThroughput = String.valueOf((int) throughput);// »Ø´«
+				mAvgDownlinkThroughput = String.valueOf((int) throughput);// å›ä¼ 
 
 				try {
 					fosDownlink.write(content.getBytes());
@@ -466,11 +479,12 @@ public class TCPTest {
 				// send 2
 				mHandler.sendEmptyMessage(2);
 
-				// ½¨Á¢Á¬½Ó£¬ÃüÁîĞĞ²ÎÊıargv[0]Ö¸Ê¾·şÎñÆ÷µÄIPµØÖ·£¬·şÎñÆ÷Ê¹ÓÃ5001ºÅ¶Ë¿Ú¼àÌı
+				// å»ºç«‹è¿æ¥ï¼Œå‘½ä»¤è¡Œå‚æ•°argv[0]æŒ‡ç¤ºæœåŠ¡å™¨çš„IPåœ°å€ï¼ŒæœåŠ¡å™¨ä½¿ç”¨5001å·ç«¯å£ç›‘å¬
 				while (true) {
 					try {
-//						clientSocketDown = new Socket(measureIP, port);
-						clientSocketDown = new Socket(measureIP, Config.tcpDownloadPort);
+						// clientSocketDown = new Socket(measureIP, port);
+						clientSocketDown = new Socket(measureIP,
+								Config.tcpDownloadPort);
 						if (clientSocketDown != null) {
 							break;
 						}
@@ -485,29 +499,29 @@ public class TCPTest {
 		}
 	}
 
-	
 	private void server2client30() {
 		// send 0
 		mHandler.sendEmptyMessage(0);
 		// btnSend.setEnabled(false);
 		// btnClose.setEnabled(false);
 
-		// ËÙÂÊ±¨¸æ±£Áô0Î»Ğ¡Êı
+		// é€Ÿç‡æŠ¥å‘Šä¿ç•™0ä½å°æ•°
 		numF = NumberFormat.getInstance();
 		numF.setMaximumFractionDigits(0);
 
-		// ²âÁ¿Ê±¼äÓÉ²ÎÊıargv[2]Ö¸¶¨£¬µ¥Î»Îªmin
+		// æµ‹é‡æ—¶é—´ç”±å‚æ•°argv[2]æŒ‡å®šï¼Œå•ä½ä¸ºmin
 		mTime = Integer.parseInt(measureTime) * 60 * 1000;
-		// ²ÎÊıargv[3]Ö¸¶¨´ø¿í±¨¸æÖÜÆÚ£¬µ¥Î»Îªs
+		// å‚æ•°argv[3]æŒ‡å®šå¸¦å®½æŠ¥å‘Šå‘¨æœŸï¼Œå•ä½ä¸ºs
 		mInterval = Integer.parseInt(measureInterval) * 1000;
-		
+
 		while (true) {
 			try {
-				// ½¨Á¢Á¬½Ó
+				// å»ºç«‹è¿æ¥
 				if (clientSocketDown == null) {
 					while (true) {
 						try {
-							clientSocketDown = new Socket(measureIP, Config.tcpDownloadPort+4);
+							clientSocketDown = new Socket(measureIP,
+									Config.tcpDownloadPort + 4);
 							if (clientSocketDown != null)
 								break;
 						} catch (Exception ce) {
@@ -522,24 +536,26 @@ public class TCPTest {
 				mTotalLend = 0;
 				mLastTotalLend = 0;
 
-				String connectTimeString = Config.contentDateFormat.format(new Date());
+				String connectTimeString = Config.contentDateFormat
+						.format(new Date());
 				String local = " Local "
 						+ clientSocketDown.getLocalAddress().getHostAddress()
 						+ " port " + clientSocketDown.getLocalPort();
-				String peer = clientSocketDown.getRemoteSocketAddress().toString();
+				String peer = clientSocketDown.getRemoteSocketAddress()
+						.toString();
 				try {
-					fosDownlink.write((" ConnectTime: " + connectTimeString + local
-							+ " connect to " + peer + "\n").getBytes());
+					fosDownlink.write((" ConnectTime: " + connectTimeString
+							+ local + " connect to " + peer + "\n").getBytes());
 				} catch (Exception e) {
 					// TODO: handle exception
-				}				
+				}
 
-				// Ã¿´Î´ÓÌ×½Ó×Ö¶ÁÈëÊı¾İµ½buf£¬bufµÄ³¤¶ÈÓÉbufLenÖ¸¶¨Îª4K
+				// æ¯æ¬¡ä»å¥—æ¥å­—è¯»å…¥æ•°æ®åˆ°bufï¼Œbufçš„é•¿åº¦ç”±bufLenæŒ‡å®šä¸º4K
 				int bufLen = 1 * 1024;
-//				int bufLen = Config.bufferSize;
+				// int bufLen = Config.bufferSize;
 				char buf[] = new char[bufLen];
 
-				// Ã¿´Î¶ÁÈëµÄ×Ö½ÚÊı
+				// æ¯æ¬¡è¯»å…¥çš„å­—èŠ‚æ•°
 				int currLen = 0;
 
 				BufferedReader inFromServer = new BufferedReader(
@@ -557,7 +573,7 @@ public class TCPTest {
 						break;
 					packetTimed = System.currentTimeMillis();
 
-					// ÖÜÆÚĞÔµØ±¨¸æ´ø¿í
+					// å‘¨æœŸæ€§åœ°æŠ¥å‘Šå¸¦å®½
 					if (packetTimed >= mNextTimed) {
 						long inBytes = mTotalLend - mLastTotalLend;
 						long inStart = mLastTimed - mStartTimed;
@@ -568,14 +584,14 @@ public class TCPTest {
 								/ (mInterval / 1000) / 1000;
 						String rate = numF.format(throughput);
 						try {
-							fosDownlink.write((inStart / 1000 + "-" + inStop / 1000
-									+ " sec " + inBytes / 1024 + " KB "
+							fosDownlink.write((inStart / 1000 + "-" + inStop
+									/ 1000 + " sec " + inBytes / 1024 + " KB "
 									+ rate + " kbps\n").getBytes());
 						} catch (Exception e) {
 							// TODO: handle exception
-						}						
+						}
 
-						mDownlinkThroughput = String.valueOf((int) throughput);// »Ø´«
+						mDownlinkThroughput = String.valueOf((int) throughput);// å›ä¼ 
 
 						mLastTimed = mNextTimed;
 						mNextTimed += mInterval;
@@ -591,14 +607,16 @@ public class TCPTest {
 									/ (mInterval / 1000) / 1000;
 							rate = numF.format(throughput);
 							try {
-								fosDownlink.write((inStart / 1000 + "-" + inStop
-										/ 1000 + " sec " + inBytes / 1024 + " KB "
-										+ rate + " kbps\n").getBytes());
+								fosDownlink.write((inStart / 1000 + "-"
+										+ inStop / 1000 + " sec " + inBytes
+										/ 1024 + " KB " + rate + " kbps\n")
+										.getBytes());
 							} catch (Exception e) {
 								// TODO: handle exception
-							}						
+							}
 
-							mDownlinkThroughput = String.valueOf((int) throughput);// »Ø´«
+							mDownlinkThroughput = String
+									.valueOf((int) throughput);// å›ä¼ 
 
 							mLastTimed = mNextTimed;
 							mNextTimed += mInterval;
@@ -606,11 +624,11 @@ public class TCPTest {
 						}
 					}
 
-					// Ã»ÓĞÅ×³öIOExceptionµÄ»°£¬ËµÃ÷Ğ´Èë³É¹¦
-					mTotalLend += currLen;				
+					// æ²¡æœ‰æŠ›å‡ºIOExceptionçš„è¯ï¼Œè¯´æ˜å†™å…¥æˆåŠŸ
+					mTotalLend += currLen;
 				} while (packetTimed <= mEndTimed);// add by XQY
 
-				// ±¨¸æÕû¸ö²âÁ¿ÆÚ¼äµÄÊı¾İ´«ÊäÁ¿ºÍÍÌÍÂÁ¿
+				// æŠ¥å‘Šæ•´ä¸ªæµ‹é‡æœŸé—´çš„æ•°æ®ä¼ è¾“é‡å’Œååé‡
 				mTotalTimed = packetTimed - mStartTimed;
 				double throughput = (double) mTotalLend * 8
 						/ (mTotalTimed / 1000) / 1000;
@@ -619,7 +637,7 @@ public class TCPTest {
 						+ "0-" + mTotalTimed / 1000 + " sec " + mTotalLend
 						/ 1024 + " KB " + rate + " kbps" + "\n";
 
-				mAvgDownlinkThroughput = String.valueOf((int) throughput);// »Ø´«
+				mAvgDownlinkThroughput = String.valueOf((int) throughput);// å›ä¼ 
 
 				try {
 					fosDownlink.write(content.getBytes());
@@ -637,10 +655,11 @@ public class TCPTest {
 				// send 2
 				mHandler.sendEmptyMessage(2);
 
-				// ½¨Á¢Á¬½Ó£¬ÃüÁîĞĞ²ÎÊıargv[0]Ö¸Ê¾·şÎñÆ÷µÄIPµØÖ·£¬·şÎñÆ÷Ê¹ÓÃ5001ºÅ¶Ë¿Ú¼àÌı
+				// å»ºç«‹è¿æ¥ï¼Œå‘½ä»¤è¡Œå‚æ•°argv[0]æŒ‡ç¤ºæœåŠ¡å™¨çš„IPåœ°å€ï¼ŒæœåŠ¡å™¨ä½¿ç”¨5001å·ç«¯å£ç›‘å¬
 				while (true) {
 					try {
-						clientSocketDown = new Socket(measureIP, Config.tcpDownloadPort+4);
+						clientSocketDown = new Socket(measureIP,
+								Config.tcpDownloadPort + 4);
 						if (clientSocketDown != null) {
 							break;
 						}
@@ -654,30 +673,31 @@ public class TCPTest {
 			}
 		}
 	}
-	
+
 	private void server2clientFlow() {
 		// send 0
 		mHandler.sendEmptyMessage(0);
 		// btnSend.setEnabled(false);
 		// btnClose.setEnabled(false);
 
-		// ËÙÂÊ±¨¸æ±£Áô0Î»Ğ¡Êı
+		// é€Ÿç‡æŠ¥å‘Šä¿ç•™0ä½å°æ•°
 		numF = NumberFormat.getInstance();
 		numF.setMaximumFractionDigits(0);
 
-		// ²âÁ¿Ê±¼äÓÉ²ÎÊıargv[2]Ö¸¶¨£¬µ¥Î»Îªmin
+		// æµ‹é‡æ—¶é—´ç”±å‚æ•°argv[2]æŒ‡å®šï¼Œå•ä½ä¸ºmin
 		mTime = Integer.parseInt(measureTime) * 60 * 1000;
-		// ²ÎÊıargv[3]Ö¸¶¨´ø¿í±¨¸æÖÜÆÚ£¬µ¥Î»Îªs
+		// å‚æ•°argv[3]æŒ‡å®šå¸¦å®½æŠ¥å‘Šå‘¨æœŸï¼Œå•ä½ä¸ºs
 		mInterval = Integer.parseInt(measureInterval) * 1000;
-		
+
 		while (true) {
 			while (true) {
 				try {
-					// ½¨Á¢Á¬½Ó
+					// å»ºç«‹è¿æ¥
 					if (clientSocketDown == null) {
 						while (true) {
 							try {
-								clientSocketDown = new Socket(measureIP, Config.tcpFlowPort);
+								clientSocketDown = new Socket(measureIP,
+										Config.tcpFlowPort);
 								if (clientSocketDown != null)
 									break;
 							} catch (Exception ce) {
@@ -692,28 +712,33 @@ public class TCPTest {
 					mTotalLend = 0;
 					mLastTotalLend = 0;
 
-					String connectTimeString = Config.contentDateFormat.format(new Date());
+					String connectTimeString = Config.contentDateFormat
+							.format(new Date());
 					String local = " Local "
-							+ clientSocketDown.getLocalAddress().getHostAddress()
-							+ " port " + clientSocketDown.getLocalPort();
-					String peer = clientSocketDown.getRemoteSocketAddress().toString();
+							+ clientSocketDown.getLocalAddress()
+									.getHostAddress() + " port "
+							+ clientSocketDown.getLocalPort();
+					String peer = clientSocketDown.getRemoteSocketAddress()
+							.toString();
 					try {
-						fosDownlink.write((" ConnectTime: " + connectTimeString + local
-								+ " connect to " + peer + "\n").getBytes());
+						fosDownlink.write((" ConnectTime: " + connectTimeString
+								+ local + " connect to " + peer + "\n")
+								.getBytes());
 					} catch (Exception e) {
 						// TODO: handle exception
-					}				
+					}
 
-					// Ã¿´Î´ÓÌ×½Ó×Ö¶ÁÈëÊı¾İµ½buf£¬bufµÄ³¤¶ÈÓÉbufLenÖ¸¶¨Îª4K
+					// æ¯æ¬¡ä»å¥—æ¥å­—è¯»å…¥æ•°æ®åˆ°bufï¼Œbufçš„é•¿åº¦ç”±bufLenæŒ‡å®šä¸º4K
 					int bufLen = 1 * 1024;
-//					int bufLen = Config.bufferSize;
+					// int bufLen = Config.bufferSize;
 					char buf[] = new char[bufLen];
 
-					// Ã¿´Î¶ÁÈëµÄ×Ö½ÚÊı
+					// æ¯æ¬¡è¯»å…¥çš„å­—èŠ‚æ•°
 					int currLen = 0;
 
 					BufferedReader inFromServer = new BufferedReader(
-							new InputStreamReader(clientSocketDown.getInputStream()));
+							new InputStreamReader(
+									clientSocketDown.getInputStream()));
 
 					mStartTimed = System.currentTimeMillis();
 					mEndTimed = mStartTimed + mTime; // add by XQY
@@ -727,7 +752,7 @@ public class TCPTest {
 							break;
 						packetTimed = System.currentTimeMillis();
 
-						// ÖÜÆÚĞÔµØ±¨¸æ´ø¿í
+						// å‘¨æœŸæ€§åœ°æŠ¥å‘Šå¸¦å®½
 						if (packetTimed >= mNextTimed) {
 							long inBytes = mTotalLend - mLastTotalLend;
 							long inStart = mLastTimed - mStartTimed;
@@ -738,14 +763,16 @@ public class TCPTest {
 									/ (mInterval / 1000) / 1000;
 							String rate = numF.format(throughput);
 							try {
-								fosDownlink.write((inStart / 1000 + "-" + inStop / 1000
-										+ " sec " + inBytes / 1024 + " KB "
-										+ rate + " kbps\n").getBytes());
+								fosDownlink.write((inStart / 1000 + "-"
+										+ inStop / 1000 + " sec " + inBytes
+										/ 1024 + " KB " + rate + " kbps\n")
+										.getBytes());
 							} catch (Exception e) {
 								// TODO: handle exception
-							}						
+							}
 
-							mDownlinkThroughput = String.valueOf((int) throughput);// »Ø´«
+							mDownlinkThroughput = String
+									.valueOf((int) throughput);// å›ä¼ 
 
 							mLastTimed = mNextTimed;
 							mNextTimed += mInterval;
@@ -761,14 +788,16 @@ public class TCPTest {
 										/ (mInterval / 1000) / 1000;
 								rate = numF.format(throughput);
 								try {
-									fosDownlink.write((inStart / 1000 + "-" + inStop
-											/ 1000 + " sec " + inBytes / 1024 + " KB "
-											+ rate + " kbps\n").getBytes());
+									fosDownlink.write((inStart / 1000 + "-"
+											+ inStop / 1000 + " sec " + inBytes
+											/ 1024 + " KB " + rate + " kbps\n")
+											.getBytes());
 								} catch (Exception e) {
 									// TODO: handle exception
-								}						
+								}
 
-								mDownlinkThroughput = String.valueOf((int) throughput);// »Ø´«
+								mDownlinkThroughput = String
+										.valueOf((int) throughput);// å›ä¼ 
 
 								mLastTimed = mNextTimed;
 								mNextTimed += mInterval;
@@ -776,11 +805,11 @@ public class TCPTest {
 							}
 						}
 
-						// Ã»ÓĞÅ×³öIOExceptionµÄ»°£¬ËµÃ÷Ğ´Èë³É¹¦
-						mTotalLend += currLen;				
+						// æ²¡æœ‰æŠ›å‡ºIOExceptionçš„è¯ï¼Œè¯´æ˜å†™å…¥æˆåŠŸ
+						mTotalLend += currLen;
 					} while (packetTimed <= mEndTimed);// add by XQY
 
-					// ±¨¸æÕû¸ö²âÁ¿ÆÚ¼äµÄÊı¾İ´«ÊäÁ¿ºÍÍÌÍÂÁ¿
+					// æŠ¥å‘Šæ•´ä¸ªæµ‹é‡æœŸé—´çš„æ•°æ®ä¼ è¾“é‡å’Œååé‡
 					mTotalTimed = packetTimed - mStartTimed;
 					double throughput = (double) mTotalLend * 8
 							/ (mTotalTimed / 1000) / 1000;
@@ -789,7 +818,7 @@ public class TCPTest {
 							+ "0-" + mTotalTimed / 1000 + " sec " + mTotalLend
 							/ 1024 + " KB " + rate + " kbps" + "\n";
 
-					mAvgDownlinkThroughput = String.valueOf((int) throughput);// »Ø´«
+					mAvgDownlinkThroughput = String.valueOf((int) throughput);// å›ä¼ 
 
 					try {
 						fosDownlink.write(content.getBytes());
@@ -807,10 +836,11 @@ public class TCPTest {
 					// send 2
 					mHandler.sendEmptyMessage(2);
 
-					// ½¨Á¢Á¬½Ó£¬ÃüÁîĞĞ²ÎÊıargv[0]Ö¸Ê¾·şÎñÆ÷µÄIPµØÖ·£¬·şÎñÆ÷Ê¹ÓÃ5001ºÅ¶Ë¿Ú¼àÌı
+					// å»ºç«‹è¿æ¥ï¼Œå‘½ä»¤è¡Œå‚æ•°argv[0]æŒ‡ç¤ºæœåŠ¡å™¨çš„IPåœ°å€ï¼ŒæœåŠ¡å™¨ä½¿ç”¨5001å·ç«¯å£ç›‘å¬
 					while (true) {
 						try {
-							clientSocketDown = new Socket(measureIP, Config.tcpFlowPort);
+							clientSocketDown = new Socket(measureIP,
+									Config.tcpFlowPort);
 							if (clientSocketDown != null) {
 								break;
 							}
@@ -825,42 +855,42 @@ public class TCPTest {
 			}
 		}
 	}
-	
+
 	private void server2clientFlowAlternate() {
 		// send 0
 		mHandler.sendEmptyMessage(0);
 		// btnSend.setEnabled(false);
 		// btnClose.setEnabled(false);
 
-		// ËÙÂÊ±¨¸æ±£Áô0Î»Ğ¡Êı
+		// é€Ÿç‡æŠ¥å‘Šä¿ç•™0ä½å°æ•°
 		numF = NumberFormat.getInstance();
 		numF.setMaximumFractionDigits(0);
 
-		// ²âÁ¿Ê±¼äÓÉ²ÎÊıargv[2]Ö¸¶¨£¬µ¥Î»Îªmin
+		// æµ‹é‡æ—¶é—´ç”±å‚æ•°argv[2]æŒ‡å®šï¼Œå•ä½ä¸ºmin
 		mTime = Integer.parseInt(measureTime) * 60 * 1000;
-		// ²ÎÊıargv[3]Ö¸¶¨´ø¿í±¨¸æÖÜÆÚ£¬µ¥Î»Îªs
+		// å‚æ•°argv[3]æŒ‡å®šå¸¦å®½æŠ¥å‘Šå‘¨æœŸï¼Œå•ä½ä¸ºs
 		mInterval = Integer.parseInt(measureInterval) * 1000;
-		//ÀîÁ¢Ìí¼Ó
+		// æç«‹æ·»åŠ 
 		int flowPortNow = Config.tcpFlowPort;
 		while (true) {
 			while (true) {
 				try {
-					// ½¨Á¢Á¬½Ó
+					// å»ºç«‹è¿æ¥
 					if (clientSocketDown == null) {
 						while (true) {
 							try {
-								clientSocketDown = new Socket(measureIP, flowPortNow);
-								if (clientSocketDown != null){
-										//ÀîÁ¢Ìí¼Ó
-								  if (flowPortNow == Config.tcpFlowPort){
-								      flowPortNow = Config.tcpFlowPort+1;
-								  }
-								  else{
-								      flowPortNow = Config.tcpFlowPort;
-								  }
-								  
-							    break;
-							    }
+								clientSocketDown = new Socket(measureIP,
+										flowPortNow);
+								if (clientSocketDown != null) {
+									// æç«‹æ·»åŠ 
+									if (flowPortNow == Config.tcpFlowPort) {
+										flowPortNow = Config.tcpFlowPort + 1;
+									} else {
+										flowPortNow = Config.tcpFlowPort;
+									}
+
+									break;
+								}
 
 							} catch (Exception ce) {
 								continue;
@@ -874,28 +904,33 @@ public class TCPTest {
 					mTotalLend = 0;
 					mLastTotalLend = 0;
 
-					String connectTimeString = Config.contentDateFormat.format(new Date());
+					String connectTimeString = Config.contentDateFormat
+							.format(new Date());
 					String local = " Local "
-							+ clientSocketDown.getLocalAddress().getHostAddress()
-							+ " port " + clientSocketDown.getLocalPort();
-					String peer = clientSocketDown.getRemoteSocketAddress().toString();
+							+ clientSocketDown.getLocalAddress()
+									.getHostAddress() + " port "
+							+ clientSocketDown.getLocalPort();
+					String peer = clientSocketDown.getRemoteSocketAddress()
+							.toString();
 					try {
-						fosDownlink.write((" ConnectTime: " + connectTimeString + local
-								+ " connect to " + peer + "\n").getBytes());
+						fosDownlink.write((" ConnectTime: " + connectTimeString
+								+ local + " connect to " + peer + "\n")
+								.getBytes());
 					} catch (Exception e) {
 						// TODO: handle exception
-					}				
+					}
 
-					// Ã¿´Î´ÓÌ×½Ó×Ö¶ÁÈëÊı¾İµ½buf£¬bufµÄ³¤¶ÈÓÉbufLenÖ¸¶¨Îª4K
+					// æ¯æ¬¡ä»å¥—æ¥å­—è¯»å…¥æ•°æ®åˆ°bufï¼Œbufçš„é•¿åº¦ç”±bufLenæŒ‡å®šä¸º4K
 					int bufLen = 1 * 1024;
-//					int bufLen = Config.bufferSize;
+					// int bufLen = Config.bufferSize;
 					char buf[] = new char[bufLen];
 
-					// Ã¿´Î¶ÁÈëµÄ×Ö½ÚÊı
+					// æ¯æ¬¡è¯»å…¥çš„å­—èŠ‚æ•°
 					int currLen = 0;
 
 					BufferedReader inFromServer = new BufferedReader(
-							new InputStreamReader(clientSocketDown.getInputStream()));
+							new InputStreamReader(
+									clientSocketDown.getInputStream()));
 
 					mStartTimed = System.currentTimeMillis();
 					mEndTimed = mStartTimed + mTime; // add by XQY
@@ -909,7 +944,7 @@ public class TCPTest {
 							break;
 						packetTimed = System.currentTimeMillis();
 
-						// ÖÜÆÚĞÔµØ±¨¸æ´ø¿í
+						// å‘¨æœŸæ€§åœ°æŠ¥å‘Šå¸¦å®½
 						if (packetTimed >= mNextTimed) {
 							long inBytes = mTotalLend - mLastTotalLend;
 							long inStart = mLastTimed - mStartTimed;
@@ -920,14 +955,16 @@ public class TCPTest {
 									/ (mInterval / 1000) / 1000;
 							String rate = numF.format(throughput);
 							try {
-								fosDownlink.write((inStart / 1000 + "-" + inStop / 1000
-										+ " sec " + inBytes / 1024 + " KB "
-										+ rate + " kbps\n").getBytes());
+								fosDownlink.write((inStart / 1000 + "-"
+										+ inStop / 1000 + " sec " + inBytes
+										/ 1024 + " KB " + rate + " kbps\n")
+										.getBytes());
 							} catch (Exception e) {
 								// TODO: handle exception
-							}						
+							}
 
-							mDownlinkThroughput = String.valueOf((int) throughput);// »Ø´«
+							mDownlinkThroughput = String
+									.valueOf((int) throughput);// å›ä¼ 
 
 							mLastTimed = mNextTimed;
 							mNextTimed += mInterval;
@@ -943,14 +980,16 @@ public class TCPTest {
 										/ (mInterval / 1000) / 1000;
 								rate = numF.format(throughput);
 								try {
-									fosDownlink.write((inStart / 1000 + "-" + inStop
-											/ 1000 + " sec " + inBytes / 1024 + " KB "
-											+ rate + " kbps\n").getBytes());
+									fosDownlink.write((inStart / 1000 + "-"
+											+ inStop / 1000 + " sec " + inBytes
+											/ 1024 + " KB " + rate + " kbps\n")
+											.getBytes());
 								} catch (Exception e) {
 									// TODO: handle exception
-								}						
+								}
 
-								mDownlinkThroughput = String.valueOf((int) throughput);// »Ø´«
+								mDownlinkThroughput = String
+										.valueOf((int) throughput);// å›ä¼ 
 
 								mLastTimed = mNextTimed;
 								mNextTimed += mInterval;
@@ -958,11 +997,11 @@ public class TCPTest {
 							}
 						}
 
-						// Ã»ÓĞÅ×³öIOExceptionµÄ»°£¬ËµÃ÷Ğ´Èë³É¹¦
-						mTotalLend += currLen;				
+						// æ²¡æœ‰æŠ›å‡ºIOExceptionçš„è¯ï¼Œè¯´æ˜å†™å…¥æˆåŠŸ
+						mTotalLend += currLen;
 					} while (packetTimed <= mEndTimed);// add by XQY
 
-					// ±¨¸æÕû¸ö²âÁ¿ÆÚ¼äµÄÊı¾İ´«ÊäÁ¿ºÍÍÌÍÂÁ¿
+					// æŠ¥å‘Šæ•´ä¸ªæµ‹é‡æœŸé—´çš„æ•°æ®ä¼ è¾“é‡å’Œååé‡
 					mTotalTimed = packetTimed - mStartTimed;
 					double throughput = (double) mTotalLend * 8
 							/ (mTotalTimed / 1000) / 1000;
@@ -971,7 +1010,7 @@ public class TCPTest {
 							+ "0-" + mTotalTimed / 1000 + " sec " + mTotalLend
 							/ 1024 + " KB " + rate + " kbps" + "\n";
 
-					mAvgDownlinkThroughput = String.valueOf((int) throughput);// »Ø´«
+					mAvgDownlinkThroughput = String.valueOf((int) throughput);// å›ä¼ 
 
 					try {
 						fosDownlink.write(content.getBytes());
@@ -989,20 +1028,20 @@ public class TCPTest {
 					// send 2
 					mHandler.sendEmptyMessage(2);
 
-					// ½¨Á¢Á¬½Ó£¬ÃüÁîĞĞ²ÎÊıargv[0]Ö¸Ê¾·şÎñÆ÷µÄIPµØÖ·£¬·şÎñÆ÷Ê¹ÓÃ5001ºÅ¶Ë¿Ú¼àÌı
+					// å»ºç«‹è¿æ¥ï¼Œå‘½ä»¤è¡Œå‚æ•°argv[0]æŒ‡ç¤ºæœåŠ¡å™¨çš„IPåœ°å€ï¼ŒæœåŠ¡å™¨ä½¿ç”¨5001å·ç«¯å£ç›‘å¬
 					while (true) {
 						try {
-							clientSocketDown = new Socket(measureIP, flowPortNow);
+							clientSocketDown = new Socket(measureIP,
+									flowPortNow);
 							if (clientSocketDown != null) {
-									//ÀîÁ¢Ìí¼Ó
-							  if (flowPortNow ==Config.tcpFlowPort){
-								      flowPortNow=Config.tcpFlowPort+1;
-								    }
-								  else{
-								      flowPortNow=Config.tcpFlowPort;
-								      }
-								  
-							    break;
+								// æç«‹æ·»åŠ 
+								if (flowPortNow == Config.tcpFlowPort) {
+									flowPortNow = Config.tcpFlowPort + 1;
+								} else {
+									flowPortNow = Config.tcpFlowPort;
+								}
+
+								break;
 							}
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
@@ -1017,18 +1056,18 @@ public class TCPTest {
 	}
 
 	private void server2MultiClient(int port) {
-		// ËÙÂÊ±¨¸æ±£Áô0Î»Ğ¡Êı
+		// é€Ÿç‡æŠ¥å‘Šä¿ç•™0ä½å°æ•°
 		numF = NumberFormat.getInstance();
 		numF.setMaximumFractionDigits(0);
 
-		// ²âÁ¿Ê±¼äÓÉ²ÎÊıargv[2]Ö¸¶¨£¬µ¥Î»Îªmin
+		// æµ‹é‡æ—¶é—´ç”±å‚æ•°argv[2]æŒ‡å®šï¼Œå•ä½ä¸ºmin
 		mTime = Integer.parseInt(measureTime) * 60 * 1000;
-		// ²ÎÊıargv[3]Ö¸¶¨´ø¿í±¨¸æÖÜÆÚ£¬µ¥Î»Îªs
+		// å‚æ•°argv[3]æŒ‡å®šå¸¦å®½æŠ¥å‘Šå‘¨æœŸï¼Œå•ä½ä¸ºs
 		mInterval = Integer.parseInt(measureInterval) * 1000;
 		Socket clientSocketDown2 = null;
 		while (true) {
 			try {
-				// ½¨Á¢Á¬½Ó
+				// å»ºç«‹è¿æ¥
 				if (clientSocketDown2 == null) {
 					while (true) {
 						try {
@@ -1044,28 +1083,31 @@ public class TCPTest {
 				mTotalLend = 0;
 				mLastTotalLend = 0;
 
-				String connectTimeString = Config.contentDateFormat.format(new Date());
+				String connectTimeString = Config.contentDateFormat
+						.format(new Date());
 				String local = " Local "
 						+ clientSocketDown2.getLocalAddress().getHostAddress()
 						+ " port " + clientSocketDown2.getLocalPort();
-				String peer = clientSocketDown2.getRemoteSocketAddress().toString();
+				String peer = clientSocketDown2.getRemoteSocketAddress()
+						.toString();
 				try {
-					fosDownlink.write((" ConnectTime: " + connectTimeString + local
-							+ " connect to " + peer + "\n").getBytes());
+					fosDownlink.write((" ConnectTime: " + connectTimeString
+							+ local + " connect to " + peer + "\n").getBytes());
 				} catch (Exception e) {
 					// TODO: handle exception
-				}				
+				}
 
-				// Ã¿´Î´ÓÌ×½Ó×Ö¶ÁÈëÊı¾İµ½buf£¬bufµÄ³¤¶ÈÓÉbufLenÖ¸¶¨Îª4K
+				// æ¯æ¬¡ä»å¥—æ¥å­—è¯»å…¥æ•°æ®åˆ°bufï¼Œbufçš„é•¿åº¦ç”±bufLenæŒ‡å®šä¸º4K
 				int bufLen = 1 * 1024;
-//				int bufLen = Config.bufferSize;
+				// int bufLen = Config.bufferSize;
 				char buf[] = new char[bufLen];
 
-				// Ã¿´Î¶ÁÈëµÄ×Ö½ÚÊı
+				// æ¯æ¬¡è¯»å…¥çš„å­—èŠ‚æ•°
 				int currLen = 0;
 
 				BufferedReader inFromServer = new BufferedReader(
-						new InputStreamReader(clientSocketDown2.getInputStream()));
+						new InputStreamReader(
+								clientSocketDown2.getInputStream()));
 
 				mStartTimed = System.currentTimeMillis();
 				mEndTimed = mStartTimed + mTime; // add by XQY
@@ -1079,7 +1121,7 @@ public class TCPTest {
 						break;
 					packetTimed = System.currentTimeMillis();
 
-					// ÖÜÆÚĞÔµØ±¨¸æ´ø¿í
+					// å‘¨æœŸæ€§åœ°æŠ¥å‘Šå¸¦å®½
 					if (packetTimed >= mNextTimed) {
 						long inBytes = mTotalLend - mLastTotalLend;
 						long inStart = mLastTimed - mStartTimed;
@@ -1090,14 +1132,14 @@ public class TCPTest {
 								/ (mInterval / 1000) / 1000;
 						String rate = numF.format(throughput);
 						try {
-							fosDownlink.write((inStart / 1000 + "-" + inStop / 1000
-									+ " sec " + inBytes / 1024 + " KB "
+							fosDownlink.write((inStart / 1000 + "-" + inStop
+									/ 1000 + " sec " + inBytes / 1024 + " KB "
 									+ rate + " kbps\n").getBytes());
 						} catch (Exception e) {
 							// TODO: handle exception
-						}						
+						}
 
-						mDownlinkThroughput = String.valueOf((int) throughput);// »Ø´«
+						mDownlinkThroughput = String.valueOf((int) throughput);// å›ä¼ 
 
 						mLastTimed = mNextTimed;
 						mNextTimed += mInterval;
@@ -1113,14 +1155,16 @@ public class TCPTest {
 									/ (mInterval / 1000) / 1000;
 							rate = numF.format(throughput);
 							try {
-								fosDownlink.write((inStart / 1000 + "-" + inStop
-										/ 1000 + " sec " + inBytes / 1024 + " KB "
-										+ rate + " kbps\n").getBytes());
+								fosDownlink.write((inStart / 1000 + "-"
+										+ inStop / 1000 + " sec " + inBytes
+										/ 1024 + " KB " + rate + " kbps\n")
+										.getBytes());
 							} catch (Exception e) {
 								// TODO: handle exception
-							}						
+							}
 
-							mDownlinkThroughput = String.valueOf((int) throughput);// »Ø´«
+							mDownlinkThroughput = String
+									.valueOf((int) throughput);// å›ä¼ 
 
 							mLastTimed = mNextTimed;
 							mNextTimed += mInterval;
@@ -1128,11 +1172,11 @@ public class TCPTest {
 						}
 					}
 
-					// Ã»ÓĞÅ×³öIOExceptionµÄ»°£¬ËµÃ÷Ğ´Èë³É¹¦
-					mTotalLend += currLen;				
+					// æ²¡æœ‰æŠ›å‡ºIOExceptionçš„è¯ï¼Œè¯´æ˜å†™å…¥æˆåŠŸ
+					mTotalLend += currLen;
 				} while (packetTimed <= mEndTimed);// add by XQY
 
-				// ±¨¸æÕû¸ö²âÁ¿ÆÚ¼äµÄÊı¾İ´«ÊäÁ¿ºÍÍÌÍÂÁ¿
+				// æŠ¥å‘Šæ•´ä¸ªæµ‹é‡æœŸé—´çš„æ•°æ®ä¼ è¾“é‡å’Œååé‡
 				mTotalTimed = packetTimed - mStartTimed;
 				double throughput = (double) mTotalLend * 8
 						/ (mTotalTimed / 1000) / 1000;
@@ -1141,7 +1185,7 @@ public class TCPTest {
 						+ "0-" + mTotalTimed / 1000 + " sec " + mTotalLend
 						/ 1024 + " KB " + rate + " kbps" + "\n";
 
-				mAvgDownlinkThroughput = String.valueOf((int) throughput);// »Ø´«
+				mAvgDownlinkThroughput = String.valueOf((int) throughput);// å›ä¼ 
 
 				try {
 					fosDownlink.write(content.getBytes());
@@ -1156,11 +1200,12 @@ public class TCPTest {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 
-				// ½¨Á¢Á¬½Ó£¬ÃüÁîĞĞ²ÎÊıargv[0]Ö¸Ê¾·şÎñÆ÷µÄIPµØÖ·£¬·şÎñÆ÷Ê¹ÓÃ5001ºÅ¶Ë¿Ú¼àÌı
+				// å»ºç«‹è¿æ¥ï¼Œå‘½ä»¤è¡Œå‚æ•°argv[0]æŒ‡ç¤ºæœåŠ¡å™¨çš„IPåœ°å€ï¼ŒæœåŠ¡å™¨ä½¿ç”¨5001å·ç«¯å£ç›‘å¬
 				while (true) {
 					try {
 						clientSocketDown2 = new Socket(measureIP, port);
-//						clientSocketDown2 = new Socket(measureIP, Config.tcpDownloadPort);
+						// clientSocketDown2 = new Socket(measureIP,
+						// Config.tcpDownloadPort);
 						if (clientSocketDown2 != null) {
 							break;
 						}

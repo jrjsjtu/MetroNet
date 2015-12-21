@@ -3,7 +3,7 @@ package thu.wireless.mobinet.hsrtest;
 import android.telephony.TelephonyManager;
 
 public class SignalUtil {
-	public static void getCurrentNetworkType(int type) {	
+	public static void getCurrentNetworkType(int type) {
 		switch (type) {
 		case TelephonyManager.NETWORK_TYPE_GPRS:// 2.5G
 			Config.networkTypeString = "GPRS";
@@ -139,7 +139,7 @@ public class SignalUtil {
 		int evdoSnr = Integer.parseInt(Config.evdoSnr);
 		int levelEvdoDbm;
 		int levelEvdoSnr;
-		
+
 		if (evdoDbm >= -65)
 			levelEvdoDbm = 4;
 		else if (evdoDbm >= -75)
@@ -150,7 +150,7 @@ public class SignalUtil {
 			levelEvdoDbm = 1;
 		else
 			levelEvdoDbm = 0;
-		
+
 		if (evdoSnr >= 7)
 			levelEvdoSnr = 4;
 		else if (evdoSnr >= 5)
@@ -170,13 +170,13 @@ public class SignalUtil {
 		int rsrp = Integer.parseInt(Config.lteRsrp);
 		if (rsrp == -1)
 			levelLteRsrp = 0;
-		else if (rsrp >= -85) //Great
+		else if (rsrp >= -85) // Great
 			levelLteRsrp = 4;
-		else if (rsrp >= -95) //Good
+		else if (rsrp >= -95) // Good
 			levelLteRsrp = 3;
-		else if (rsrp >= -105) //MODERATE
+		else if (rsrp >= -105) // MODERATE
 			levelLteRsrp = 2;
-		else if (rsrp >= -115) //Poor
+		else if (rsrp >= -115) // Poor
 			levelLteRsrp = 1;
 		else
 			levelLteRsrp = 0;

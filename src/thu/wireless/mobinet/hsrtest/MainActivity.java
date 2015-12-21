@@ -46,11 +46,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/**
- * @author XQY 
- * ÇĞ»»¼ÇÂ¼¸ü¼ÓÍêÕû
- * ÊÖ»úĞİÃßÈÕÖ¾¿ÉÄÜ²»¼ÇÂ¼
- */
 public class MainActivity extends Activity implements OnClickListener {
 
 	private MyPhoneStateListener myListener;
@@ -59,28 +54,32 @@ public class MainActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		// ÉèÖÃÆÁÄ»³£ÁÁ
+
+		// è®¾ç½®å±å¹•å¸¸äº®
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 10*60*1000);
+		Settings.System.putInt(getContentResolver(),
+				Settings.System.SCREEN_OFF_TIMEOUT, 10 * 60 * 1000);
 
-		// µ÷ÓÃ°Ù¶ÈÍ³¼Æ
+		// è°ƒç”¨ç™¾åº¦ç»Ÿè®¡
 		StatService.setAppChannel(this, "Baidu Market", true);
-		StatService.setSendLogStrategy(this, SendStrategyEnum.APP_START, 1, false);
+		StatService.setSendLogStrategy(this, SendStrategyEnum.APP_START, 1,
+				false);
 
-		// ÊÖ»ú×´Ì¬Ïà¹Ø¿Ø¼ş
+		// æ‰‹æœºçŠ¶æ€ç›¸å…³æ§ä»¶
 		Config.start = (Button) findViewById(R.id.button_Start);
 		Config.start.setOnClickListener(this);
-		
-//		Config.end = (Button) findViewById(R.id.button_End);
-//		Config.end.setOnClickListener(this);
-//		Config.end.setEnabled(false);
+
+		// Config.end = (Button) findViewById(R.id.button_End);
+		// Config.end.setOnClickListener(this);
+		// Config.end.setEnabled(false);
 
 		Config.serverConentEditText = (EditText) findViewById(R.id.editText_serverIP);
 		Config.serverConentEditText.clearFocus();
+		// duration
 		Config.serverTimeEditText = (EditText) findViewById(R.id.editText_serverTime);
+		// size
 		Config.bufferSizeEditText = (EditText) findViewById(R.id.editText_buffer);
-		
+
 		Config.asuTextView = (TextView) findViewById(R.id.signalText);
 		Config.signalParameterTextView = (TextView) findViewById(R.id.signalParameterText);
 		Config.basestationTextView = (TextView) findViewById(R.id.basestationText);
@@ -96,7 +95,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		Config.pingTextView = (TextView) findViewById(R.id.pingText);
 		Config.portTextView = (TextView) findViewById(R.id.tv_port);
 
-		// »ñÈ¡ÊÖ»úĞÅÏ¢
+		// è·å–æ‰‹æœºä¿¡æ¯
 		try {
 			myListener = new MyPhoneStateListener();
 			Config.tel = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
@@ -104,28 +103,29 @@ public class MainActivity extends Activity implements OnClickListener {
 			Config.providerName = "No SIM";
 			Config.phoneModel = Build.MODEL;
 			Config.osVersion = Build.VERSION.RELEASE;
-		
-			String infoString = "PhoneModel=" + Build.MODEL 
-					+ "\nsdkVersion=" + Build.VERSION.SDK_INT 
-					+ "\nosVersion=" + Build.VERSION.RELEASE;
-			if(Config.tel.getSimState() == TelephonyManager.SIM_STATE_READY) {
-				String IMSI = Config.tel.getSubscriberId();			
+
+			String infoString = "PhoneModel=" + Build.MODEL + "\nsdkVersion="
+					+ Build.VERSION.SDK_INT + "\nosVersion="
+					+ Build.VERSION.RELEASE;
+			if (Config.tel.getSimState() == TelephonyManager.SIM_STATE_READY) {
+				String IMSI = Config.tel.getSubscriberId();
 				if (IMSI.startsWith("46000") || IMSI.startsWith("46002")
 						|| IMSI.startsWith("46007")) {
-					Config.providerName = "ÖĞ¹úÒÆ¶¯";
+					Config.providerName = "ä¸­å›½ç§»åŠ¨";
 				} else if (IMSI.startsWith("46001")) {
-					Config.providerName = "ÖĞ¹úÁªÍ¨";
+					Config.providerName = "ä¸­å›½è”é€š";
 				} else if (IMSI.startsWith("46003")) {
-					Config.providerName = "ÖĞ¹úµçĞÅ";
+					Config.providerName = "ä¸­å›½ç”µä¿¡";
 				} else {
-					Config.providerName = "·Ç´óÂ½ÓÃ»§";
+					Config.providerName = "éå¤§é™†ç”¨æˆ·";
 				}
 			} else {
 				Config.reportTextView.setText("No SIM Card");
 			}
-			
+
 			ConnectivityManager connect = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-			NetworkInfo networkInfo = connect.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+			NetworkInfo networkInfo = connect
+					.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 			infoString += "\nProviderName=" + Config.providerName;
 			infoString += "\nDetailedState=" + networkInfo.getDetailedState();
 			infoString += "\nReason=" + networkInfo.getReason();
@@ -134,47 +134,52 @@ public class MainActivity extends Activity implements OnClickListener {
 			infoString += "\nTypeName=" + networkInfo.getTypeName();
 			infoString += "\nIMEI=" + Config.tel.getDeviceId();
 			infoString += "\nIMSI=" + Config.tel.getSubscriberId();
-			infoString += "\nNetworkOperatorName=" + Config.tel.getNetworkOperatorName();
-			infoString += "\nSimOperatorName=" + Config.tel.getSimOperatorName();
-			infoString += "\nSimSerialNumber=" + Config.tel.getSimSerialNumber();
+			infoString += "\nNetworkOperatorName="
+					+ Config.tel.getNetworkOperatorName();
+			infoString += "\nSimOperatorName="
+					+ Config.tel.getSimOperatorName();
+			infoString += "\nSimSerialNumber="
+					+ Config.tel.getSimSerialNumber();
 			Config.fosMobile.write(infoString.getBytes());
-			Config.fosMobile.write(System.getProperty("line.separator").getBytes());
+			Config.fosMobile.write(System.getProperty("line.separator")
+					.getBytes());
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
 
-		// ¶Ë¿ÚÉèÖÃ
+		// ç«¯å£è®¾ç½®
 		Config.setRemoteParameter();
 		System.out.println(Config.testServerip);
-//		Config.serverConentEditText.setText(Config.testServerip);
+		// Config.serverConentEditText.setText(Config.testServerip);
 		Config.serverTimeEditText.setText(Config.testMeasuretime);
 		Config.bufferSizeEditText.setText(String.valueOf(Config.bufferSize));
-		Config.bufferSizeEditText.setEnabled(false);
+		// Config.bufferSizeEditText.setEnabled(false);
 
 		Spinner spinner = (Spinner) findViewById(R.id.measurementTypeSpinner);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, Config.measurementNames);
 		// R.layout.spinner_dropdown
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    spinner.setAdapter(adapter);
-	    spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		spinner.setAdapter(adapter);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				// TODO Auto-generated method stub
-				Config.measurementID = arg2;				
+				Config.measurementID = arg2;
 				Config.serverConentEditText.setText(Config.testServerip);
-				
-				//0625:182.92.155.67
-				//0719:182.92.104.73
-				//0125:123.57.140.65
-				//0127:123.57.140.65
+
+				// 0625:182.92.155.67
+				// 0719:182.92.104.73
+				// 0125:123.57.140.65
+				// 0127:123.57.140.65
 				switch (arg2) {
 				case 0:
 					Config.serverConentEditText.setText("101.201.141.119");
-					Config.portTextView.setText("Port:" + Config.tcpDownloadPort);
+					Config.portTextView.setText("Port:"
+							+ Config.tcpDownloadPort);
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					Config.bufferSizeEditText.setText("1024");
@@ -188,14 +193,15 @@ public class MainActivity extends Activity implements OnClickListener {
 					break;
 				case 2:
 					Config.serverConentEditText.setText("101.201.141.119");
-					Config.portTextView.setText("Port:" + Config.udpDownloadPort);
+					Config.portTextView.setText("Port:"
+							+ Config.udpDownloadPort);
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 3:
 					Config.serverConentEditText.setText("101.201.141.119");
-					Config.portTextView.setText("Port:" + Config.udpUploadPort);//0626
+					Config.portTextView.setText("Port:" + Config.udpUploadPort);// 0626
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					Config.bufferSizeEditText.setText("1024");
@@ -221,54 +227,55 @@ public class MainActivity extends Activity implements OnClickListener {
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
-		
+
 		startThread();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		menu.add(1, 1, 0, "Á¬Í¨ĞÔ²âÊÔ");
-		menu.add(1, 2, 0, "°æ±¾½éÉÜ");
-		menu.add(1, 3, 0, "ÍêÈ«ÍË³ö");
+		menu.add(1, 1, 0, "è¿æ¥æµ‹è¯•");
+		menu.add(1, 2, 0, "ç‰ˆæœ¬ä»‹ç»");
+		menu.add(1, 3, 0, "å®Œå…¨é€€å‡º");
 		return true;
 	}
- 
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 		case 1:
-//			Intent MyIntent = new Intent(Intent.ACTION_MAIN);
-//			MyIntent.addCategory(Intent.CATEGORY_HOME);
-//			startActivity(MyIntent);
+			// Intent MyIntent = new Intent(Intent.ACTION_MAIN);
+			// MyIntent.addCategory(Intent.CATEGORY_HOME);
+			// startActivity(MyIntent);
 			if (Config.wifiState.equals("Disconnected")
 					&& Config.dataConnectionState.equals("Disconnected")) {
-				Config.reportTextView.setText("ÍøÂçÒÑ¶Ï¿ª£¬Çë¼ì²éÍøÂçÁ¬½Ó");
-				Toast.makeText(getApplicationContext(), "ÍøÂçÒÑ¶Ï¿ª£¬Çë¼ì²éÍøÂçÁ¬½Ó",
+				Config.reportTextView.setText("ç½‘ç»œå·²æ–­å¼€ï¼Œè¯·æ£€æŸ¥ç½‘ç»œè¿æ¥");
+				Toast.makeText(getApplicationContext(), "ç½‘ç»œå·²æ–­å¼€ï¼Œè¯·æ£€æŸ¥ç½‘ç»œè¿æ¥",
 						Toast.LENGTH_SHORT).show();
 				return false;
 			}
 			Config.reportTextView.setText("Testing...");
 			handler4Ping.post(runnable4Ping);
-			
-			new Thread(){
+
+			new Thread() {
 
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
 					super.run();
 					Measurement.pingCmdTest(Config.addressSina, 10);
-				}				
+				}
 			}.start();
-			
+
 			break;
 		case 2:
-			String tmp = "HSRNetTest°ïÄú·ÖÎöÊÖ»úµÄÍøÂç×´Ì¬\r\nÖ§³ÖÒÆ¶¯ÁªÍ¨µçĞÅÈıÍøµÄÈ«ÍøÖÆÊ½\r\nCopyright  2014  ã¡¼Ò·¹";
-			Toast.makeText(getApplicationContext(), tmp, Toast.LENGTH_LONG).show();
+			String tmp = "HSRNetTestå¸®æ‚¨åˆ†ææ‰‹æœºçš„ç½‘ç»œçŠ¶æ€\r\næ”¯æŒç§»åŠ¨è”é€šç”µä¿¡ä¸‰ç½‘çš„å…¨ç½‘åˆ¶å¼\r\nCopyright  2014  æªå®¶é¥­";
+			Toast.makeText(getApplicationContext(), tmp, Toast.LENGTH_LONG)
+					.show();
 			break;
 		case 3:
 			try {
@@ -285,7 +292,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			// Ïú»Ù
+			// é”€æ¯
 			android.os.Process.killProcess(android.os.Process.myPid());
 			break;
 		default:
@@ -339,20 +346,24 @@ public class MainActivity extends Activity implements OnClickListener {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+			AlertDialog.Builder builder = new AlertDialog.Builder(
+					MainActivity.this);
 			builder.setIcon(R.drawable.ic_launcher);
 			builder.setTitle("Exit");
-			builder.setMessage("ÍË³öMobiNet?");
-			builder.setPositiveButton("·µ»Ø",
+			builder.setMessage("é€€å‡ºMobiNet?");
+			builder.setPositiveButton("è¿”å›",
 					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							return;
 						}
 					});
-			builder.setNegativeButton("È·¶¨",
+			builder.setNegativeButton("ç¡®å®š",
 					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int whichButton) {
-							android.os.Process.killProcess(android.os.Process.myPid());
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							android.os.Process.killProcess(android.os.Process
+									.myPid());
 						}
 					});
 			builder.show();
@@ -365,22 +376,25 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v.equals(Config.start)) {
-			Config.testMeasuretime = Config.serverTimeEditText.getText().toString();
+			Config.testMeasuretime = Config.serverTimeEditText.getText()
+					.toString();
 			if (Config.wifiState.equals("Disconnected")
 					&& Config.dataConnectionState.equals("Disconnected")) {
-				Config.reportTextView.setText("ÍøÂçÒÑ¶Ï¿ª£¬Çë¼ì²éÍøÂçÁ¬½Ó");
-				Toast.makeText(getApplicationContext(), "ÍøÂçÒÑ¶Ï¿ª£¬Çë¼ì²éÍøÂçÁ¬½Ó",
+				Config.reportTextView.setText("ç½‘ç»œå·²æ–­å¼€ï¼Œè¯·æ£€æŸ¥ç½‘ç»œè¿æ¥");
+				Toast.makeText(getApplicationContext(), "ç½‘ç»œå·²æ–­å¼€ï¼Œè¯·æ£€æŸ¥ç½‘ç»œè¿æ¥",
 						Toast.LENGTH_SHORT).show();
 				return;
 			}
 
 			Config.pingFlag = 0;
-			String serverIPString = Config.serverConentEditText.getText().toString();
+			String serverIPString = Config.serverConentEditText.getText()
+					.toString();
 			String measureTimeString = Config.testMeasuretime;
 			String measureIntervalString = Config.testInterval;
-			Config.bufferSize = Integer.valueOf(Config.bufferSizeEditText.getText().toString());
+			Config.bufferSize = Integer.valueOf(Config.bufferSizeEditText
+					.getText().toString());
 			Config.bufferSizeEditText.setEnabled(false);
-			
+
 			switch (Config.measurementID) {
 			case 0:
 				Config.reportTextView.setText("TCP downlink testing...");
@@ -409,45 +423,21 @@ public class MainActivity extends Activity implements OnClickListener {
 						measureTimeString, Config.fosUplink, 2);
 				break;
 			case 4:
-				Config.reportTextView.setText("TCP double testing...");
+				Config.reportTextView
+						.setText("TCP downlink & uplink testing...");
 				Config.start.setEnabled(false);
 				Config.mySender = new Sender(mHandler, serverIPString,
 						measureTimeString, measureIntervalString,
 						Config.fosDownlink, Config.fosUplink);
-//				handler4Show.post(runnable4Show);
+				// handler4Show.post(runnable4Show);
 				break;
-//			case 4:
-//				Config.reportTextView.setText("Ping testing...");
-//				try {
-//					Thread.sleep(100);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-////				// ping 10 times
-////				handler4Ping.removeCallbacks(runnable4Ping);
-////				Config.start.setEnabled(false);
-////				handler4Ping.post(runnable4Ping);
-////				Measurement.pingCmdTest(serverIPString, 10);
-//				// ping long-lived
-//				handler4Ping.removeCallbacks(runnable4Ping);
-//				Config.start.setEnabled(false);
-//				handler4Ping.post(runnable4Ping);
-//				Measurement.pingCmdProfession(serverIPString);
-//				break;
 			default:
 				Config.reportTextView.setText("Test doesn't support");
 				break;
 			}
 		}
-		
-//		if (v.equals(Config.end)) {
-////			System.out.println("stop");
-////			Config.reportTextView.setText("Test stopped");
-////			Config.myTcpTest = null;
-////			handler4Show.post(runnable4Show);
-//		}
 	}
+
 	Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			if (msg.what == 0) {
@@ -460,8 +450,9 @@ public class MainActivity extends Activity implements OnClickListener {
 			} else if (msg.what == 3) {
 				Config.reportTextView.setText("Client has closed connection");
 				handler4Show.removeCallbacks(runnable4Show);
-				Config.netTextView.setText("Æ½¾ùÉÏĞĞ:" + Config.myTcpTest.mAvgUplinkThroughput
-						+ " Æ½¾ùÏÂĞĞ:" + Config.myTcpTest.mAvgDownlinkThroughput + " kbps");
+				Config.netTextView.setText("å¹³å‡ä¸Šè¡Œ:"
+						+ Config.myTcpTest.mAvgUplinkThroughput + " å¹³å‡ä¸‹è¡Œ:"
+						+ Config.myTcpTest.mAvgDownlinkThroughput + " kbps");
 				Config.start.setEnabled(true);
 			} else if (msg.what == 4) {
 				Config.reportTextView.setText("Server maybe have some error");
@@ -476,12 +467,13 @@ public class MainActivity extends Activity implements OnClickListener {
 		public void onSignalStrengthsChanged(SignalStrength signalStrength) {
 			// TODO Auto-generated method stub
 			/**
-			 * »ñÈ¡ĞÅºÅÇ¿¶È²ÎÊı
-			 * http://www.oschina.net/code/explore/android-4.0.1/telephony/java/android/telephony/SignalStrength.java
-			 * 0: GsmSignalStrength(0-31) GsmBitErrorRate(0-7)
-			 * 2: CdmaDbm CdmaEcio EvdoDbm EvdoEcio EvdoSnr(0-8)
-			 * 7: LteSignalStrength LteRsrp LteRsrq LteRssnr LteCqi ·Ç4GÔòÈ«Îª-1
-			 * getGsmLevel getLteLevel getCdmaLevel getEvdoLevel
+			 * è·å–ä¿¡å·å¼ºåº¦å‚æ•°
+			 * http://www.oschina.net/code/explore/android-4.0.1/telephony
+			 * /java/android/telephony/SignalStrength.java 0:
+			 * GsmSignalStrength(0-31) GsmBitErrorRate(0-7) 2: CdmaDbm CdmaEcio
+			 * EvdoDbm EvdoEcio EvdoSnr(0-8) 7: LteSignalStrength LteRsrp
+			 * LteRsrq LteRssnr LteCqi é4Gåˆ™å…¨ä¸º-1 getGsmLevel getLteLevel
+			 * getCdmaLevel getEvdoLevel
 			 */
 			String allSignal = signalStrength.toString();
 			try {
@@ -501,67 +493,61 @@ public class MainActivity extends Activity implements OnClickListener {
 			}
 
 			/**
-			 * asuÓëLevel¹ØÏµ
-			 * Note3: 30¡¢23¡¢19
-			 * Other: 11¡¢7¡¢4 
-			 */			
-//			int level = SignalUtil.getCurrentLevel(signalStrength.isGsm());
-			
+			 * asuä¸Levelå…³ç³» Note3: 30ã€23ã€19 Other: 11ã€7ã€4
+			 */
+			// int level = SignalUtil.getCurrentLevel(signalStrength.isGsm());
+
 			/**
-			 * ¼ÇÂ¼È«²¿ĞÅºÅĞÅÏ¢
+			 * è®°å½•å…¨éƒ¨ä¿¡å·ä¿¡æ¯
 			 */
 			TelephonyManager telManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 			Config.networkType = telManager.getNetworkType();
 			SignalUtil.getCurrentNetworkType(Config.networkType);
-			
-			if (signalStrength.isGsm()) {
-				allSignal = (Integer.parseInt(Config.gsmSignalStrength)*2-113) + " "
-						+ (Integer.parseInt(Config.lteSignalStrength)*2-113) + " "
-						+ Config.lteRsrp + " "
-						+ Config.lteRsrq + " "
-						+ Config.lteRssnr + " "
-						+ Config.networkType + " " + Config.servingCid;
-			} else {
-				allSignal = (Integer.parseInt(Config.gsmSignalStrength)*2-113) + " "
-						+ Config.cdmaDbm + " " + Config.cdmaEcio + " " 
-						+ Config.evdoDbm + " " + Config.evdoEcio + " " + Config.evdoSnr + " "
-						+ Config.networkType + " " + Config.servingCid;
-			}
 
-//			if (allSignal.equals(Config.lastAddition)) {
-//				
-//			} else {
-//				Config.lastAddition = allSignal;
-//				try {
-//					Config.fosSignal.write((date + " " + allSignal).getBytes());
-//					Config.fosSignal.write(System.getProperty("line.separator").getBytes());
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
+			if (signalStrength.isGsm()) {
+				allSignal = (Integer.parseInt(Config.gsmSignalStrength) * 2 - 113)
+						+ " "
+						+ (Integer.parseInt(Config.lteSignalStrength) * 2 - 113)
+						+ " "
+						+ Config.lteRsrp
+						+ " "
+						+ Config.lteRsrq
+						+ " "
+						+ Config.lteRssnr
+						+ " "
+						+ Config.networkType
+						+ " "
+						+ Config.servingCid;
+			} else {
+				allSignal = (Integer.parseInt(Config.gsmSignalStrength) * 2 - 113)
+						+ " "
+						+ Config.cdmaDbm
+						+ " "
+						+ Config.cdmaEcio
+						+ " "
+						+ Config.evdoDbm
+						+ " "
+						+ Config.evdoEcio
+						+ " "
+						+ Config.evdoSnr
+						+ " "
+						+ Config.networkType
+						+ " "
+						+ Config.servingCid;
+			}
 
 			Config.typeTextView.setText(Config.providerName + "-"
 					+ Config.networkTypeString + " " + Config.networkType
 					+ " (" + Build.MODEL + "-" + Build.VERSION.RELEASE + ")");
-			
-			
+
 			String cellContent = Config.networkType + " " + Config.servingCid;
 			if (cellContent.equals(Config.lastCellInfoString)) {
-				
+
 			} else {
-				Config.lastCellInfoString = cellContent;				
-//				cellContent = date + " " + cellContent + " " + Config.servingLac + " " + Config.servingPsc;
-//				try {
-//					Config.fosCell.write(cellContent.getBytes());
-//					Config.fosCell.write(System.getProperty("line.separator").getBytes());
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+				Config.lastCellInfoString = cellContent;
 				Config.handoffNumber++;
 			}
-			
+
 			String parameter = "";
 			switch (Config.networkType) {
 			case 4:
@@ -595,29 +581,29 @@ public class MainActivity extends Activity implements OnClickListener {
 		public void onDataConnectionStateChanged(int state, int networkType) {
 			// TODO Auto-generated method stub
 			if (networkType == Config.lastNetworkType) {
-				
+
 			} else {
 				Config.lastNetworkType = networkType;
-				
+
 				Config.networkType = networkType;
 				SignalUtil.getCurrentNetworkType(networkType);
-			}		
-			
+			}
+
 			switch (state) {
-			case TelephonyManager.DATA_DISCONNECTED://0
-				// ÍøÂç¶Ï¿ª		
+			case TelephonyManager.DATA_DISCONNECTED:// 0
+				// ç½‘ç»œæ–­å¼€
 				Config.dataConnectionState = "Disconnected";
 				if (Config.lastConnect) {
 					Config.disconnectNumber++;
 					Config.lastConnect = false;
 				}
 				break;
-			case TelephonyManager.DATA_CONNECTING://1
-				// ÍøÂçÕıÔÚÁ¬½Ó
+			case TelephonyManager.DATA_CONNECTING:// 1
+				// ç½‘ç»œæ­£åœ¨è¿æ¥
 				Config.dataConnectionState = "Connecting";
 				break;
-			case TelephonyManager.DATA_CONNECTED://2
-				// ÍøÂçÁ¬½ÓÉÏ
+			case TelephonyManager.DATA_CONNECTED:// 2
+				// ç½‘ç»œè¿æ¥ä¸Š
 				Config.dataConnectionState = "Connected";
 				Config.lastConnect = true;
 				break;
@@ -625,27 +611,28 @@ public class MainActivity extends Activity implements OnClickListener {
 				Config.dataConnectionState = "Unknown";
 				break;
 			}
-			
+
 			/**
-			 * Ğ´ÈëÈÕÖ¾
+			 * å†™å…¥æ—¥å¿—
 			 */
 			String cellContent = Config.networkType + " " + Config.servingCid;
 			if (cellContent.equals(Config.lastCellInfoString)) {
-				
+
 			} else {
 				Config.lastCellInfoString = cellContent;
 				Config.handoffNumber++;
 			}
-				
+
 			if (Config.dataConnectionState.equals(Config.lastDataStateString)) {
-				
+
 			} else {
 				Config.lastDataStateString = Config.dataConnectionState;
-				Config.directionTextView.setText(Config.dataConnectionState + " ·½Ïò:" + Config.dataDirection);
+				Config.directionTextView.setText(Config.dataConnectionState
+						+ " æ–¹å‘:" + Config.dataDirection);
 			}
-			
-			Config.handoffTextView.setText("ÇĞ»»:" + Config.handoffNumber
-					+ " ¶ÏÍø:" + Config.disconnectNumber);
+
+			Config.handoffTextView.setText("åˆ‡æ¢:" + Config.handoffNumber
+					+ " æ–­ç½‘:" + Config.disconnectNumber);
 
 			super.onDataConnectionStateChanged(state, networkType);
 		}
@@ -654,20 +641,20 @@ public class MainActivity extends Activity implements OnClickListener {
 		public void onDataActivity(int direction) {
 			// TODO Auto-generated method stub
 			switch (direction) {
-			case TelephonyManager.DATA_ACTIVITY_NONE://0
+			case TelephonyManager.DATA_ACTIVITY_NONE:// 0
 				// No IP Traffic
 				Config.dataDirection = "NONE";
 				break;
-			case TelephonyManager.DATA_ACTIVITY_IN://1
+			case TelephonyManager.DATA_ACTIVITY_IN:// 1
 				Config.dataDirection = "In";
 				break;
-			case TelephonyManager.DATA_ACTIVITY_OUT://2
+			case TelephonyManager.DATA_ACTIVITY_OUT:// 2
 				Config.dataDirection = "Out";
 				break;
-			case TelephonyManager.DATA_ACTIVITY_INOUT://3
+			case TelephonyManager.DATA_ACTIVITY_INOUT:// 3
 				Config.dataDirection = "InOut";
 				break;
-			case TelephonyManager.DATA_ACTIVITY_DORMANT://4
+			case TelephonyManager.DATA_ACTIVITY_DORMANT:// 4
 				// Data connection is active, but physical link is down
 				Config.dataDirection = "Dormant";
 				break;
@@ -676,13 +663,14 @@ public class MainActivity extends Activity implements OnClickListener {
 				break;
 			}
 			/**
-			 * Ğ´ÈëÈÕÖ¾
+			 * å†™å…¥æ—¥å¿—
 			 */
 			if (Config.dataDirection.equals(Config.lastDataDirectionString)) {
-				
+
 			} else {
 				Config.lastDataDirectionString = Config.dataDirection;
-				Config.directionTextView.setText(Config.dataConnectionState + " ·½Ïò:" + Config.dataDirection);
+				Config.directionTextView.setText(Config.dataConnectionState
+						+ " æ–¹å‘:" + Config.dataDirection);
 			}
 
 			super.onDataActivity(direction);
@@ -717,32 +705,25 @@ public class MainActivity extends Activity implements OnClickListener {
 				// TODO: handle exception
 				// when no SIM card
 			}
-			
+
 			String cellContent = Config.networkType + " " + Config.servingCid;
 			if (cellContent.equals(Config.lastCellInfoString)) {
-				
+
 			} else {
-				Config.lastCellInfoString = cellContent;				
-//				cellContent = date + " " + cellContent + " " + Config.servingLac + " " + Config.servingPsc;
-//				try {
-//					Config.fosCell.write(cellContent.getBytes());
-//					Config.fosCell.write(System.getProperty("line.separator").getBytes());
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-				
+				Config.lastCellInfoString = cellContent;
+
 				Config.handoffNumber++;
-				Config.handoffTextView.setText("ÇĞ»»:" + Config.handoffNumber
-						+ " ¶ÏÍø:" + Config.disconnectNumber);
+				Config.handoffTextView.setText("åˆ‡æ¢:" + Config.handoffNumber
+						+ " æ–­ç½‘:" + Config.disconnectNumber);
 			}
 
-			Config.basestationTextView.setText(Config.servingCid + " " + Config.servingLac);
-			
+			Config.basestationTextView.setText(Config.servingCid + " "
+					+ Config.servingLac);
+
 			super.onCellLocationChanged(location);
 		}
 	}
-	
+
 	private final LocationListener locationListener = new LocationListener() {
 
 		@Override
@@ -770,7 +751,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		@Override
 		public void onProviderEnabled(String provider) {
 			// TODO Auto-generated method stub
-			// GPS¿ªÆôÊ±´¥·¢
+			// GPSå¼€å¯æ—¶è§¦å‘
 			Config.loc = Config.locationManager.getLastKnownLocation(provider);
 			Config.gpsStateString = "Enabled";
 			Config.gpsTextView.setText(Config.gpsFixNumber + "/"
@@ -791,60 +772,44 @@ public class MainActivity extends Activity implements OnClickListener {
 		public void onLocationChanged(Location location) {
 			// TODO Auto-generated method stub
 			/**
-			 * ²âËÙ
+			 * æµ‹é€Ÿ
 			 */
-			Config.loc = Config.locationManager.getLastKnownLocation(Config.bestProvider);
+			Config.loc = Config.locationManager
+					.getLastKnownLocation(Config.bestProvider);
 			Config.speed = Config.loc.getSpeed();
 			Config.latitude = Config.loc.getLatitude();
 			Config.longitude = Config.loc.getLongitude();
 			Config.accuracy = Config.loc.getAccuracy();
-			Config.locationTextView.setText(Config.latitude + "," + Config.longitude);
+			Config.locationTextView.setText(Config.latitude + ","
+					+ Config.longitude);
 
 			/**
-			 * ÕûÀíÈÕÖ¾Êı¾İ
+			 * æ•´ç†æ—¥å¿—æ•°æ®
 			 */
 			float speed2 = (float) (Config.speed * 3.6);
 			Config.mobilitySpeed = String.valueOf(speed2);
 			Config.speedTextView.setText(Config.mobilitySpeed + " km/h");
-//			Config.speedcontent = Config.gpsStateString + " " + speed2;
-//
-//			if (Config.speedcontent.equals(Config.lastlocationString)) {
-//
-//			} else {
-//				Config.lastlocationString = Config.speedcontent;
-//				Config.speedcontent = date + " " + Config.speedcontent + " "
-//						+ Config.latitude + " "
-//						+ Config.longitude + " "
-//						+ Config.accuracy;
-//				try {
-//					Config.fosSpeed.write(Config.speedcontent.getBytes());
-//					Config.fosSpeed.write(System.getProperty("line.separator")
-//							.getBytes());
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
 		}
 	};
 
-	// »ñÈ¡µ±Ç°ËùÁ¬GPSÊıÁ¿
+	// è·å–å½“å‰æ‰€è¿GPSæ•°é‡
 	private final GpsStatus.Listener statusListener = new GpsStatus.Listener() {
 
 		@Override
 		public void onGpsStatusChanged(int event) {
 			// TODO Auto-generated method stub
 			LocationManager locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-			GpsStatus status = locManager.getGpsStatus(null); // È¡µ±Ç°×´Ì¬
+			GpsStatus status = locManager.getGpsStatus(null); // å–å½“å‰çŠ¶æ€
 
 			switch (event) {
 			case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-				// ÎÀĞÇ×´Ì¬¸Ä±ä
-				int maxSatellites = status.getMaxSatellites(); // »ñÈ¡ÎÀĞÇ¿ÅÊıµÄÄ¬ÈÏ×î´óÖµ
+				// å«æ˜ŸçŠ¶æ€æ”¹å˜
+				int maxSatellites = status.getMaxSatellites(); // è·å–å«æ˜Ÿé¢—æ•°çš„é»˜è®¤æœ€å¤§å€¼
 				Iterator<GpsSatellite> it = status.getSatellites().iterator();
 				Config.gpsAvailableNumber = 0;
 				Config.gpsFixNumber = 0;
-				while (it.hasNext() && Config.gpsAvailableNumber <= maxSatellites) {
+				while (it.hasNext()
+						&& Config.gpsAvailableNumber <= maxSatellites) {
 					GpsSatellite s = it.next();
 					Config.gpsAvailableNumber++;
 					if (s.usedInFix()) {
@@ -873,33 +838,40 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private void initLocation() {
 		Config.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		if (Config.locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-				|| Config.locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+		if (Config.locationManager
+				.isProviderEnabled(LocationManager.GPS_PROVIDER)
+				|| Config.locationManager
+						.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			Config.criteria = new Criteria();
-			Config.criteria.setAccuracy(Criteria.ACCURACY_FINE); // ¸ß¾«¶È
-			Config.criteria.setAltitudeRequired(true); // ÏÔÊ¾º£°Î
-			Config.criteria.setBearingRequired(true); // ÏÔÊ¾·½Ïò
-			Config.criteria.setSpeedRequired(true); // ÏÔÊ¾ËÙ¶È
-			Config.criteria.setCostAllowed(false); // ²»ÔÊĞíÓĞ»¨·Ñ
-			Config.criteria.setPowerRequirement(Criteria.POWER_LOW); // µÍ¹¦ºÄ
-			Config.bestProvider = Config.locationManager.getBestProvider(Config.criteria, true);
+			Config.criteria.setAccuracy(Criteria.ACCURACY_FINE); // é«˜ç²¾åº¦
+			Config.criteria.setAltitudeRequired(true); // æ˜¾ç¤ºæµ·æ‹”
+			Config.criteria.setBearingRequired(true); // æ˜¾ç¤ºæ–¹å‘
+			Config.criteria.setSpeedRequired(true); // æ˜¾ç¤ºé€Ÿåº¦
+			Config.criteria.setCostAllowed(false); // ä¸å…è®¸æœ‰èŠ±è´¹
+			Config.criteria.setPowerRequirement(Criteria.POWER_LOW); // ä½åŠŸè€—
+			Config.bestProvider = Config.locationManager.getBestProvider(
+					Config.criteria, true);
 
-			// locationManagerÓÃÀ´¼àÌı¶¨Î»ĞÅÏ¢µÄ¸Ä±ä
-			Config.locationManager.requestLocationUpdates(Config.bestProvider, 100, 5,
-					locationListener);
+			// locationManagerç”¨æ¥ç›‘å¬å®šä½ä¿¡æ¯çš„æ”¹å˜
+			Config.locationManager.requestLocationUpdates(Config.bestProvider,
+					100, 5, locationListener);
 			Config.locationManager.addGpsStatusListener(statusListener);
-			
-			Location gpsLocation = Config.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-			if(gpsLocation == null){     
-				gpsLocation = Config.locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            }
-            if(gpsLocation != null){     
-            	Config.latitude = gpsLocation.getLatitude(); //¾­¶È     
-            	Config.longitude = gpsLocation.getLongitude(); //Î³¶È  
-            	Config.locationTextView.setText(Config.latitude + "," + Config.longitude);
-            }
-		} 
-		if (Config.locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+
+			Location gpsLocation = Config.locationManager
+					.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			if (gpsLocation == null) {
+				gpsLocation = Config.locationManager
+						.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			}
+			if (gpsLocation != null) {
+				Config.latitude = gpsLocation.getLatitude(); // ç»åº¦
+				Config.longitude = gpsLocation.getLongitude(); // çº¬åº¦
+				Config.locationTextView.setText(Config.latitude + ","
+						+ Config.longitude);
+			}
+		}
+		if (Config.locationManager
+				.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			Config.prepareGPSFlag = true;
 		} else {
 			Config.gpsTextView.setText("Disabled");
@@ -910,7 +882,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			}
 		}
 	}
-	
+
 	private Handler handler4Speed = new Handler();
 
 	private Runnable runnable4Speed = new Runnable() {
@@ -930,11 +902,12 @@ public class MainActivity extends Activity implements OnClickListener {
 		public void run() {
 			// TODO Auto-generated method stub
 			handler4Show.postDelayed(runnable4Show, 1000);
-			Config.netTextView.setText("ÉÏĞĞ:" + Config.myTcpTest.mUplinkThroughput + " ÏÂĞĞ:"
+			Config.netTextView.setText("ä¸Šè¡Œ:"
+					+ Config.myTcpTest.mUplinkThroughput + " ä¸‹è¡Œ:"
 					+ Config.myTcpTest.mDownlinkThroughput + " kbps");
 		}
 	};
-	
+
 	private Handler handler4Ping = new Handler();
 
 	private Runnable runnable4Ping = new Runnable() {
@@ -944,8 +917,8 @@ public class MainActivity extends Activity implements OnClickListener {
 			// TODO Auto-generated method stub
 			handler4Ping.postDelayed(runnable4Ping, 1000);
 			if (Config.pingFlag == 11) {
-				Config.pingTextView.setText("Ping:" + Config.pingInfo
-						+ " DNS:" + Config.dnsLookupInfo + " HTTP:" + Config.httpInfo);
+				Config.pingTextView.setText("Ping:" + Config.pingInfo + " DNS:"
+						+ Config.dnsLookupInfo + " HTTP:" + Config.httpInfo);
 				Config.start.setEnabled(true);
 				Config.reportTextView.setText("Ping test finished");
 				Config.pingFlag = 10;
@@ -956,11 +929,12 @@ public class MainActivity extends Activity implements OnClickListener {
 			} else if (Config.pingFlag == 13) {
 				Config.reportTextView.setText("Ping test failed");
 				Config.pingFlag = 10;
-				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						MainActivity.this);
 				builder.setIcon(R.drawable.ic_launcher);
 				builder.setTitle("Test Failure");
-		        builder.setMessage("ÄúµÄ»úĞÍÔİ²»Ö§³ÖÁ¬Í¨ĞÔ²âÊÔ£¬Çë¹Ø×¢ºóĞø°æ±¾");
-				builder.setPositiveButton("Ä¬Ä¬µÈ´ı", null);
+				builder.setMessage("æ‚¨çš„æœºå‹æš‚ä¸æ”¯æŒè¿é€šæ€§æµ‹è¯•ï¼Œè¯·å…³æ³¨åç»­ç‰ˆæœ¬");
+				builder.setPositiveButton("é»˜é»˜ç­‰å¾…", null);
 				builder.show();
 			} else if (Config.pingFlag == 21) {
 				Config.pingTextView.setText("Ping:" + Config.pingInfo + " DNS:"
@@ -994,7 +968,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		public void run() {
 			// TODO Auto-generated method stub
 			/**
-			 * ÊÇ·ñÁ¬½ÓWifi
+			 * æ˜¯å¦è¿æ¥Wifi
 			 */
 			try {
 				ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -1003,12 +977,13 @@ public class MainActivity extends Activity implements OnClickListener {
 				String wifiContent = null;
 
 				if (activeNetInfo != null
-						&& activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {					
+						&& activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
 					WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
 					WifiInfo wifiInfo = wifiManager.getConnectionInfo();
 					Config.wifiState = "Connected:" + wifiInfo.getSSID();
 					wifiContent = Config.wifiState + " RSSI:"
-							+ wifiInfo.getRssi() + " Speed:" + wifiInfo.getLinkSpeed();
+							+ wifiInfo.getRssi() + " Speed:"
+							+ wifiInfo.getLinkSpeed();
 				} else {
 					Config.wifiState = "Disconnected";
 					wifiContent = Config.wifiState;
@@ -1017,7 +992,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				if (wifiContent.equals(Config.lastWifiState)) {
 
 				} else {
-//					Config.wifiTextView.setText(wifiContent);
+					// Config.wifiTextView.setText(wifiContent);
 					Config.lastWifiState = wifiContent;
 				}
 			} catch (Exception e) {
@@ -1027,7 +1002,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			handler4Wifi.postDelayed(runnable4Wifi, 1000);
 		}
 	};
-	
+
 	private Handler handler4GPS = new Handler();
 
 	private Runnable runnable4GPS = new Runnable() {
@@ -1043,31 +1018,31 @@ public class MainActivity extends Activity implements OnClickListener {
 			}
 		}
 	};
-		
+
 	private void showGPSDialog(Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);  
-        builder.setIcon(R.drawable.ic_launcher);  
-        builder.setTitle("GPS Failure");
-        builder.setMessage("GPS»¹Î´¿ªÆô£¬ÈçĞè²âÊÔÔË¶¯ËÙ¶ÈÇë¹´Ñ¡");
-        builder.setPositiveButton("Ôİ²»ÉèÖÃ",  
-                new DialogInterface.OnClickListener() {  
-                    public void onClick(DialogInterface dialog, int whichButton) {  
-                    	return;
-                    }  
-                });  
-        builder.setNegativeButton("È¥ÉèÖÃ",  
-                new DialogInterface.OnClickListener() {  
-                    public void onClick(DialogInterface dialog, int whichButton) {
-            			Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            			startActivityForResult(intent, 0); 
-                    }  
-                });  
-        builder.show();  
-    }
-	
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setIcon(R.drawable.ic_launcher);
+		builder.setTitle("GPS Failure");
+		builder.setMessage("GPSè¿˜æœªå¼€å¯ï¼Œå¦‚éœ€æµ‹è¯•è¿åŠ¨é€Ÿåº¦è¯·å‹¾é€‰");
+		builder.setPositiveButton("æš‚ä¸è®¾ç½®",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						return;
+					}
+				});
+		builder.setNegativeButton("å»è®¾ç½®", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				Intent intent = new Intent(
+						android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				startActivityForResult(intent, 0);
+			}
+		});
+		builder.show();
+	}
+
 	private void startThread() {
 		try {
-			// Æô¶¯Ïß³Ì
+			// å¯åŠ¨çº¿ç¨‹
 			handler4Wifi.post(runnable4Wifi);
 			Thread.sleep(500);
 			handler4GPS.post(runnable4GPS);

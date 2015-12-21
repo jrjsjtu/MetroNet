@@ -108,7 +108,7 @@
         android:layout_below="@+id/editText_serverIP"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/editText_serverTime"
-        android:text="min Packets:" />
+        android:text="@string/measurementSetting" />
 
     <EditText
         android:id="@+id/editText_buffer"
@@ -382,7 +382,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/pingText"
                 android:layout_marginTop="5dp"
-                android:text="I9500-1542; Butterfly-1551; HTC 606w-1593; \nN9008V-1562; N9008S-1581; HTC D820u-1603" />
+                android:text="@string/deviceinfo" />
 
         </RelativeLayout>
     </ScrollView>
