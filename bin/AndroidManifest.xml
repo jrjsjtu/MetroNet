@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="thu.wireless.mobinet.hsrtest"
     android:versionCode="9"
-    android:versionName="5.2.1221" >
+    android:versionName="5.2.1223" >
 
     <uses-sdk
         android:minSdkVersion="13"

@@ -41,6 +41,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -79,6 +82,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		Config.serverTimeEditText = (EditText) findViewById(R.id.editText_serverTime);
 		// size
 		Config.bufferSizeEditText = (EditText) findViewById(R.id.editText_buffer);
+		Config.portCheckBox = (CheckBox) findViewById(R.id.checkBox_inLab);
 
 		Config.asuTextView = (TextView) findViewById(R.id.signalText);
 		Config.signalParameterTextView = (TextView) findViewById(R.id.signalParameterText);
@@ -155,6 +159,30 @@ public class MainActivity extends Activity implements OnClickListener {
 		Config.serverTimeEditText.setText(Config.testMeasuretime);
 		Config.bufferSizeEditText.setText(String.valueOf(Config.bufferSize));
 		// Config.bufferSizeEditText.setEnabled(false);
+		Config.portCheckBox
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						// TODO Auto-generated method stub
+						Config.portInLab = true;
+						if (isChecked) {
+							Config.tcpUploadPort = 2501;
+							Config.tcpDownloadPort = 2502;
+							Config.udpUploadPort = 2503;
+							Config.udpDownloadPort = 2504;
+							Config.tcpFlowPort = 2505;
+
+							Config.portTextView.setText("Port:250?");
+						} else {
+							Config.portCheckBox.setChecked(true);
+						}
+						Toast.makeText(MainActivity.this,
+								isChecked ? "已选中: port固定" : "暂时无法取消",
+								Toast.LENGTH_SHORT).show();
+					}
+				});
 
 		Spinner spinner = (Spinner) findViewById(R.id.measurementTypeSpinner);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -210,6 +238,22 @@ public class MainActivity extends Activity implements OnClickListener {
 					Config.serverConentEditText.setText("101.201.141.119");
 					Config.portTextView.setText(Config.tcpUploadPort + "&"
 							+ Config.tcpDownloadPort);
+					Config.serverConentEditText.setEnabled(true);
+					Config.serverTimeEditText.setEnabled(true);
+					Config.bufferSizeEditText.setText("1024");
+					break;
+				case 5:
+					Config.serverConentEditText.setText("101.201.141.119");
+					Config.portTextView.setText(Config.tcpDownloadPort + "&"
+							+ (Config.tcpDownloadPort + 4));
+					Config.serverConentEditText.setEnabled(true);
+					Config.serverTimeEditText.setEnabled(true);
+					Config.bufferSizeEditText.setText("1024");
+					break;
+				case 6:
+					Config.serverConentEditText.setText("101.201.141.119");
+					Config.portTextView.setText(Config.tcpUploadPort + "&"
+							+ (Config.tcpUploadPort + 4));
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					Config.bufferSizeEditText.setText("1024");
@@ -273,7 +317,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 			break;
 		case 2:
-			String tmp = "HSRNetTest帮您分析手机的网络状态\r\n支持移动联通电信三网的全网制式\r\nCopyright  2014  恪家饭";
+			String tmp = "HSRNetTest支持三网的全网制式\r\nCopyright © 2016  恪家饭";
 			Toast.makeText(getApplicationContext(), tmp, Toast.LENGTH_LONG)
 					.show();
 			break;
@@ -430,6 +474,45 @@ public class MainActivity extends Activity implements OnClickListener {
 						measureTimeString, measureIntervalString,
 						Config.fosDownlink, Config.fosUplink);
 				// handler4Show.post(runnable4Show);
+				break;
+			case 5:
+				Config.reportTextView
+						.setText("TCP double downlink testing...");
+				Config.start.setEnabled(false);
+				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
+						measureTimeString, measureIntervalString,
+						Config.fosDownlink, 1);
+				
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Config.myTcpTest2 = new TCPTest(serverIPString,
+						measureTimeString, measureIntervalString,
+						Config.fosDownlink, 5);
+				handler4Show.post(runnable4Show);
+				break;
+			case 6:
+				Config.reportTextView
+						.setText("TCP double uplink testing...");
+				Config.start.setEnabled(false);
+				
+				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
+						measureTimeString, measureIntervalString,
+						Config.fosUplink, 2);
+				
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Config.myTcpTest2 = new TCPTest(serverIPString,
+						measureTimeString, measureIntervalString,
+						Config.fosUplink, 6);
+				handler4Show.post(runnable4Show);
 				break;
 			default:
 				Config.reportTextView.setText("Test doesn't support");

@@ -57,8 +57,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/button_Start"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="8dp"
         android:background="@null"
         android:ems="4"
         android:focusable="false"
@@ -67,14 +67,23 @@
 
     <EditText
         android:id="@+id/editText_serverIP"
-        android:layout_width="170dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/button_Start"
         android:layout_toRightOf="@+id/editText_serverIPString"
         android:inputType="text"
-        android:maxLength="18"
+        android:maxLength="15"
         android:maxLines="1"
         android:text="@string/server_IP" />
+
+    <CheckBox
+        android:id="@+id/checkBox_inLab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_Start"
+        android:layout_toRightOf="@+id/editText_serverIP"
+        android:checked="false"
+        android:text="@string/checkBox" />
 
     <EditText
         android:id="@+id/editText_serverTimeString"
@@ -82,8 +91,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/editText_serverIP"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="8dp"
         android:background="@null"
         android:ems="4"
         android:focusable="false"
@@ -376,16 +385,14 @@
                 android:layout_below="@+id/netText"
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/pingString" />
-            
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/pingText"
                 android:layout_marginTop="5dp"
                 android:text="@string/deviceinfo" />
-
         </RelativeLayout>
     </ScrollView>
 
-    
 </RelativeLayout>

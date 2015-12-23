@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -15,12 +16,13 @@ public class Config {
 	static String testServerip = "202.112.3.78"; // "166.111.68.231";
 	static String testMeasuretime = "60";
 	static String testInterval = "5";
-	static int tcpUploadPort = 5001;
-	static int tcpDownloadPort = 5002;
-	static int udpUploadPort = 5003;
-	static int udpDownloadPort = 5004;
-	static int tcpFlowPort = 5005;
+	static int tcpUploadPort = 1501;
+	static int tcpDownloadPort = 1502;
+	static int udpUploadPort = 1503;
+	static int udpDownloadPort = 1504;
+	static int tcpFlowPort = 1505;
 	static int bufferSize = -1;
+	static boolean portInLab = false;
 
 	static FileOutputStream fosMobile = null;
 	static FileOutputStream fosUplink = null;
@@ -47,6 +49,7 @@ public class Config {
 	static EditText serverConentEditText;
 	static EditText serverTimeEditText;
 	static EditText bufferSizeEditText;
+	static CheckBox portCheckBox;
 
 	static String providerName = null;
 	static String phoneModel = null;
@@ -110,7 +113,7 @@ public class Config {
 
 	static String[] measurementNames = { "TCP Downlink Test",
 			"TCP Uplink Test", "UDP Downlink Test", "UDP Uplink Test",
-			"TCP DL+UL Test" };// 1127
+			"TCP DL+UL Test", "Double TCP DL", "Double TCP UL" };
 
 	static int measurementID = 0;
 	static String addressSina = "3g.sina.com.cn";
