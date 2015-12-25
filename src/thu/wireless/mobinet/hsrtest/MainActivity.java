@@ -98,6 +98,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		Config.netTextView = (TextView) findViewById(R.id.netText);
 		Config.pingTextView = (TextView) findViewById(R.id.pingText);
 		Config.portTextView = (TextView) findViewById(R.id.tv_port);
+		Config.settingTextView = (TextView) findViewById(R.id.tv_minute);
 
 		// 获取手机信息
 		try {
@@ -204,6 +205,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					Config.serverConentEditText.setText("123.56.64.240");
 					Config.portTextView.setText("Port:"
 							+ Config.tcpDownloadPort);
+					Config.settingTextView.setText("min  Size:");
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					Config.bufferSizeEditText.setText("1024");
@@ -211,6 +213,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				case 1:
 					Config.serverConentEditText.setText("123.56.64.240");
 					Config.portTextView.setText("Port:" + Config.tcpUploadPort);
+					Config.settingTextView.setText("min  Size:");
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					Config.bufferSizeEditText.setText("1024");
@@ -219,21 +222,32 @@ public class MainActivity extends Activity implements OnClickListener {
 					Config.serverConentEditText.setText("123.56.64.240");
 					Config.portTextView.setText("Port:"
 							+ Config.udpDownloadPort);
+					Config.settingTextView.setText("min  Sleep(ms):");
+					Toast.makeText(
+							getApplicationContext(),
+							"可设置sleep interval控制UDP发送速率\r\n即：每隔?ms sleep 200 ms",
+							Toast.LENGTH_SHORT).show();
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
-					Config.bufferSizeEditText.setText("1024");
+					Config.bufferSizeEditText.setText("0");
 					break;
 				case 3:
 					Config.serverConentEditText.setText("123.56.64.240");
-					Config.portTextView.setText("Port:" + Config.udpUploadPort);// 0626
+					Config.portTextView.setText("Port:" + Config.udpUploadPort);
+					Config.settingTextView.setText("min  Sleep(ms):");
+					Toast.makeText(
+							getApplicationContext(),
+							"可设置sleep interval控制UDP发送速率\r\n即：每隔?ms sleep 200 ms",
+							Toast.LENGTH_SHORT).show();
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
-					Config.bufferSizeEditText.setText("1024");
+					Config.bufferSizeEditText.setText("0");
 					break;
 				case 4:
 					Config.serverConentEditText.setText("123.56.64.240");
 					Config.portTextView.setText(Config.tcpUploadPort + "&"
 							+ Config.tcpDownloadPort);
+					Config.settingTextView.setText("min  Size:");
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					Config.bufferSizeEditText.setText("1024");
@@ -242,6 +256,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					Config.serverConentEditText.setText("123.56.64.240");
 					Config.portTextView.setText(Config.tcpDownloadPort + "&"
 							+ (Config.tcpDownloadPort + 4));
+					Config.settingTextView.setText("min  Size:");
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					Config.bufferSizeEditText.setText("1024");
@@ -250,9 +265,40 @@ public class MainActivity extends Activity implements OnClickListener {
 					Config.serverConentEditText.setText("123.56.64.240");
 					Config.portTextView.setText(Config.tcpUploadPort + "&"
 							+ (Config.tcpUploadPort + 4));
+					Config.settingTextView.setText("min  Size:");
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					Config.bufferSizeEditText.setText("1024");
+					break;
+				case 7:
+					Config.serverConentEditText.setText("123.56.64.240");
+					Config.portTextView.setText("Port:"
+							+ Config.tcpDownloadPort + "&"
+							+ Config.udpDownloadPort);
+					Config.settingTextView.setText("min  Size:");
+					Config.serverConentEditText.setEnabled(true);
+					Config.serverTimeEditText.setEnabled(true);
+					Config.bufferSizeEditText.setText("1024");
+					break;
+				case 8:
+					Config.serverConentEditText.setText("123.56.64.240");
+					Config.portTextView.setText("Port:" + Config.tcpUploadPort
+							+ "&" + Config.udpUploadPort);
+					Config.settingTextView.setText("min  Size:");
+					Config.serverConentEditText.setEnabled(true);
+					Config.serverTimeEditText.setEnabled(true);
+					Config.bufferSizeEditText.setText("1024");
+					break;
+				case 9:
+					Config.serverConentEditText.setText("123.56.64.240");
+					Config.portTextView.setText("Port:" + Config.tcpUploadPort);
+					Config.settingTextView.setText("min  Size:");
+					Config.serverConentEditText.setEnabled(true);
+					Config.serverTimeEditText.setEnabled(true);
+					Config.bufferSizeEditText.setText("1024");
+					Toast.makeText(getApplicationContext(),
+							"TCP Uplink Flow Test\r\n测试时间完成后,自动开启新连接",
+							Toast.LENGTH_SHORT).show();
 					break;
 				default:
 					Config.portTextView.setText("");
@@ -469,16 +515,14 @@ public class MainActivity extends Activity implements OnClickListener {
 				Config.mySender = new Sender(mHandler, serverIPString,
 						measureTimeString, measureIntervalString,
 						Config.fosDownlink, Config.fosUplink);
-				// handler4Show.post(runnable4Show);
 				break;
 			case 5:
-				Config.reportTextView
-						.setText("TCP double downlink testing...");
+				Config.reportTextView.setText("TCP double downlink testing...");
 				Config.start.setEnabled(false);
 				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
 						measureTimeString, measureIntervalString,
 						Config.fosDownlink, 1);
-				
+
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
@@ -491,13 +535,12 @@ public class MainActivity extends Activity implements OnClickListener {
 				handler4Show.post(runnable4Show);
 				break;
 			case 6:
-				Config.reportTextView
-						.setText("TCP double uplink testing...");
-				Config.start.setEnabled(false);	
+				Config.reportTextView.setText("TCP double uplink testing...");
+				Config.start.setEnabled(false);
 				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
 						measureTimeString, measureIntervalString,
 						Config.fosUplink, 2);
-				
+
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
@@ -507,7 +550,32 @@ public class MainActivity extends Activity implements OnClickListener {
 				Config.myTcpTest2 = new TCPTest(serverIPString,
 						measureTimeString, measureIntervalString,
 						Config.fosUplink, 6);
-//				handler4Show.post(runnable4Show);
+				handler4Show.post(runnable4Show);
+				break;
+			case 7:
+				Config.reportTextView.setText("TCP DL + UDP DL testing...");
+				Config.start.setEnabled(false);
+				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
+						measureTimeString, measureIntervalString,
+						Config.fosDownlink, 1);
+				Config.myUdpTest = new UDPTest(serverIPString,
+						measureTimeString, Config.fosDownlink, 1);
+				break;
+			case 8:
+				Config.reportTextView.setText("TCP UL + UDP UL testing...");
+				Config.start.setEnabled(false);
+				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
+						measureTimeString, measureIntervalString,
+						Config.fosUplink, 2);
+				Config.myUdpTest = new UDPTest(serverIPString,
+						measureTimeString, Config.fosUplink, 2);
+				break;
+			case 9:
+				Config.reportTextView.setText("TCP uplink flow testing...");
+				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
+						measureTimeString, measureIntervalString,
+						Config.fosUplink, 7);
+				handler4Show.post(runnable4Show);
 				break;
 			default:
 				Config.reportTextView.setText("Test doesn't support");

@@ -50,6 +50,7 @@ public class Config {
 	static EditText serverTimeEditText;
 	static EditText bufferSizeEditText;
 	static CheckBox portCheckBox;
+	static TextView settingTextView;
 
 	static String providerName = null;
 	static String phoneModel = null;
@@ -114,7 +115,7 @@ public class Config {
 	static String[] measurementNames = { "TCP Downlink Test",
 			"TCP Uplink Test", "UDP Downlink Test", "UDP Uplink Test",
 			"TCP DL+UL Test", "Double TCP DL", "Double TCP UL",
-			"TCP DL+UDP DL", "TCP UL+UDP UL" };
+			"TCP DL+UDP DL", "TCP UL+UDP UL", "TCP UL Flow Test" };
 
 	static int measurementID = 0;
 	static String addressSina = "3g.sina.com.cn";

@@ -94,11 +94,6 @@ public final class R {
         public static final int pingString=0x7f05001b;
         public static final int satelliteString=0x7f050016;
         public static final int serverString=0x7f05001e;
-        /**  宿舍服务器 <string name="server_IP">59.66.122.80</string> 
- 联通服务器 <string name="server_IP">115.28.220.19</string> 
- 电信服务器 <string name="server_IP">115.28.149.21</string> 
- 移动服务器 <string name="server_IP">115.28.162.143</string> 
-         */
         public static final int server_IP=0x7f05000c;
         public static final int server_interval=0x7f05000e;
         public static final int server_time=0x7f05000d;

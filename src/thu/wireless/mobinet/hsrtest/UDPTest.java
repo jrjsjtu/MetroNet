@@ -94,9 +94,11 @@ public class UDPTest {
 					DatagramPacket sendPacket = new DatagramPacket(sendBuf2,
 							sendBuf2.length, addr, port);
 					client.send(sendPacket);
-					// if (i%80 == 0) {
-					// Thread.sleep(200); // new change
-					// }
+					if (Config.bufferSize > 0) {
+						if (i % Config.bufferSize == 0) {
+							Thread.sleep(200); // new change
+						}
+					}
 
 					if (i % 5 == 0) {
 						fosUplink
