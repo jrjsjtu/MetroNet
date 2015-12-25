@@ -86,9 +86,7 @@ public class TCPTest {
 				server2MultiClient(Config.tcpDownloadPort + 4);
 			} else if (testmode == 6) { // MutiTCP
 				multipleConnect2server(Config.tcpUploadPort + 4);
-			} else if (testmode == 11) {
-				server2client30();
-			}
+			} 
 		}
 	}
 
@@ -1224,11 +1222,6 @@ public class TCPTest {
 
 	private void multipleConnect2server(int port) {
 
-		// send 0
-		mHandler.sendEmptyMessage(0);
-		// btnSend.setEnabled(false);
-		// btnClose.setEnabled(false);
-
 		// 速率报告保留0位小数
 		numF = NumberFormat.getInstance();
 		numF.setMaximumFractionDigits(0);
@@ -1253,9 +1246,6 @@ public class TCPTest {
 						}
 					}
 				}
-
-				// send 1
-				mHandler.sendEmptyMessage(1);
 
 				mTotalLen = 0;
 				mLastTotalLen = 0;
@@ -1381,9 +1371,6 @@ public class TCPTest {
 					e1.printStackTrace();
 				}
 
-				// send 2
-				mHandler.sendEmptyMessage(2);
-
 				// 建立连接，命令行参数argv[0]指示服务器的IP地址，服务器使用5001号端口监听
 				while (true) {
 					try {
@@ -1400,10 +1387,5 @@ public class TCPTest {
 				continue;
 			}
 		}
-		// send 3
-		mHandler.sendEmptyMessage(3);
-		// tvReport.setText("Client has closed up&downlink connection.");
-		// btnSend.setEnabled(true);
-		// btnClose.setEnabled(true);
 	}
 }

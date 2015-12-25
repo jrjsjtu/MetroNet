@@ -113,7 +113,8 @@ public class Config {
 
 	static String[] measurementNames = { "TCP Downlink Test",
 			"TCP Uplink Test", "UDP Downlink Test", "UDP Uplink Test",
-			"TCP DL+UL Test", "Double TCP DL", "Double TCP UL" };
+			"TCP DL+UL Test", "Double TCP DL", "Double TCP UL",
+			"TCP DL+UDP DL", "TCP UL+UDP UL" };
 
 	static int measurementID = 0;
 	static String addressSina = "3g.sina.com.cn";

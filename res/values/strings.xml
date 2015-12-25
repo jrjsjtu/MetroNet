@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">HSR</string>
+    <string name="app_name">HSRNetTest</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">APP运行前请开启数据连接和GPS (5.2.1223)</string>
     <string name="deviceinfo"> 电信 1-HTC 609d; 2-SCH-I959;\n联通 3-M351; 4-I9500; 5-Butterfly;\n移动 6-N9008V; 7-HTC D820u; 8-N9008S</string>
@@ -13,11 +13,7 @@
     <string name="button_end">结束当前测试</string>
     <string name="editText_serverIPString">ServerIP:</string>
     <string name="editText_measureTimeString">Duration:</string>
-    <!-- 宿舍服务器 <string name="server_IP">59.66.122.80</string> -->
-    <!-- 联通服务器 <string name="server_IP">115.28.220.19</string> -->
-    <!-- 电信服务器 <string name="server_IP">115.28.149.21</string> -->
-    <!-- 移动服务器 <string name="server_IP">115.28.162.143</string> -->
-    <string name="server_IP">115.28.220.19</string>
+    <string name="server_IP">123.56.64.240</string>
     <string name="server_time">1</string>
     <string name="server_interval">5</string>
     <string name="directionString">数据连接:</string>

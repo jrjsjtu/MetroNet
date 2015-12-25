@@ -199,13 +199,9 @@ public class MainActivity extends Activity implements OnClickListener {
 				Config.measurementID = arg2;
 				Config.serverConentEditText.setText(Config.testServerip);
 
-				// 0625:182.92.155.67
-				// 0719:182.92.104.73
-				// 0125:123.57.140.65
-				// 0127:123.57.140.65
 				switch (arg2) {
 				case 0:
-					Config.serverConentEditText.setText("101.201.141.119");
+					Config.serverConentEditText.setText("123.56.64.240");
 					Config.portTextView.setText("Port:"
 							+ Config.tcpDownloadPort);
 					Config.serverConentEditText.setEnabled(true);
@@ -213,14 +209,14 @@ public class MainActivity extends Activity implements OnClickListener {
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 1:
-					Config.serverConentEditText.setText("101.201.141.119");
+					Config.serverConentEditText.setText("123.56.64.240");
 					Config.portTextView.setText("Port:" + Config.tcpUploadPort);
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 2:
-					Config.serverConentEditText.setText("101.201.141.119");
+					Config.serverConentEditText.setText("123.56.64.240");
 					Config.portTextView.setText("Port:"
 							+ Config.udpDownloadPort);
 					Config.serverConentEditText.setEnabled(true);
@@ -228,14 +224,14 @@ public class MainActivity extends Activity implements OnClickListener {
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 3:
-					Config.serverConentEditText.setText("101.201.141.119");
+					Config.serverConentEditText.setText("123.56.64.240");
 					Config.portTextView.setText("Port:" + Config.udpUploadPort);// 0626
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 4:
-					Config.serverConentEditText.setText("101.201.141.119");
+					Config.serverConentEditText.setText("123.56.64.240");
 					Config.portTextView.setText(Config.tcpUploadPort + "&"
 							+ Config.tcpDownloadPort);
 					Config.serverConentEditText.setEnabled(true);
@@ -243,7 +239,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 5:
-					Config.serverConentEditText.setText("101.201.141.119");
+					Config.serverConentEditText.setText("123.56.64.240");
 					Config.portTextView.setText(Config.tcpDownloadPort + "&"
 							+ (Config.tcpDownloadPort + 4));
 					Config.serverConentEditText.setEnabled(true);
@@ -251,7 +247,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 6:
-					Config.serverConentEditText.setText("101.201.141.119");
+					Config.serverConentEditText.setText("123.56.64.240");
 					Config.portTextView.setText(Config.tcpUploadPort + "&"
 							+ (Config.tcpUploadPort + 4));
 					Config.serverConentEditText.setEnabled(true);
@@ -497,8 +493,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			case 6:
 				Config.reportTextView
 						.setText("TCP double uplink testing...");
-				Config.start.setEnabled(false);
-				
+				Config.start.setEnabled(false);	
 				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
 						measureTimeString, measureIntervalString,
 						Config.fosUplink, 2);
@@ -512,7 +507,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				Config.myTcpTest2 = new TCPTest(serverIPString,
 						measureTimeString, measureIntervalString,
 						Config.fosUplink, 6);
-				handler4Show.post(runnable4Show);
+//				handler4Show.post(runnable4Show);
 				break;
 			default:
 				Config.reportTextView.setText("Test doesn't support");
