@@ -202,99 +202,107 @@ public class MainActivity extends Activity implements OnClickListener {
 
 				switch (arg2) {
 				case 0:
-					Config.serverConentEditText.setText("123.56.64.240");
+					// windows: 123.56.64.240
+					// ubuntu: 123.56.225.51
+					Config.serverConentEditText.setText("123.56.225.51");
 					Config.portTextView.setText("Port:"
 							+ Config.tcpDownloadPort);
 					Config.settingTextView.setText("min  Size:");
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
+					Config.bufferSizeEditText.setVisibility(View.VISIBLE);
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 1:
-					Config.serverConentEditText.setText("123.56.64.240");
+					Config.serverConentEditText.setText("123.56.225.51");
 					Config.portTextView.setText("Port:" + Config.tcpUploadPort);
 					Config.settingTextView.setText("min  Size:");
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
+					Config.bufferSizeEditText.setVisibility(View.VISIBLE);
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 2:
-					Config.serverConentEditText.setText("123.56.64.240");
+					Config.serverConentEditText.setText("123.56.225.51");
 					Config.portTextView.setText("Port:"
 							+ Config.udpDownloadPort);
-					Config.settingTextView.setText("min  Sleep(ms):");
-					Toast.makeText(
-							getApplicationContext(),
-							"可设置sleep interval控制UDP发送速率\r\n即：每隔?ms sleep 200 ms",
-							Toast.LENGTH_SHORT).show();
+					Config.settingTextView.setText("min");
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
-					Config.bufferSizeEditText.setText("0");
+					Config.bufferSizeEditText.setVisibility(View.INVISIBLE);
 					break;
 				case 3:
-					Config.serverConentEditText.setText("123.56.64.240");
+					Config.serverConentEditText.setText("123.56.225.51");
 					Config.portTextView.setText("Port:" + Config.udpUploadPort);
 					Config.settingTextView.setText("min  Sleep(ms):");
-					Toast.makeText(
-							getApplicationContext(),
-							"可设置sleep interval控制UDP发送速率\r\n即：每隔?ms sleep 200 ms",
+					Toast.makeText(getApplicationContext(),
+							"可设置sleep interval控制UDP发送速率\r\n即：每发一个包sleep多久",
 							Toast.LENGTH_SHORT).show();
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
+					Config.bufferSizeEditText.setVisibility(View.VISIBLE);
 					Config.bufferSizeEditText.setText("0");
 					break;
 				case 4:
-					Config.serverConentEditText.setText("123.56.64.240");
+					Config.serverConentEditText.setText("123.56.225.51");
 					Config.portTextView.setText(Config.tcpUploadPort + "&"
 							+ Config.tcpDownloadPort);
 					Config.settingTextView.setText("min  Size:");
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
+					Config.bufferSizeEditText.setVisibility(View.VISIBLE);
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 5:
-					Config.serverConentEditText.setText("123.56.64.240");
+					Config.serverConentEditText.setText("123.56.225.51");
 					Config.portTextView.setText(Config.tcpDownloadPort + "&"
 							+ (Config.tcpDownloadPort + 4));
 					Config.settingTextView.setText("min  Size:");
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
+					Config.bufferSizeEditText.setVisibility(View.VISIBLE);
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 6:
-					Config.serverConentEditText.setText("123.56.64.240");
+					Config.serverConentEditText.setText("123.56.225.51");
 					Config.portTextView.setText(Config.tcpUploadPort + "&"
 							+ (Config.tcpUploadPort + 4));
 					Config.settingTextView.setText("min  Size:");
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
+					Config.bufferSizeEditText.setVisibility(View.VISIBLE);
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 7:
-					Config.serverConentEditText.setText("123.56.64.240");
-					Config.portTextView.setText("Port:"
-							+ Config.tcpDownloadPort + "&"
+					Config.serverConentEditText.setText("123.56.225.51");
+					Config.portTextView.setText(Config.tcpDownloadPort + "&"
 							+ Config.udpDownloadPort);
 					Config.settingTextView.setText("min  Size:");
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
+					Config.bufferSizeEditText.setVisibility(View.VISIBLE);
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 8:
-					Config.serverConentEditText.setText("123.56.64.240");
-					Config.portTextView.setText("Port:" + Config.tcpUploadPort
-							+ "&" + Config.udpUploadPort);
-					Config.settingTextView.setText("min  Size:");
+					Config.serverConentEditText.setText("123.56.225.51");
+					Config.portTextView.setText(Config.tcpUploadPort + "&"
+							+ Config.udpUploadPort);
+					Config.settingTextView.setText("min  Sleep(ms):");
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
-					Config.bufferSizeEditText.setText("1024");
+					Config.bufferSizeEditText.setVisibility(View.VISIBLE);
+					Config.bufferSizeEditText.setText("0");
+					Toast.makeText(getApplicationContext(),
+							"可设置sleep interval控制UDP发送速率\r\n即：每发一个包sleep多久",
+							Toast.LENGTH_SHORT).show();
 					break;
 				case 9:
-					Config.serverConentEditText.setText("123.56.64.240");
-					Config.portTextView.setText("Port:" + Config.tcpUploadPort);
+					Config.serverConentEditText.setText("123.56.225.51");
+					Config.portTextView.setText(Config.tcpUploadPort);
 					Config.settingTextView.setText("min  Size:");
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(true);
+					Config.bufferSizeEditText.setVisibility(View.VISIBLE);
 					Config.bufferSizeEditText.setText("1024");
 					Toast.makeText(getApplicationContext(),
 							"TCP Uplink Flow Test\r\n测试时间完成后,自动开启新连接",
@@ -305,6 +313,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					Config.serverConentEditText.setEnabled(true);
 					Config.serverTimeEditText.setEnabled(false);
 					Config.bufferSizeEditText.setText("-1");
+					Config.bufferSizeEditText.setVisibility(View.VISIBLE);
 					Config.bufferSizeEditText.setEnabled(false);
 					break;
 				}

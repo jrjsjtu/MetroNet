@@ -94,10 +94,13 @@ public class UDPTest {
 					DatagramPacket sendPacket = new DatagramPacket(sendBuf2,
 							sendBuf2.length, addr, port);
 					client.send(sendPacket);
+					// if (Config.bufferSize > 0) {
+					// if (i % Config.bufferSize == 0) {
+					// Thread.sleep(200); // new change
+					// }
+					// }
 					if (Config.bufferSize > 0) {
-						if (i % Config.bufferSize == 0) {
-							Thread.sleep(200); // new change
-						}
+						Thread.sleep(Config.bufferSize);
 					}
 
 					if (i % 5 == 0) {
@@ -189,6 +192,60 @@ public class UDPTest {
 		while (true) {
 			try {
 				DatagramSocket client = new DatagramSocket();
+				long start = System.currentTimeMillis();
+				String sendStr = "Hello! I'm Client";
+				byte[] sendBuf;
+				sendBuf = sendStr.getBytes();// 115.28.12.102
+				InetAddress addr = InetAddress.getByName(measureIP);// 127.0.0.1
+				DatagramPacket sendPacket = new DatagramPacket(sendBuf,
+						sendBuf.length, addr, port);
+				client.send(sendPacket);
+
+				long i = 1;
+				while (true) {
+					byte[] recvBuf = new byte[1024];
+					DatagramPacket recvPacket = new DatagramPacket(recvBuf,
+							recvBuf.length);
+					client.receive(recvPacket);
+					String recvStr = new String(recvPacket.getData(), 0,
+							recvPacket.getLength());
+					System.out.println("Got:" + recvStr.length());
+					if (i % 5 == 0) {
+						fosDownlink.write((df.format(new Date()) + " Receive: "
+								+ i + "\n").getBytes());
+					}
+					long now = System.currentTimeMillis() - start;
+					if (now > Long.valueOf(measureTime) * 60000) {
+						System.out.println(now / 1000);
+						break;
+					}
+					i++;
+				}
+				client.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+				try {
+					DatagramSocket client = new DatagramSocket();
+					InetAddress addr = InetAddress.getByName(measureIP);// 127.0.0.1
+					byte[] buffer = "I'm Client".getBytes();
+					DatagramPacket sendPacket = new DatagramPacket(buffer,
+							buffer.length, addr, port);
+					client.send(sendPacket);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void server2clientAuto() {
+		int port = Config.udpDownloadPort;
+		while (true) {
+			try {
+				DatagramSocket client = new DatagramSocket(null);
+				client.setReuseAddress(true);// 接收方
 				long start = System.currentTimeMillis();
 				String sendStr = "Hello! I'm Client";
 				byte[] sendBuf;

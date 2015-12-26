@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">HSRNetTest</string>
+    <string name="app_name">NetTest</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">APP运行前请开启数据连接和GPS (5.2.1223)</string>
-    <string name="deviceinfo"> 电信 1-HTC 609d; 2-SCH-I959;\n联通 3-M351; 4-I9500; 5-Butterfly;\n移动 6-N9008V; 7-HTC D820u; 8-N9008S</string>
+    <string name="hello_world">APP运行前请开启数据连接和GPS (5.3.1225)</string>
+    <string name="deviceinfo"> 电信 1-HTC 609d; 2-S4; 3-Mi1S;\n联通 4-S4; 5-Honor6; 9-Butterfly;\n移动 6-Note3; 7-HTC D820u</string>
     <string name="checkBox">in lab</string>
     <string name="measurementSetting">min  Size:</string>
     <string name="measurementTypePrompt">Measurement Type</string>

@@ -67,7 +67,7 @@
 
     <EditText
         android:id="@+id/editText_serverIP"
-        android:layout_width="160dp"
+        android:layout_width="155dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/button_Start"
         android:layout_toRightOf="@+id/editText_serverIPString"
@@ -101,7 +101,7 @@
 
     <EditText
         android:id="@+id/editText_serverTime"
-        android:layout_width="70dp"
+        android:layout_width="65dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText_serverIP"
         android:layout_toRightOf="@+id/editText_serverTimeString"
@@ -121,7 +121,7 @@
 
     <EditText
         android:id="@+id/editText_buffer"
-        android:layout_width="70dp"
+        android:layout_width="65dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText_serverIP"
         android:layout_toRightOf="@+id/tv_minute"

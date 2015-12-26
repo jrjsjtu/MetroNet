@@ -160,7 +160,7 @@ public class Config {
 			udpUploadPort = 2523;
 			udpDownloadPort = 2524;
 			tcpFlowPort = 2525;
-		} else if (phoneModel.equals("M351")) {
+		} else if (phoneModel.equals("MI 1SC")) {
 			testServerip = "202.112.3.74";
 			testMeasuretime = "100";
 			testInterval = "5";
@@ -178,6 +178,15 @@ public class Config {
 			udpUploadPort = 2543;
 			udpDownloadPort = 2544;
 			tcpFlowPort = 2545;
+		} else if (phoneModel.equals("H60-L02")) {// HTC X920e
+			testServerip = "202.112.3.82";
+			testMeasuretime = "100";
+			testInterval = "5";
+			tcpUploadPort = 2551;
+			tcpDownloadPort = 2552;
+			udpUploadPort = 2553;
+			udpDownloadPort = 2554;
+			tcpFlowPort = 2555;
 		} else if (phoneModel.equals("SM-N9008V")) {
 			testServerip = "202.112.3.78";
 			testMeasuretime = "100";
@@ -205,6 +214,15 @@ public class Config {
 			udpUploadPort = 2583;
 			udpDownloadPort = 2584;
 			tcpFlowPort = 2585;
+		} else if (phoneModel.equals("HTC X920e")) {
+			testServerip = "202.112.3.82";
+			testMeasuretime = "100";
+			testInterval = "5";
+			tcpUploadPort = 2591;
+			tcpDownloadPort = 2592;
+			udpUploadPort = 2593;
+			udpDownloadPort = 2594;
+			tcpFlowPort = 2595;
 		} else {
 			testServerip = "202.112.3.78";
 			testMeasuretime = "100";
