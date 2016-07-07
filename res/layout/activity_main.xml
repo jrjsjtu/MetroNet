@@ -8,157 +8,164 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:id="@+id/textView_hello"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:text="@string/hello_world" />
+	    <TextView
+	        android:id="@+id/textView_hello"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="5dp"
+	        android:text="@string/hello_world" />
 
-    <Spinner
-        android:id="@+id/measurementTypeSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_below="@+id/textView_hello"
-        android:layout_marginTop="5dp"
-        android:prompt="@string/measurementTypePrompt" />
-
-    <Button
-        android:id="@+id/button_Start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/measurementTypeSpinner"
-        android:layout_alignBottom="@+id/measurementTypeSpinner"
-        android:layout_alignLeft="@+id/measurementTypeSpinner"
-        android:layout_marginLeft="180dp"
-        android:text="@string/button_start" />
-
-    <TextView
-        android:id="@+id/tv_port"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView_hello"
-        android:layout_marginTop="20dp"
-        android:layout_toRightOf="@+id/button_Start"
-        android:text="" />
-
-    <LinearLayout
-        android:layout_width="0px"
-        android:layout_height="0px"
-        android:focusable="true"
-        android:focusableInTouchMode="true" >
-
-        <requestFocus />
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/editText_serverIPString"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/button_Start"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="8dp"
-        android:background="@null"
-        android:ems="4"
-        android:focusable="false"
-        android:inputType="text"
-        android:text="@string/editText_serverIPString" />
-
-    <EditText
-        android:id="@+id/editText_serverIP"
-        android:layout_width="155dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button_Start"
-        android:layout_toRightOf="@+id/editText_serverIPString"
-        android:inputType="text"
-        android:maxLength="15"
-        android:maxLines="1"
-        android:text="@string/server_IP" />
-
-    <CheckBox
-        android:id="@+id/checkBox_inLab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button_Start"
-        android:layout_toRightOf="@+id/editText_serverIP"
-        android:checked="false"
-        android:text="@string/checkBox" />
-
-    <EditText
-        android:id="@+id/editText_serverTimeString"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/editText_serverIP"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="8dp"
-        android:background="@null"
-        android:ems="4"
-        android:focusable="false"
-        android:inputType="text"
-        android:text="@string/editText_measureTimeString" />
-
-    <EditText
-        android:id="@+id/editText_serverTime"
-        android:layout_width="65dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText_serverIP"
-        android:layout_toRightOf="@+id/editText_serverTimeString"
-        android:ems="4"
-        android:inputType="text"
-        android:maxLength="4"
-        android:maxLines="1" />
-
-    <TextView
-        android:id="@+id/tv_minute"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText_serverIP"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@+id/editText_serverTime"
-        android:text="@string/measurementSetting" />
-
-    <EditText
-        android:id="@+id/editText_buffer"
-        android:layout_width="65dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText_serverIP"
-        android:layout_toRightOf="@+id/tv_minute"
-        android:ems="4"
-        android:inputType="text"
-        android:maxLength="4"
-        android:maxLines="1" />
-
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText_buffer"
-        android:scrollbars="vertical" >
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/typeString"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginTop="10dp"
-                android:ems="4"
-                android:gravity="right"
-                android:text="@string/typeString" />
-
-            <TextView
-                android:id="@+id/typeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_toRightOf="@+id/typeString" />
-
-            <TextView
+	    <Spinner
+	        android:id="@+id/measurementTypeSpinner"
+	        android:layout_width="wrap_content"
+	        android:layout_height="40dp"
+	        android:layout_below="@+id/textView_hello"
+	        android:layout_marginTop="5dp"
+	        android:prompt="@string/measurementTypePrompt" />
+	
+	    <Button
+	        android:id="@+id/button_Start"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignBaseline="@+id/measurementTypeSpinner"
+	        android:layout_alignBottom="@+id/measurementTypeSpinner"
+	        android:layout_alignLeft="@+id/measurementTypeSpinner"
+	        android:layout_marginLeft="180dp"
+	        android:text="@string/button_start" />
+	
+	    <Button
+	        android:id="@+id/button_Pause"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="19dp"
+	        android:layout_toRightOf="@+id/button_Start"
+	        android:text="@string/button_pause" />
+	        
+	    <TextView
+	        android:id="@+id/tv_port"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/textView_hello"
+	        android:layout_marginTop="20dp"
+	        android:layout_toRightOf="@+id/button_Pause"
+	        android:text="" />
+	
+	    <LinearLayout
+	        android:layout_width="0px"
+	        android:layout_height="0px"
+	        android:focusable="true"
+	        android:focusableInTouchMode="true" >
+	        <requestFocus />
+	    </LinearLayout>
+	
+	    <EditText
+	        android:id="@+id/editText_serverIPString"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_below="@+id/button_Start"
+	        android:layout_marginLeft="5dp"
+	        android:layout_marginTop="8dp"
+	        android:background="@null"
+	        android:ems="4"
+	        android:focusable="false"
+	        android:inputType="text"
+	        android:text="@string/editText_serverIPString" />
+	
+	    <EditText
+	        android:id="@+id/editText_serverIP"
+	        android:layout_width="155dp"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/button_Start"
+	        android:layout_toRightOf="@+id/editText_serverIPString"
+	        android:inputType="text"
+	        android:maxLength="15"
+	        android:maxLines="1"
+	        android:text="@string/server_IP" />
+	
+	    <CheckBox
+	        android:id="@+id/checkBox_inLab"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/button_Start"
+	        android:layout_toRightOf="@+id/editText_serverIP"
+	        android:checked="false"
+	        android:text="@string/checkBox" />
+	
+	    <EditText
+	        android:id="@+id/editText_serverTimeString"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_below="@+id/editText_serverIP"
+	        android:layout_marginLeft="5dp"
+	        android:layout_marginTop="8dp"
+	        android:background="@null"
+	        android:ems="4"
+	        android:focusable="false"
+	        android:inputType="text"
+	        android:text="@string/editText_measureTimeString" />
+	
+	    <EditText
+	        android:id="@+id/editText_serverTime"
+	        android:layout_width="65dp"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/editText_serverIP"
+	        android:layout_toRightOf="@+id/editText_serverTimeString"
+	        android:ems="4"
+	        android:inputType="text"
+	        android:maxLength="4"
+	        android:maxLines="1" />
+	
+	    <TextView
+	        android:id="@+id/tv_minute"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/editText_serverIP"
+	        android:layout_marginTop="10dp"
+	        android:layout_toRightOf="@+id/editText_serverTime"
+	        android:text="@string/measurementSetting" />
+	
+	    <EditText
+	        android:id="@+id/editText_buffer"
+	        android:layout_width="65dp"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/editText_serverIP"
+	        android:layout_toRightOf="@+id/tv_minute"
+	        android:ems="4"
+	        android:inputType="text"
+	        android:maxLength="4"
+	        android:maxLines="1" />
+	
+	    <ScrollView
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/editText_buffer"
+	        android:scrollbars="vertical" >
+	
+	    <RelativeLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical" >
+	
+	    <TextView
+	        android:id="@+id/typeString"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_marginTop="10dp"
+	        android:ems="4"
+	        android:gravity="right"
+	        android:text="@string/typeString" />
+	
+	     <TextView
+	        android:id="@+id/typeText"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="10dp"
+	        android:layout_toRightOf="@+id/typeString" />
+	
+	     <TextView
                 android:id="@+id/directionString"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -386,12 +393,51 @@
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/pingString" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/pingText"
-                android:layout_marginTop="5dp"
-                android:text="@string/deviceinfo" />
+		    <TextView
+		        android:id="@+id/tcpdump_Start"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/pingText" 
+		        android:layout_marginTop="5dp"
+		        android:layout_marginRight="5dp"
+		        android:text="@string/tcpdump" />
+		    
+		    <CheckBox  
+		        android:id="@+id/tcpdump_check"  
+		        style="@style/MyToggleButton"  
+		        android:layout_width="wrap_content"  
+		        android:layout_height="wrap_content"  
+		        android:layout_below="@+id/pingText"  
+		       	android:layout_toRightOf="@+id/tcpdump_Start"
+		       	android:layout_marginLeft="10dp"
+		       	android:layout_marginTop="5dp"
+		        android:checked="false"  
+		        android:textOff="关闭"  
+		        android:textOn="打开" />  
+		    
+			<TextView
+		        android:id="@+id/tcpdump_Close"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+				android:layout_below="@+id/pingText" 
+				android:layout_toRightOf="@+id/tcpdump_check"
+				android:layout_marginTop="5dp"
+		        android:layout_marginLeft="30dp"
+		        android:text="@string/ping" /> 
+		        
+			<CheckBox  
+		        android:id="@+id/ping_check"  
+		        style="@style/MyToggleButton"  
+		        android:layout_width="wrap_content"  
+		        android:layout_height="wrap_content"  
+		        android:layout_below="@+id/pingText"  
+		       	android:layout_toRightOf="@+id/tcpdump_Close"
+		       	android:layout_marginLeft="10dp"
+		       	android:layout_marginTop="5dp"
+		        android:checked="false"  
+		        android:textOff="关闭"  
+		        android:textOn="打开" />  
+			    
         </RelativeLayout>
     </ScrollView>
 

@@ -1,5 +1,7 @@
 package thu.wireless.mobinet.hsrtest;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.Iterator;
 
 import com.baidu.mobstat.SendStrategyEnum;
@@ -10,6 +12,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.hardware.SensorManager;
 import android.location.Criteria;
 import android.location.GpsSatellite;
 import android.location.GpsStatus;
@@ -31,6 +34,7 @@ import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,8 +55,9 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener {
 
-	private MyPhoneStateListener myListener;
-
+	//private MyPhoneStateListener myListener;
+	private XGtest myXGtest;
+	SensorManager mSensorManager = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,15 +68,68 @@ public class MainActivity extends Activity implements OnClickListener {
 		Settings.System.putInt(getContentResolver(),
 				Settings.System.SCREEN_OFF_TIMEOUT, 10 * 60 * 1000);
 
-		// 调用百度统计
-		StatService.setAppChannel(this, "Baidu Market", true);
-		StatService.setSendLogStrategy(this, SendStrategyEnum.APP_START, 1,
-				false);
+//		调用百度统计
+//		StatService.setAppChannel(this, "Baidu Market", true);
+//		StatService.setSendLogStrategy(this, SendStrategyEnum.APP_START, 1,
+//				false);
 
 		// 手机状态相关控件
 		Config.start = (Button) findViewById(R.id.button_Start);
 		Config.start.setOnClickListener(this);
+		
+		Config.pause = (Button) findViewById(R.id.button_Pause);
+		Config.pause.setEnabled(false);
+		Config.pause.setOnClickListener(new OnClickListener(){
 
+			@Override
+			public void onClick(View v) {
+				Config.start.setEnabled(true);
+				Config.pause.setEnabled(false);
+				if(Config.ping.stopFlag){
+					Config.ping.stopLog();
+				}
+				Config.ping_switch.setChecked(false);
+				Config.ping_switch.setEnabled(false);
+				Config.myTcpTest.on_off = false;
+				Config.myTcpTest2.on_off = false;
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		});
+		Config.TcpDump = new TcpDumpManager("/data/local/tcpdump");
+		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+		//Config.mySpeedTest = new SpeedTest(mSensorManager,mHandler);
+		Config.tcpdump_switch = (CheckBox)findViewById(R.id.tcpdump_check);
+		Config.tcpdump_switch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+                // TODO Auto-generated method stub
+            	if (arg1){
+            		Config.TcpDump.startCapture();
+            	}else{
+            		Config.TcpDump.stopCapture();
+            	}
+            }
+        });
+		
+		Config.ping_switch = (CheckBox)findViewById(R.id.ping_check);
+		Config.ping_switch.setEnabled(false);
+		Config.ping_switch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+                // TODO Auto-generated method stub
+            	if (arg1){
+            		Config.ping.startLog();
+            	}else{
+            		Config.ping.stopLog();
+            	}
+            }
+        });
 		// Config.end = (Button) findViewById(R.id.button_End);
 		// Config.end.setOnClickListener(this);
 		// Config.end.setEnabled(false);
@@ -102,9 +160,11 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		// 获取手机信息
 		try {
-			myListener = new MyPhoneStateListener();
+			//myListener = new MyPhoneStateListener();
 			Config.tel = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-			Config.tel.listen(myListener, Config.phoneEvents);
+			myXGtest = new XGtest(Config.tel);
+			//myXGtest.start();
+			//Config.tel.listen(myListener, Config.phoneEvents);
 			Config.providerName = "No SIM";
 			Config.phoneModel = Build.MODEL;
 			Config.osVersion = Build.VERSION.RELEASE;
@@ -204,7 +264,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				case 0:
 					// windows: 123.56.64.240
 					// ubuntu: 123.56.225.51
-					Config.serverConentEditText.setText("123.56.225.51");
+					Config.serverConentEditText.setText("139.129.44.108");
 					Config.portTextView.setText("Port:"
 							+ Config.tcpDownloadPort);
 					Config.settingTextView.setText("min  Size:");
@@ -214,7 +274,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 1:
-					Config.serverConentEditText.setText("123.56.225.51");
+					Config.serverConentEditText.setText("139.129.44.108");
 					Config.portTextView.setText("Port:" + Config.tcpUploadPort);
 					Config.settingTextView.setText("min  Size:");
 					Config.serverConentEditText.setEnabled(true);
@@ -223,7 +283,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 2:
-					Config.serverConentEditText.setText("123.56.225.51");
+					Config.serverConentEditText.setText("139.129.44.108");
 					Config.portTextView.setText("Port:"
 							+ Config.udpDownloadPort);
 					Config.settingTextView.setText("min");
@@ -232,7 +292,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					Config.bufferSizeEditText.setVisibility(View.INVISIBLE);
 					break;
 				case 3:
-					Config.serverConentEditText.setText("123.56.225.51");
+					Config.serverConentEditText.setText("139.129.44.108");
 					Config.portTextView.setText("Port:" + Config.udpUploadPort);
 					Config.settingTextView.setText("min  Sleep(ms):");
 					Toast.makeText(getApplicationContext(),
@@ -244,7 +304,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					Config.bufferSizeEditText.setText("0");
 					break;
 				case 4:
-					Config.serverConentEditText.setText("123.56.225.51");
+					Config.serverConentEditText.setText("139.129.44.108");
 					Config.portTextView.setText(Config.tcpUploadPort + "&"
 							+ Config.tcpDownloadPort);
 					Config.settingTextView.setText("min  Size:");
@@ -254,7 +314,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 5:
-					Config.serverConentEditText.setText("123.56.225.51");
+					Config.serverConentEditText.setText("139.129.44.108");
 					Config.portTextView.setText(Config.tcpDownloadPort + "&"
 							+ (Config.tcpDownloadPort + 4));
 					Config.settingTextView.setText("min  Size:");
@@ -264,7 +324,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 6:
-					Config.serverConentEditText.setText("123.56.225.51");
+					Config.serverConentEditText.setText("139.129.44.108");
 					Config.portTextView.setText(Config.tcpUploadPort + "&"
 							+ (Config.tcpUploadPort + 4));
 					Config.settingTextView.setText("min  Size:");
@@ -274,7 +334,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 7:
-					Config.serverConentEditText.setText("123.56.225.51");
+					Config.serverConentEditText.setText("139.129.44.108");
 					Config.portTextView.setText(Config.tcpDownloadPort + "&"
 							+ Config.udpDownloadPort);
 					Config.settingTextView.setText("min  Size:");
@@ -284,7 +344,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					Config.bufferSizeEditText.setText("1024");
 					break;
 				case 8:
-					Config.serverConentEditText.setText("123.56.225.51");
+					Config.serverConentEditText.setText("139.129.44.108");
 					Config.portTextView.setText(Config.tcpUploadPort + "&"
 							+ Config.udpUploadPort);
 					Config.settingTextView.setText("min  Sleep(ms):");
@@ -297,7 +357,7 @@ public class MainActivity extends Activity implements OnClickListener {
 							Toast.LENGTH_SHORT).show();
 					break;
 				case 9:
-					Config.serverConentEditText.setText("123.56.225.51");
+					Config.serverConentEditText.setText("139.129.44.108");
 					Config.portTextView.setText(Config.tcpUploadPort);
 					Config.settingTextView.setText("min  Size:");
 					Config.serverConentEditText.setEnabled(true);
@@ -401,7 +461,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		try {
-			Config.tel.listen(myListener, Config.phoneEvents);
+			//myXGtest.start_listen();
+			Log.d("output","destroy");
+			//Config.tel.listen(myXGtest.MyListener, Config.phoneEvents);
 		} catch (Exception e) {
 			// TODO: handle exception
 			Toast.makeText(getApplicationContext(), "Check your SIM card!",
@@ -414,13 +476,15 @@ public class MainActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onPause();
 		try {
-			Config.tel.listen(myListener, Config.phoneEvents);
+			//myXGtest.start_listen();
+			Log.d("output","pause");
+			//Config.tel.listen(myXGtest.MyListener, Config.phoneEvents);
 		} catch (Exception e) {
 			// TODO: handle exception
 			Toast.makeText(getApplicationContext(), "Check your SIM card!",
 					Toast.LENGTH_LONG).show();
 		}
-		StatService.onPause(this);
+		//StatService.onPause(this);
 	}
 
 	@Override
@@ -428,15 +492,21 @@ public class MainActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onResume();
 		try {
-			Config.tel.listen(myListener, Config.phoneEvents);
+			//myXGtest.start_listen();
+			//Config.tel.listen(myXGtest.MyListener, Config.phoneEvents);
 		} catch (Exception e) {
 			// TODO: handle exception
 			Toast.makeText(getApplicationContext(), "Check your SIM card!",
 					Toast.LENGTH_LONG).show();
 		}
-		StatService.onResume(this);
+		//StatService.onResume(this);
 	}
 
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+    	
+    	super.onSaveInstanceState(savedInstanceState);
+    	      
+    }
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
@@ -470,6 +540,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+		Config.start.setEnabled(false);
+		Config.pause.setEnabled(true);
 		if (v.equals(Config.start)) {
 			Config.testMeasuretime = Config.serverTimeEditText.getText()
 					.toString();
@@ -496,6 +568,13 @@ public class MainActivity extends Activity implements OnClickListener {
 				Config.myTcpTest = new TCPTest(mHandler, serverIPString,
 						measureTimeString, measureIntervalString,
 						Config.fosDownlink, 1);
+				Config.myTcpTest2 = new TCPTest(mHandler, serverIPString,
+						measureTimeString, measureIntervalString,
+						Config.fosUplink, 2);
+				Config.ping = new Pingtest(serverIPString,"/sdcard/ping/",1000);
+				Config.ping.start();
+				Config.ping_switch.setEnabled(true);
+				//Config.TcpDump.start_capture();
 				handler4Show.post(runnable4Show);
 				break;
 			case 1:
@@ -606,11 +685,11 @@ public class MainActivity extends Activity implements OnClickListener {
 				Config.reportTextView.setText("Client has closed connection");
 				handler4Show.removeCallbacks(runnable4Show);
 				Config.netTextView.setText("平均上行:"
-						+ Config.myTcpTest.mAvgUplinkThroughput + " 平均下行:"
+						+ Config.myTcpTest2.mAvgUplinkThroughput + " 平均下行:"
 						+ Config.myTcpTest.mAvgDownlinkThroughput + " kbps");
 				Config.start.setEnabled(true);
 			} else if (msg.what == 4) {
-				Config.reportTextView.setText("Server maybe have some error");
+				Config.reportTextView.setText(msg.getData().getString("acce"));
 				Config.start.setEnabled(true);
 			}
 		};
@@ -1058,7 +1137,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			// TODO Auto-generated method stub
 			handler4Show.postDelayed(runnable4Show, 1000);
 			Config.netTextView.setText("上行:"
-					+ Config.myTcpTest.mUplinkThroughput + " 下行:"
+					+ Config.myTcpTest2.mUplinkThroughput + " 下行:"
 					+ Config.myTcpTest.mDownlinkThroughput + " kbps");
 		}
 	};

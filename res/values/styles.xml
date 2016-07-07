@@ -17,4 +17,7 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="MyToggleButton" parent="@android:style/Widget.CompoundButton">  
+       <item name="android:button">@drawable/setting_checkbox_button</item>  
+   </style>  
 </resources>

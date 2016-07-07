@@ -15,7 +15,7 @@ public class UDPTest {
 	public String mDownlinkThroughput = "0";
 	public String mAvgUplinkThroughput = "0";
 	public String mAvgDownlinkThroughput = "0";
-
+	
 	private static String measureIP = "";
 	private static String measureTime;
 	private static int testmode = 0;

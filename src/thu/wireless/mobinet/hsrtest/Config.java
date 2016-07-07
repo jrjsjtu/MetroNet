@@ -30,7 +30,12 @@ public class Config {
 	static FileOutputStream fosPing = null;
 
 	static Button start;
+	static Button pause;
+	static CheckBox tcpdump_switch;
+	static CheckBox ping_switch;
 	// static Button end;
+	static TextView tcpdump_start;
+	static TextView tcpdump_close;
 	static TextView directionTextView;
 	static TextView asuTextView;
 	static TextView signalParameterTextView;
@@ -71,6 +76,9 @@ public class Config {
 			| PhoneStateListener.LISTEN_DATA_ACTIVITY
 			| PhoneStateListener.LISTEN_DATA_CONNECTION_STATE;
 
+	static TcpDumpManager TcpDump = null;
+	static Pingtest ping = null;
+	static SpeedTest mySpeedTest = null;
 	static boolean lastConnect = false;
 	static int disconnectNumber = 0;
 	static String cellInfoContent = null;
@@ -112,7 +120,7 @@ public class Config {
 	static String mobilePath = null;
 	static int pingFlag = 0;
 
-	static String[] measurementNames = { "TCP Downlink Test",
+	static String[] measurementNames = { "For Metro Test",
 			"TCP Uplink Test", "UDP Downlink Test", "UDP Uplink Test",
 			"TCP DL+UL Test", "Double TCP DL", "Double TCP UL",
 			"TCP DL+UDP DL", "TCP UL+UDP UL", "TCP UL Flow Test" };
@@ -224,7 +232,7 @@ public class Config {
 			udpDownloadPort = 2594;
 			tcpFlowPort = 2595;
 		} else {
-			testServerip = "202.112.3.78";
+			testServerip = "139.129.44.108";
 			testMeasuretime = "100";
 			testInterval = "5";
 			tcpUploadPort = 2501;

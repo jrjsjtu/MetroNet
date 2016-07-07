@@ -9,7 +9,8 @@
     <string name="measurementSetting">min  Size:</string>
     <string name="measurementTypePrompt">Measurement Type</string>
     <string name="contentDescription">Splash Screen Picture</string>
-    <string name="button_start">开始</string>
+    <string name="button_start">Start </string>
+    <string name="button_pause">Pause</string>
     <string name="button_end">结束当前测试</string>
     <string name="editText_serverIPString">ServerIP:</string>
     <string name="editText_measureTimeString">Duration:</string>
@@ -32,5 +33,6 @@
     <string name="netString">当前网速:</string>
     <string name="timeString">系统时间:</string>
     <string name="serverString">测试状态:</string>
-
+	<string name="tcpdump">tcpdump</string>
+	<string name="ping"> ping </string>
 </resources>
