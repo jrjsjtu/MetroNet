@@ -17,7 +17,7 @@ public class SignalUtil {
 		case TelephonyManager.NETWORK_TYPE_HSDPA:// 3.5G
 			Config.networkTypeString = "HSDPA";
 			break;
-		case TelephonyManager.NETWORK_TYPE_HSUPA:// 3.5G
+		case TelephonyManager.NETWORK_TYPE_HSUPA://3.5G
 			Config.networkTypeString = "HSUPA";
 			break;
 		case TelephonyManager.NETWORK_TYPE_HSPA:
