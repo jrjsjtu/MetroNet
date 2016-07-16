@@ -57,6 +57,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	//private MyPhoneStateListener myListener;
 	private XGtest myXGtest;
+	public String MYSERVICE = "thu.wireless.mobinet.hsrtest.XGService"; 
 	SensorManager mSensorManager = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,11 +86,8 @@ public class MainActivity extends Activity implements OnClickListener {
 			public void onClick(View v) {
 				Config.start.setEnabled(true);
 				Config.pause.setEnabled(false);
-				if(Config.ping.stopFlag){
-					Config.ping.stopLog();
-				}
-				Config.ping_switch.setChecked(false);
-				Config.ping_switch.setEnabled(false);
+//				Config.ping_switch.setChecked(false);
+//				Config.ping_switch.setEnabled(false);
 				Config.myTcpTest.on_off = false;
 				Config.myTcpTest2.on_off = false;
 				try {
@@ -118,7 +116,7 @@ public class MainActivity extends Activity implements OnClickListener {
         });
 		
 		Config.ping_switch = (CheckBox)findViewById(R.id.ping_check);
-		Config.ping_switch.setEnabled(false);
+		//Config.ping_switch.setEnabled(false);
 		Config.ping_switch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
@@ -162,7 +160,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		try {
 			//myListener = new MyPhoneStateListener();
 			Config.tel = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-			myXGtest = new XGtest(Config.tel);
+            Intent serviceIntent = new Intent(); 
+            serviceIntent.setAction(MYSERVICE); 
+            startService(serviceIntent); 
+			//myXGtest = new XGtest(Config.tel);
 			//myXGtest.start();
 			//Config.tel.listen(myListener, Config.phoneEvents);
 			Config.providerName = "No SIM";
@@ -385,7 +386,10 @@ public class MainActivity extends Activity implements OnClickListener {
 
 			}
 		});
-
+		String serverIPString = Config.serverConentEditText.getText()
+				.toString();
+		Config.ping = new Pingtest(serverIPString,"/sdcard/ping/",1000);
+		Config.ping.start();
 		startThread();
 	}
 
@@ -443,6 +447,9 @@ public class MainActivity extends Activity implements OnClickListener {
 				handler4Ping.removeCallbacks(runnable4Ping);
 				handler4Wifi.removeCallbacks(runnable4Wifi);
 				handler4Show.removeCallbacks(runnable4Show);
+	            Intent serviceIntent = new Intent(); 
+	            serviceIntent.setAction(MYSERVICE); 
+	            stopService(serviceIntent); 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -571,10 +578,10 @@ public class MainActivity extends Activity implements OnClickListener {
 				Config.myTcpTest2 = new TCPTest(mHandler, serverIPString,
 						measureTimeString, measureIntervalString,
 						Config.fosUplink, 2);
-				Config.ping = new Pingtest(serverIPString,"/sdcard/ping/",1000);
-				Config.ping.start();
-				Config.ping_switch.setEnabled(true);
-				//Config.TcpDump.start_capture();
+//				Config.ping = new Pingtest(serverIPString,"/sdcard/ping/",1000);
+//				Config.ping.start();
+//				Config.ping_switch.setEnabled(true);
+//				Config.TcpDump.start_capture();
 				handler4Show.post(runnable4Show);
 				break;
 			case 1:
