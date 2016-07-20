@@ -43,7 +43,7 @@ public class Pingtest extends Logger{
 	        //Pattern pattern = Pattern.compile("(.*time=.*)",    Pattern.CASE_INSENSITIVE);  
 	        //Matcher matcher = pattern.matcher(line);  
 			//Log.d("for log", matcher.group(1));
-		} catch (IOException e1) {
+		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
