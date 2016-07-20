@@ -388,7 +388,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		});
 		String serverIPString = Config.serverConentEditText.getText()
 				.toString();
-		Config.ping = new Pingtest(serverIPString,"/sdcard/ping/",1000);
+		Config.ping = new Pingtest(serverIPString,Config.fos4Ping,1000);
 		Config.ping.start();
 		startThread();
 	}
@@ -466,11 +466,12 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
+        Intent serviceIntent = new Intent(); 
+        serviceIntent.setAction(MYSERVICE); 
+        stopService(serviceIntent); 
 		super.onDestroy();
 		try {
-			//myXGtest.start_listen();
 			Log.d("output","destroy");
-			//Config.tel.listen(myXGtest.MyListener, Config.phoneEvents);
 		} catch (Exception e) {
 			// TODO: handle exception
 			Toast.makeText(getApplicationContext(), "Check your SIM card!",
@@ -534,6 +535,9 @@ public class MainActivity extends Activity implements OnClickListener {
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog,
 								int whichButton) {
+				            Intent serviceIntent = new Intent(); 
+				            serviceIntent.setAction(MYSERVICE); 
+				            stopService(serviceIntent); 
 							android.os.Process.killProcess(android.os.Process
 									.myPid());
 						}

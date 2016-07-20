@@ -41,34 +41,16 @@ public class XGtest extends Thread{
 		cal.setTimeInMillis(timeInMillis);
 		Date date = cal.getTime();
 		bartDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm");
-		filename = "cell/"+bartDateFormat.format(date)+".txt";
-//		try {
-//			fos = new FileOutputStream(filename, true);
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		filename = bartDateFormat.format(date)+".txt";
 		bartDateFormat =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		start_listen();
     }
     
-    //由于google 4在锁屏后会导致断网 ，如果用线程进行记录不受断网影响，这一部分仍然在施工中
-    public void start_thread_listen(){
-    	try{
-    		while (true){
-    			//SignalStrength my_signal = new SignalStrength();
-    		}
-    	}catch(Exception e){
-    		
-    	}
-    }
-  //由于google 4在锁屏后会导致断网 ，如果用线程进行记录不受断网影响，这一部分仍然在施工中
-    public void run(){
-    	
-    }
     public void start_listen(){
     	Tel.listen(MyListener, Config.phoneEvents);
     }
+    
+    
     private void saveDataToFile(String LocalFileWriteBufferStr, String id) {
         /* write measurement data to the output file */
     	if (LocalFileWriteBufferStr.equals("No network information available...")){
@@ -79,20 +61,15 @@ public class XGtest extends Thread{
 		cal.setTimeInMillis(timeInMillis);
 		Date date = cal.getTime();
    	    try {
-//   	    	fos.write(LocalFileWriteBufferStr.getBytes());
-//   	    	Log.d("output", LocalFileWriteBufferStr);
-		    File root = Environment.getExternalStorageDirectory();
-            if (root.canWrite()){
-                File logfile = new File(root, filename);
-                FileWriter logwriter = new FileWriter(logfile, true); /* true = append */
-                BufferedWriter out = new BufferedWriter(logwriter);
-                out.write(bartDateFormat.format(date)+";"+System.currentTimeMillis()+";"); 
-                /* now save the data buffer into the file */
-                out.write(id+";");
-                out.write(LocalFileWriteBufferStr);
-                Log.d("output", LocalFileWriteBufferStr);
-                out.close();
-            }
+            File logfile = new File(Config.fos4Cell, filename);
+            FileWriter logwriter = new FileWriter(logfile, true); /* true = append */
+            BufferedWriter out = new BufferedWriter(logwriter);
+            out.write(bartDateFormat.format(date)+";"+System.currentTimeMillis()+";"); 
+            /* now save the data buffer into the file */
+            out.write(id+";");
+            out.write(LocalFileWriteBufferStr);
+            Log.d("output", LocalFileWriteBufferStr);
+            out.close();
         }    
         catch (IOException e) {
         	e.printStackTrace();

@@ -30,7 +30,7 @@ public class TcpDumpManager {
 	      Calendar cal = Calendar.getInstance();
 		  cal.setTimeInMillis(timeInMillis);
 		  Date date = cal.getTime();
-		  commands[3] = TcpDumpPath+" -p -vv -s 0 -w /sdcard/tcpdump/"+bartDateFormat.format(date)+".pcap";
+		  commands[3] = TcpDumpPath+" -p -vv -s 0 -w "+Config.fos4Tcpdump+"/"+bartDateFormat.format(date)+".pcap";
 		  Log.d("for log", commands[3]);
 	      new Thread(new Runnable(){
 			 @Override

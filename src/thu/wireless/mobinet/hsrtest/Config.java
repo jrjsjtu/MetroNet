@@ -28,6 +28,10 @@ public class Config {
 	static FileOutputStream fosUplink = null;
 	static FileOutputStream fosDownlink = null;
 	static FileOutputStream fosPing = null;
+	
+	static String fos4Cell = null;
+	static String fos4Ping = null;
+	static String fos4Tcpdump = null;
 
 	static Button start;
 	static Button pause;
@@ -108,6 +112,7 @@ public class Config {
 	static TCPTest myTcpTest2 = null;
 	static TCPTest myTcpTest3 = null;
 	static UDPTest myUdpTest = null;
+	static XGtest myXGtest = null;
 	static String lastWifiState = null;
 	static String lastAddition = null;
 	static boolean initialGPSFlag = false;

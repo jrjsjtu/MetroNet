@@ -29,7 +29,7 @@ public abstract class Logger extends Thread{
 		cal.setTimeInMillis(timeInMillis);
 		Date date = cal.getTime();
 		try {
-			out = new BufferedWriter(new FileWriter(this.logFileName+bartDateFormat.format(date)+".txt",true));
+			out = new BufferedWriter(new FileWriter(this.logFileName+"/"+bartDateFormat.format(date)+".txt",true));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

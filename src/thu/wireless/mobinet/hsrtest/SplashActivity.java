@@ -29,11 +29,33 @@ public class SplashActivity extends Activity {
 			if (android.os.Environment.getExternalStorageState().equals(
 					android.os.Environment.MEDIA_MOUNTED)) {
 				String mobilePath = android.os.Environment
-						.getExternalStorageDirectory() + "/HSR";
+						.getExternalStorageDirectory()+"";
 				String pathDate = Config.dirDateFormat.format(new Date(System
 						.currentTimeMillis()));
-				File mobileFile = new File(mobilePath);
+
+				Config.fos4Cell = mobilePath+"/cell";
+				File mobileFile = new File(Config.fos4Cell);
+				if (!mobileFile.exists()){
+					mobileFile.mkdirs();
+				}
+				
+				Config.fos4Ping = mobilePath+"/ping";
+				mobileFile = new File(Config.fos4Ping);
+				if (!mobileFile.exists()){
+					mobileFile.mkdirs();
+				}
+				
+				Config.fos4Tcpdump = mobilePath+"/tcpdump";
+				mobileFile = new File(Config.fos4Tcpdump);
+				if (!mobileFile.exists()){
+					mobileFile.mkdirs();
+				}
+				
+				mobilePath = mobilePath + "/HSR";
+				
+				mobileFile = new File(mobilePath);
 				mobileFile.mkdirs();
+				
 				mobilePath = mobilePath + "/" + pathDate;
 				mobileFile = new File(mobilePath);
 				mobileFile.mkdirs();
