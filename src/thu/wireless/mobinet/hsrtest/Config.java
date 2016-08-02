@@ -28,6 +28,7 @@ public class Config {
 	static FileOutputStream fosUplink = null;
 	static FileOutputStream fosDownlink = null;
 	static FileOutputStream fosPing = null;
+	static FileOutputStream fosGps = null;
 	
 	static String fos4Cell = null;
 	static String fos4Ping = null;

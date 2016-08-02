@@ -1,5 +1,6 @@
 package thu.wireless.mobinet.hsrtest;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -1025,9 +1026,15 @@ public class MainActivity extends Activity implements OnClickListener {
 			Config.latitude = Config.loc.getLatitude();
 			Config.longitude = Config.loc.getLongitude();
 			Config.accuracy = Config.loc.getAccuracy();
-			Config.locationTextView.setText(Config.latitude + ","
-					+ Config.longitude);
-
+			String result = Config.latitude + ";" + Config.longitude+";";
+			Config.locationTextView.setText(result);
+			//String date = new Date().getTime()+";";
+			try {
+				Config.fosGps.write(result.getBytes());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			/**
 			 * 整理日志数据
 			 */
@@ -1099,7 +1106,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 			// locationManager用来监听定位信息的改变
 			Config.locationManager.requestLocationUpdates(Config.bestProvider,
-					100, 5, locationListener);
+					2000, 0, locationListener);
 			Config.locationManager.addGpsStatusListener(statusListener);
 
 			Location gpsLocation = Config.locationManager

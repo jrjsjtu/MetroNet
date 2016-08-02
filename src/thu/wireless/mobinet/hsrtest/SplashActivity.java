@@ -59,6 +59,7 @@ public class SplashActivity extends Activity {
 				mobilePath = mobilePath + "/" + pathDate;
 				mobileFile = new File(mobilePath);
 				mobileFile.mkdirs();
+				Config.fosGps = new FileOutputStream(mobilePath+"/Gps.txt",true);
 				Config.fosMobile = new FileOutputStream(mobilePath
 						+ "/Mobile.txt", true);
 				Config.fosUplink = new FileOutputStream(mobilePath
